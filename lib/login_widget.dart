@@ -3,8 +3,16 @@ import 'package:parcel_app/main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:parcel_app/utils.dart';
 
 class LoginWidget extends StatefulWidget {
+  final VoidCallback onClickedSignUp;
+
+  const LoginWidget({
+    Key? key,
+    required this.onClickedSignUp,
+  }) : super(key: key);
+
   @override
   _LoginWidgetState createState() => _LoginWidgetState();
 }
@@ -72,7 +80,23 @@ class _LoginWidgetState extends State<LoginWidget> {
 
                   signIn();
                 },
-              )
+              ),
+              SizedBox(height: 24),
+              RichText(
+                text: TextSpan(
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    text: "No account? ",
+                    children: [
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = widget.onClickedSignUp,
+                        text: "Sign up",
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).colorScheme.secondary),
+                      ),
+                    ]),
+              ),
             ],
           ),
         ),
@@ -89,27 +113,9 @@ class _LoginWidgetState extends State<LoginWidget> {
           email: emailController.text.trim(),
           password: passwordController.text.trim());
     } on FirebaseAuthException catch (error) {
-      switch (error.code) {
-        case "invalid-email":
-        case "wrong-password":
-        case "user-not-found":
-          {
-            Fluttertoast.showToast(
-                msg: "Invalid email or password!",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                textColor: Colors.white,
-                fontSize: 16.0);
-          }
-          break;
+      Utils.showSnackBar(error.message);
 
-        default:
-          {
-            print(error);
-          }
-          break;
-      }
+      print(error);
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
