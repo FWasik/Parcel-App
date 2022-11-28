@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "457457225411",
+    "project_id": "parcel-app-7825b",
+    "storage_bucket": "parcel-app-7825b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457457225411:android:5d51d0da416e99d421dc76",
+        "android_client_info": {
+          "package_name": "com.example.parcel_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "457457225411-qrahsgeh8l92nrma78rltucf35bs1ilh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqxwCV_g-ogWeIhN3YLOHHcbQu0UBR1o8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "457457225411-qrahsgeh8l92nrma78rltucf35bs1ilh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
