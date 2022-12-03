@@ -1,9 +1,11 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:parcel_app/main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import 'package:parcel_app/main.dart';
 import 'package:parcel_app/utils.dart';
+import 'package:parcel_app/forgot_password_page.dart';
 
 class LoginWidget extends StatefulWidget {
   final VoidCallback onClickedSignUp;
@@ -86,6 +88,19 @@ class _LoginWidgetState extends State<LoginWidget> {
                   onPressed: signIn,
                 ),
                 SizedBox(height: 24),
+                GestureDetector(
+                  child: Text(
+                    "Forgot password?",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.cyan,
+                        fontSize: 20),
+                  ),
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ForgotPasswordPage(),
+                  )),
+                ),
+                SizedBox(height: 16),
                 RichText(
                   text: TextSpan(
                       style: TextStyle(color: Colors.white, fontSize: 20),
@@ -97,7 +112,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           text: "Sign up",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
-                              color: Theme.of(context).colorScheme.secondary),
+                              color: Colors.cyan),
                         ),
                       ]),
                 ),

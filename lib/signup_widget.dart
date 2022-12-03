@@ -109,7 +109,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           text: "Sign in",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
-                              color: Theme.of(context).colorScheme.secondary),
+                              color: Colors.cyan),
                         ),
                       ]),
                 ),
