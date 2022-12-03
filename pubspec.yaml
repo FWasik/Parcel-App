@@ -43,7 +43,6 @@ dependencies:
   firebase_messaging: ^13.0.4
   firebase_auth: ^3.3.4
   email_validator: ^2.0.1
-  fluttertoast: ^8.1.1
 
 dev_dependencies:
   flutter_test:

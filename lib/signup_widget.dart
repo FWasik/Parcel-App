@@ -2,7 +2,6 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:parcel_app/main.dart";
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
-import "package:fluttertoast/fluttertoast.dart";
 import 'package:email_validator/email_validator.dart';
 import 'package:parcel_app/utils.dart';
 
@@ -43,6 +42,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                FlutterLogo(size: 100),
+                SizedBox(height: 20),
+                Text(
+                  "Welcome to Parcel App!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                ),
                 SizedBox(height: 40),
                 TextFormField(
                   controller: emailController,
@@ -67,12 +73,24 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       ? "Enter min. 6 characters"
                       : null,
                 ),
+                SizedBox(height: 4),
+                TextFormField(
+                  cursorColor: Colors.white,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(labelText: "Confirm password"),
+                  obscureText: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) =>
+                      value != null && value != passwordController.text
+                          ? "Passwords are different"
+                          : null,
+                ),
                 SizedBox(height: 20),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size.fromHeight(50),
                   ),
-                  icon: Icon(Icons.lock_open, size: 32),
+                  icon: Icon(Icons.arrow_forward, size: 32),
                   label: Text(
                     "Sign Up",
                     style: TextStyle(fontSize: 24),
@@ -114,10 +132,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+
+      Utils.showSnackBar("You signed up an account!", Colors.green);
     } on FirebaseAuthException catch (error) {
       print(error);
 
-      Utils.showSnackBar(error.message);
+      Utils.showSnackBar(error.message, Colors.red);
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
