@@ -51,7 +51,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: 30),
                 TextFormField(
                   controller: emailController,
                   cursorColor: Colors.white,
@@ -140,7 +140,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     } on FirebaseAuthException catch (error) {
       Utils.showSnackBar(error.message, Colors.red);
 
-      print(error);
+      print(error.message);
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
