@@ -25,13 +25,13 @@ class SignOutRequested extends AuthEvent {}
 
 class UnSignedUpRequested extends AuthEvent {}
 
-class UpdateUserRequested extends AuthEvent {
+class EditUserRequested extends AuthEvent {
   final String uid;
   final String email;
   final String phoneNumber;
   final String fullName;
 
-  UpdateUserRequested(this.uid, this.email, this.phoneNumber, this.fullName);
+  EditUserRequested(this.uid, this.email, this.phoneNumber, this.fullName);
 }
 
 class UnUpdatedRequested extends AuthEvent {}

@@ -58,23 +58,31 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(UnAuthenticated());
     });
 
-    on<UpdateUserRequested>((event, emit) async {
-      emit(Loading());
-
+    on<EditUserRequested>((event, emit) async {
       try {
-        await authRepository.updateUserInfo(
-          uid: event.uid,
-          email: event.email,
-          phoneNumber: event.phoneNumber,
-          fullName: event.fullName,
-        );
+        if (this.state is Authenticated) {
+          emit(Loading());
 
-        emit(Updated());
+          await authRepository.updateUserInfo(
+            uid: event.uid,
+            email: event.email,
+            phoneNumber: event.phoneNumber,
+            fullName: event.fullName,
+          );
+
+          final user = await authRepository.getUserInfo();
+
+          emit(Authenticated(user));
+        }
       } on FirebaseAuthException catch (e) {
         print(e);
 
         if (e.code == "email-already-in-use") {
-          emit(UpdateFailed(e.message));
+          emit(EditFailed(e.message));
+
+          final user = await authRepository.getUserInfo();
+
+          emit(Authenticated(user));
         } else {
           emit(AuthError(e.toString()));
           emit(UnAuthenticated());
@@ -84,30 +92,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    on<UnUpdatedRequested>((event, emit) async {
-      try {
-        if (this.state is UpdateFailed || this.state is Updated) {
-          emit(Loading());
-
-          final user = await authRepository.getUserInfo();
-          emit(Authenticated(user));
-        }
-      } catch (e) {
-        emit(AuthError(e.toString()));
-        emit(UnAuthenticated());
-      }
-    });
-
     on<DeleteUserRequested>((event, emit) async {
       emit(Loading());
 
       try {
         await authRepository.deleteUser(uid: event.uid);
-        emit(UnAuthenticated());
       } catch (e) {
         emit(AuthError(e.toString()));
-        emit(UnAuthenticated());
       }
+
+      emit(UnAuthenticated());
     });
   }
 }

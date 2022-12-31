@@ -26,15 +26,10 @@ class SignedUp extends AuthState {
   List<Object?> get props => [];
 }
 
-class Updated extends AuthState {
-  @override
-  List<Object?> get props => [];
-}
-
-class UpdateFailed extends AuthState {
+class EditFailed extends AuthState {
   final String? error;
 
-  UpdateFailed(this.error);
+  EditFailed(this.error);
 
   @override
   List<Object?> get props => [error];

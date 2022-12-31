@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:email_validator/email_validator.dart';
 
 import 'package:parcel_app/bloc/auth_bloc.dart';
 import 'package:parcel_app/screens/sign_in.dart';
-import 'package:parcel_app/screens/update_user.dart';
 import 'package:parcel_app/models/custom_user.dart';
+import 'package:parcel_app/widgets/button_widget.dart';
 
 class ProfileInfoPage extends StatefulWidget {
   const ProfileInfoPage({Key? key}) : super(key: key);
@@ -17,89 +18,130 @@ class ProfileInfoPage extends StatefulWidget {
 class _ProfileInfoPageState extends State<ProfileInfoPage> {
   final String uid = FirebaseAuth.instance.currentUser!.uid;
 
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final fullNameController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    phoneNumberController.dispose();
+    fullNameController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       if (state is Authenticated) {
         CustomUser? user = state.user!;
-        String email = user.email;
-        String phoneNumber = user.phoneNumber;
-        String fullName = user.fullName;
+        emailController.text = user.email;
+        phoneNumberController.text = user.phoneNumber;
+        fullNameController.text = user.fullName;
 
         return Container(
           padding: const EdgeInsets.all(18),
-          child: Stack(children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Profile",
-                    style: TextStyle(
-                      fontSize: 38,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  Text(
-                    email,
-                    style: const TextStyle(fontSize: 24),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text("Full name: \n ${email}"),
-                  Text("Full name: \n ${fullName}"),
-                  Text("Phone number: \n ${phoneNumber}"),
-                  const SizedBox(height: 16)
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: SizedBox(
-                width: 70,
-                height: 70,
-                child: FittedBox(
-                  child: FloatingActionButton(
-                      child: const Icon(
-                        Icons.delete,
-                        color: Colors.white,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Edit profile",
+                        style: TextStyle(
+                          fontSize: 38,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      backgroundColor: Colors.red,
-                      onPressed: () {
-                        _showMyDialog();
-                      },
-                      heroTag: null),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      TextFormField(
+                        controller: emailController,
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.mail, color: Colors.indigo),
+                            hintText: "Email",
+                            border: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.indigo, width: 2),
+                            )),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          return value != null &&
+                                  !EmailValidator.validate(value)
+                              ? 'Enter a valid email'
+                              : null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        controller: phoneNumberController,
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.phone, color: Colors.indigo),
+                            hintText: "Phone number",
+                            border: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.indigo, width: 2),
+                            )),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          return value == null || value.isEmpty
+                              ? "Phone number cannot be empty"
+                              : null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        controller: fullNameController,
+                        decoration: const InputDecoration(
+                            prefixIcon:
+                                Icon(Icons.person, color: Colors.indigo),
+                            hintText: "Full name",
+                            border: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.indigo, width: 2),
+                            )),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          return value == null || value.isEmpty
+                              ? "Full name cannot be empty"
+                              : null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      CustomButton(
+                          width: 0.7,
+                          color: Theme.of(context).primaryColor,
+                          icon: const Icon(Icons.arrow_forward, size: 32),
+                          text: const Text(
+                            "Edit",
+                            style: TextStyle(fontSize: 24),
+                          ),
+                          onPressed: () {
+                            _editUserInfo(context, uid);
+                          }),
+                    ],
+                  ),
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: SizedBox(
-                width: 70,
-                height: 70,
-                child: FittedBox(
-                  child: FloatingActionButton(
-                      child: const Icon(
-                        Icons.create,
-                        color: Colors.white,
-                      ),
-                      backgroundColor: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => UpdateUser(
-                                uid: uid,
-                                email: email,
-                                phoneNumber: phoneNumber,
-                                fullName: fullName)));
-                      },
-                      heroTag: null),
-                ),
-              ),
-            ),
-          ]),
+          ),
         );
       } else if (state is Loading) {
         return const Center(child: CircularProgressIndicator());
@@ -146,5 +188,12 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
         );
       },
     );
+  }
+
+  void _editUserInfo(BuildContext context, String uid) {
+    if (formKey.currentState!.validate()) {
+      context.read<AuthBloc>().add(EditUserRequested(uid, emailController.text,
+          phoneNumberController.text, fullNameController.text));
+    }
   }
 }
