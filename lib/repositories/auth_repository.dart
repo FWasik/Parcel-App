@@ -113,4 +113,16 @@ class AuthRepository {
       throw Exception(e);
     }
   }
+
+  Future resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
+      Utils.showSnackBar("Email sent!", Colors.green);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+
+      throw Exception(e.message);
+    }
+  }
 }

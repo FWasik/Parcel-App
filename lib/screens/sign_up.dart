@@ -84,7 +84,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ),
                             const SizedBox(
-                              height: 18,
+                              height: 24,
                             ),
                             TextFormField(
                               controller: emailController,
@@ -198,7 +198,7 @@ class _SignUpState extends State<SignUp> {
                               },
                             ),
                             const SizedBox(
-                              height: 18,
+                              height: 20,
                             ),
                             CustomButton(
                                 width: 0.7,

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parcel_app/bloc/auth_bloc.dart';
 import 'package:parcel_app/screens/home_page.dart';
+import 'package:parcel_app/screens/reset_password_page.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/screens/sign_up.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
@@ -70,7 +71,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       const SizedBox(
-                        height: 18,
+                        height: 24,
                       ),
                       Center(
                         child: Form(
@@ -123,7 +124,7 @@ class _SignInState extends State<SignIn> {
                                 },
                               ),
                               const SizedBox(
-                                height: 12,
+                                height: 20,
                               ),
                               CustomButton(
                                   width: 0.7,
@@ -138,7 +139,21 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 24),
+                      GestureDetector(
+                        child: const Text(
+                          "Forgot password?",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.blueAccent,
+                              fontSize: 20),
+                        ),
+                        onTap: () =>
+                            Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ResetPasswordPage(),
+                        )),
+                      ),
+                      const SizedBox(height: 18),
                       RichText(
                         text: TextSpan(
                             style: const TextStyle(
