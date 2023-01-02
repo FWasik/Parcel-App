@@ -21,27 +21,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => AuthRepository(),
-      child: BlocProvider(
-        create: (context) => AuthBloc(
-          authRepository: RepositoryProvider.of<AuthRepository>(context),
-        ),
-        child: MaterialApp(
-          theme: ThemeData(
-              brightness: Brightness.dark, primaryColor: Colors.indigo),
-          scaffoldMessengerKey: Utils.messengerKey,
-          home: StreamBuilder<User?>(
-              stream: FirebaseAuth.instance.authStateChanges(),
-              builder: (context, snapshot) {
-                // If the snapshot has user data, then they're already signed in. So Navigating to the Dashboard.
-                if (snapshot.hasData) {
-                  return const MainPage();
-                }
-                // Otherwise, they're not signed in. Show the sign in page.
-                return const SignIn();
-              }),
-        ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(authRepository: AuthRepository()))
+      ],
+      child: MaterialApp(
+        theme:
+            ThemeData(brightness: Brightness.dark, primaryColor: Colors.indigo),
+        scaffoldMessengerKey: Utils.messengerKey,
+        home: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              // If the snapshot has user data, then they're already signed in. So Navigating to the Dashboard.
+              if (snapshot.hasData) {
+                return const MainPage();
+              }
+              // Otherwise, they're not signed in. Show the sign in page.
+              return const SignIn();
+            }),
       ),
     );
   }
