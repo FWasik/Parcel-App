@@ -6,6 +6,7 @@ import 'package:parcel_app/bloc/auth_bloc.dart';
 import 'package:parcel_app/screens/profile_info_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
+import 'package:parcel_app/widgets/progress_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -32,13 +33,13 @@ class _HomePageState extends State<HomePage> {
         actions: [
           PopupMenuButton(itemBuilder: (context) {
             return [
-              PopupMenuItem<int>(
+              const PopupMenuItem<int>(
                   value: 0,
                   child: Text(
                     "Delete an account",
                     style: TextStyle(color: Colors.red),
                   )),
-              PopupMenuItem<int>(value: 1, child: Text("Sign out")),
+              const PopupMenuItem<int>(value: 1, child: Text("Sign out")),
             ];
           }, onSelected: (value) {
             if (value == 0) {
@@ -65,18 +66,20 @@ class _HomePageState extends State<HomePage> {
       ),
       body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) async {
         if (state is UnAuthenticated) {
-          //  Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.of(context).popUntil((route) => route.isFirst);
 
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const SignIn()),
-            (route) => false,
-          );
+          // Navigator.of(context).pushAndRemoveUntil(
+          //   MaterialPageRoute(builder: (context) => const SignIn()),
+          //   (route) => false,
+          // );
         } else if (state is EditFailed) {
           Utils.showSnackBar(state.error, Colors.red);
         }
       }, builder: (context, state) {
         if (state is Loading) {
-          return const Center(child: CircularProgressIndicator());
+          return CustomCircularProgressIndicator(
+            color: Theme.of(context).primaryColor,
+          );
         } else {
           return body[_currentIndex];
         }

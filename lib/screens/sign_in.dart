@@ -9,6 +9,7 @@ import 'package:parcel_app/screens/reset_password_page.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/screens/sign_up.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
+import 'package:parcel_app/widgets/progress_widget.dart';
 // import 'package:parcel_app/screens/not_auth/forgot_password_page.dart';
 
 class SignIn extends StatefulWidget {
@@ -50,8 +51,8 @@ class _SignInState extends State<SignIn> {
         },
         builder: (context, state) {
           if (state is Loading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return CustomCircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
             );
           }
           if (state is UnAuthenticated || state is SignedUp) {

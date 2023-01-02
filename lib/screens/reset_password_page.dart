@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/bloc/auth_bloc.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
+import 'package:parcel_app/widgets/progress_widget.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   @override
@@ -35,7 +36,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         }
       }, builder: (context, state) {
         if (state is Loading) {
-          return const Center(child: CircularProgressIndicator());
+          return CustomCircularProgressIndicator(
+              color: Theme.of(context).primaryColor);
         } else {
           return Container(
             padding: const EdgeInsets.all(18),

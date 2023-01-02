@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  CustomButton(
-      {required Text this.text,
-      required Color this.color,
-      required GestureTapCallback this.onPressed,
-      required Icon this.icon,
-      required double this.width});
+  const CustomButton(
+      {Key? key,
+      required this.text,
+      required this.color,
+      required this.onPressed,
+      required this.icon,
+      required this.width})
+      : super(key: key);
 
   final GestureTapCallback onPressed;
   final Color color;

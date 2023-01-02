@@ -8,6 +8,7 @@ import 'package:parcel_app/screens/home_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
+import 'package:parcel_app/widgets/progress_widget.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -62,7 +63,8 @@ class _SignUpState extends State<SignUp> {
         },
         builder: (context, state) {
           if (state is Loading) {
-            return const Center(child: CircularProgressIndicator());
+            return CustomCircularProgressIndicator(
+                color: Theme.of(context).primaryColor);
           }
           if (state is UnAuthenticated) {
             return Center(
