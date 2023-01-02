@@ -7,11 +7,14 @@ class Utils {
     if (text == null) return;
 
     final snackBar = SnackBar(
-      content: Text(text),
+      content: Text(
+        text,
+        style: const TextStyle(color: Colors.white),
+      ),
       backgroundColor: color,
       action: SnackBarAction(
         label: "Dissmiss",
-        textColor: Colors.yellow,
+        textColor: Colors.orangeAccent,
         onPressed: () {},
       ),
     );
