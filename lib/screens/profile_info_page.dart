@@ -6,6 +6,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:parcel_app/bloc/auth_bloc.dart';
 import 'package:parcel_app/models/custom_user.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
+import 'package:parcel_app/screens/sign_in.dart';
 
 class ProfileInfoPage extends StatefulWidget {
   const ProfileInfoPage({Key? key}) : super(key: key);
@@ -34,11 +35,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
-      if (state is UnAuthenticated) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      }
-    }, builder: (context, state) {
+        body: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       if (state is Authenticated) {
         CustomUser? user = state.user!;
         emailController.text = user.email;

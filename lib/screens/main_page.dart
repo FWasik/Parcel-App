@@ -66,12 +66,12 @@ class _MainPageState extends State<MainPage> {
       ),
       body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) async {
         if (state is UnAuthenticated) {
-          Navigator.of(context).popUntil((route) => route.isFirst);
+          //Navigator.of(context).popUntil((route) => route.isFirst);
 
-          // Navigator.of(context).pushAndRemoveUntil(
-          //   MaterialPageRoute(builder: (context) => const SignIn()),
-          //   (route) => false,
-          // );
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const SignIn()),
+            (route) => false,
+          );
         } else if (state is EditFailed) {
           Utils.showSnackBar(state.error, Colors.red);
         }
@@ -80,8 +80,10 @@ class _MainPageState extends State<MainPage> {
           return CustomCircularProgressIndicator(
             color: Theme.of(context).primaryColor,
           );
-        } else {
+        } else if (state is Authenticated) {
           return body[_currentIndex];
+        } else {
+          return Container();
         }
       }),
     );
