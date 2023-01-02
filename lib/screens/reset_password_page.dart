@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,13 +55,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     controller: emailController,
                     cursorColor: Colors.white,
                     textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.mail, color: Colors.indigo),
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.mail,
+                            color: Theme.of(context).primaryColor),
                         hintText: "Email",
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.indigo, width: 2),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor, width: 2),
                         )),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (email) =>
