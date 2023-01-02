@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import 'package:email_validator/email_validator.dart';
 
 import 'package:parcel_app/bloc/auth_bloc.dart';
-import 'package:parcel_app/screens/home_page.dart';
+import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
@@ -46,7 +46,7 @@ class _SignUpState extends State<SignUp> {
           if (state is Authenticated) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => const MainPage(),
               ),
             );
           }

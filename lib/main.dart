@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parcel_app/bloc/auth_bloc.dart';
 import 'package:parcel_app/repositories/auth_repository.dart';
-import 'package:parcel_app/screens/home_page.dart';
+import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
 
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
               builder: (context, snapshot) {
                 // If the snapshot has user data, then they're already signed in. So Navigating to the Dashboard.
                 if (snapshot.hasData) {
-                  return const HomePage();
+                  return const MainPage();
                 }
                 // Otherwise, they're not signed in. Show the sign in page.
                 return const SignIn();

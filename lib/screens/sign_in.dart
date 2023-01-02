@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parcel_app/bloc/auth_bloc.dart';
-import 'package:parcel_app/screens/home_page.dart';
+import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/reset_password_page.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/screens/sign_up.dart';
@@ -43,7 +43,7 @@ class _SignInState extends State<SignIn> {
         listener: (context, state) {
           if (state is Authenticated) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
+                MaterialPageRoute(builder: (context) => const MainPage()));
           }
           if (state is AuthError) {
             Utils.showSnackBar(state.error, Colors.red);
