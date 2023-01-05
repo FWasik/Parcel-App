@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parcel_app/bloc/auth_bloc.dart';
+import 'package:parcel_app/bloc/auth/auth_bloc.dart';
+import 'package:parcel_app/bloc/package/package_bloc.dart';
 import 'package:parcel_app/repositories/auth_repository.dart';
+import 'package:parcel_app/repositories/package_repository.dart';
 import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
@@ -24,7 +26,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
-            create: (context) => AuthBloc(authRepository: AuthRepository()))
+            create: (context) => AuthBloc(authRepository: AuthRepository())),
+        BlocProvider<PackageBloc>(
+            create: (context) => PackageBloc(
+                packageRepository:
+                    PackageRepository(authRepository: AuthRepository())))
       ],
       child: MaterialApp(
         theme:

@@ -30,3 +30,21 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+class CustomDeletePackageButton extends StatelessWidget {
+  final GestureTapCallback onPressed;
+
+  const CustomDeletePackageButton({Key? key, required this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        onPressed: onPressed,
+        child: const Icon(
+          Icons.delete,
+        ),
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red, fixedSize: const Size(10, 20)));
+  }
+}

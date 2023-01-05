@@ -3,7 +3,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parcel_app/utils/utils.dart';
-import 'package:parcel_app/bloc/auth_bloc.dart';
+import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 
