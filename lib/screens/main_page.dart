@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
+import 'package:parcel_app/screens/home_page.dart';
 import 'package:parcel_app/screens/packages_received_page.dart';
 import 'package:parcel_app/screens/packages_sent_page.dart';
 import 'package:parcel_app/screens/profile_info_page.dart';
@@ -25,7 +26,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> body = const [
-      Text("Heeelooo"),
+      HomePage(),
       PackagesSentPage(),
       PackagesReceivedPage(),
       ProfileInfoPage(),

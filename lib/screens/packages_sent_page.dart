@@ -66,6 +66,7 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
           return Container();
         }
       }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
           onPressed: (() {
             Navigator.of(context).push(MaterialPageRoute(
