@@ -9,7 +9,7 @@ class Loading extends AuthState {
 }
 
 class Authenticated extends AuthState {
-  CustomUser? user;
+  final CustomUser? user;
   Authenticated(this.user);
 
   @override

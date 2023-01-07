@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NoDataFound extends StatelessWidget {
-  const NoDataFound({Key? key, required String this.additionalText})
-      : super(key: key);
+  const NoDataFound({Key? key, required this.additionalText}) : super(key: key);
 
   final String additionalText;
 
@@ -17,7 +16,7 @@ class NoDataFound extends StatelessWidget {
             style: TextStyle(fontSize: 25),
           ),
           const SizedBox(height: 10),
-          Text(additionalText, style: TextStyle(fontSize: 15)),
+          Text(additionalText, style: const TextStyle(fontSize: 15)),
           const SizedBox(
             height: 20,
           ),

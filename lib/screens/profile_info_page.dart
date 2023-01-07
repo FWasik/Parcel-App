@@ -145,47 +145,6 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
     }));
   }
 
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Deleting an account'),
-          content: const SingleChildScrollView(
-            child: Text(
-              'Are you sure you want to delete an account?',
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel', style: TextStyle(fontSize: 18)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(
-                'Confirm',
-                style: TextStyle(color: Colors.red, fontSize: 18),
-              ),
-              onPressed: () {
-                context.read<AuthBloc>().add(DeleteUserRequested(uid));
-
-                Navigator.of(context).popUntil((route) => route.isFirst);
-
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(builder: (context) => const SignIn()),
-                //     (route) => false);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _editUserInfo(BuildContext context, String uid) {
     if (formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(EditUserRequested(uid, emailController.text,

@@ -61,7 +61,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<EditUserRequested>((event, emit) async {
       try {
-        if (this.state is Authenticated) {
+        if (state is Authenticated) {
           emit(Loading());
 
           await authRepository.updateUserInfo(

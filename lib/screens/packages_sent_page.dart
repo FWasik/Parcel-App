@@ -47,9 +47,6 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
                             Text(
                                 "Receiver's phone number: \n${data[index].phoneNumber}"),
                             const SizedBox(height: 10),
-                            Text(
-                                "Receiver's phone number: \n${data[index].phoneNumber}"),
-                            const SizedBox(height: 10),
                             Text('Address: \n${data[index].address}'),
                             const SizedBox(height: 10),
                             Text(

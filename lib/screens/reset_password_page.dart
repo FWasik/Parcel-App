@@ -8,8 +8,10 @@ import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 
 class ResetPasswordPage extends StatefulWidget {
+  const ResetPasswordPage({Key? key}) : super(key: key);
+
   @override
-  _ResetPasswordPageState createState() => _ResetPasswordPageState();
+  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
@@ -59,7 +61,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         prefixIcon: Icon(Icons.mail,
                             color: Theme.of(context).primaryColor),
                         hintText: "Email",
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor, width: 2),

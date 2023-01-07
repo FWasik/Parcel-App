@@ -10,13 +10,12 @@ import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/screens/sign_up.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
-import 'package:parcel_app/bloc/package/package_bloc.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
 
   @override
-  _SignInState createState() => _SignInState();
+  State<SignIn> createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
@@ -151,7 +150,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         onTap: () =>
                             Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ResetPasswordPage(),
+                          builder: (context) => const ResetPasswordPage(),
                         )),
                       ),
                       const SizedBox(height: 18),

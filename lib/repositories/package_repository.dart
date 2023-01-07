@@ -82,9 +82,11 @@ class PackageRepository {
         throw Exception("Cannot send package to yourself!");
       }
 
+      // sender
       createPackageInFirestore(user.uid, user.uid, receiver.uid,
           receiver.fullName, receiver.phoneNumber, address);
 
+      //receiver
       createPackageInFirestore(receiver.uid, user.uid, receiver.uid,
           sender.fullName, sender.phoneNumber, address);
 

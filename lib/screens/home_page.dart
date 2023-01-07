@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
                 Text(
-                  '${user.fullName}',
+                  user.fullName,
                   style: TextStyle(
                       fontSize: 20,
                       color: Theme.of(context).primaryColor,
