@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:parcel_app/bloc/package/package_bloc.dart';
+import 'package:parcel_app/screens/google_page.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
@@ -138,10 +139,11 @@ class _SendPackagePageState extends State<SendPackagePage> {
                         ),
                         TextFormField(
                           controller: addressController,
+                          onTap: _getAddress,
                           decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.location_city,
                                   color: Colors.indigo),
-                              hintText: "Address",
+                              hintText: "Address of parcel machine",
                               border: OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -186,5 +188,11 @@ class _SendPackagePageState extends State<SendPackagePage> {
           fullNameController.text,
           addressController.text));
     }
+  }
+
+  Future<void> _getAddress() async {
+    addressController.text = await Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const GooglePage(),
+    ));
   }
 }
