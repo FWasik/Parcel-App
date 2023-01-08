@@ -76,6 +76,8 @@ class PackageRepository {
       CustomUser receiver = data.docs.map((element) {
         return CustomUser.fromJson(element.data());
       }).toList()[0];
+
+      //sender == user
       final sender = await authRepository.getUserInfo(user.uid);
 
       if (sender!.email == receiver.email) {
@@ -83,12 +85,19 @@ class PackageRepository {
       }
 
       // sender
-      createPackageInFirestore(user.uid, user.uid, receiver.uid,
-          receiver.fullName, receiver.phoneNumber, address);
+      createPackageInFirestore(user.uid, user.uid, receiver.uid, sender.email,
+          receiver.email, receiver.fullName, receiver.phoneNumber, address);
 
       //receiver
-      createPackageInFirestore(receiver.uid, user.uid, receiver.uid,
-          sender.fullName, sender.phoneNumber, address);
+      createPackageInFirestore(
+          receiver.uid,
+          user.uid,
+          receiver.uid,
+          sender.email,
+          receiver.email,
+          sender.fullName,
+          sender.phoneNumber,
+          address);
 
       Utils.showSnackBar("Package created and sent!", Colors.green);
     } catch (e) {
@@ -117,6 +126,8 @@ class PackageRepository {
       String doc,
       String uidSender,
       String uidReceiver,
+      String emailSender,
+      String emailReceiver,
       String fullName,
       String phoneNumber,
       String address) async {
@@ -128,6 +139,8 @@ class PackageRepository {
         .set({
       "uidSender": uidSender,
       "uidReceiver": uidReceiver,
+      "emailSender": emailSender,
+      "emailReceiver": emailReceiver,
       "fullName": fullName,
       "phoneNumber": phoneNumber,
       "address": address,

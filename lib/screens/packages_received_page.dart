@@ -47,7 +47,10 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                           Text(
                               "Sender's phone number: \n${data[index].phoneNumber}"),
                           const SizedBox(height: 10),
-                          Text('Address: \n${data[index].address}'),
+                          Text("Sender's email: \n${data[index].emailSender}"),
+                          const SizedBox(height: 10),
+                          Text(
+                              "Parcel machine's address: \n${data[index].address}"),
                           const SizedBox(height: 10),
                           Text(
                               'Created and sent at: \n${data[index].timeCreated}'),
