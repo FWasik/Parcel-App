@@ -25,6 +25,8 @@ class _SendPackagePageState extends State<SendPackagePage> {
   final fullNameController = TextEditingController();
   final addressController = TextEditingController();
 
+  RegExp regExp = RegExp(r'^[0-9]{9}$');
+
   @override
   void dispose() {
     emailController.dispose();
@@ -108,8 +110,8 @@ class _SendPackagePageState extends State<SendPackagePage> {
                               )),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
-                            return value == null || value.isEmpty
-                                ? "Phone number cannot be empty"
+                            return value == null || !regExp.hasMatch(value)
+                                ? "Enter valid phone number"
                                 : null;
                           },
                         ),

@@ -24,6 +24,8 @@ class _SignUpState extends State<SignUp> {
   final fullNameController = TextEditingController();
   final phoneNumberController = TextEditingController();
 
+  RegExp regExp = RegExp(r'^[0-9]{9}$');
+
   @override
   void dispose() {
     emailController.dispose();
@@ -172,8 +174,8 @@ class _SignUpState extends State<SignUp> {
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               validator: (value) {
-                                return value == null || value.isEmpty
-                                    ? "Phone number cannot be empty"
+                                return value == null || !regExp.hasMatch(value)
+                                    ? "Enter valid phone number"
                                     : null;
                               },
                             ),
