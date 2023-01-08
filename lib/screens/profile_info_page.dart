@@ -3,10 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:email_validator/email_validator.dart';
 
-import 'package:parcel_app/bloc/auth_bloc.dart';
+import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/models/custom_user.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
-import 'package:parcel_app/screens/sign_in.dart';
 
 class ProfileInfoPage extends StatefulWidget {
   const ProfileInfoPage({Key? key}) : super(key: key);
@@ -144,47 +143,6 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
         return Container();
       }
     }));
-  }
-
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Deleting an account'),
-          content: const SingleChildScrollView(
-            child: Text(
-              'Are you sure you want to delete an account?',
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel', style: TextStyle(fontSize: 18)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(
-                'Confirm',
-                style: TextStyle(color: Colors.red, fontSize: 18),
-              ),
-              onPressed: () {
-                context.read<AuthBloc>().add(DeleteUserRequested(uid));
-
-                Navigator.of(context).popUntil((route) => route.isFirst);
-
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(builder: (context) => const SignIn()),
-                //     (route) => false);
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   void _editUserInfo(BuildContext context, String uid) {

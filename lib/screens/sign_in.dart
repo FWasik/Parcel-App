@@ -3,20 +3,19 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:parcel_app/bloc/auth_bloc.dart';
+import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/reset_password_page.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/screens/sign_up.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
-// import 'package:parcel_app/screens/not_auth/forgot_password_page.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
 
   @override
-  _SignInState createState() => _SignInState();
+  State<SignIn> createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
@@ -151,7 +150,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         onTap: () =>
                             Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ResetPasswordPage(),
+                          builder: (context) => const ResetPasswordPage(),
                         )),
                       ),
                       const SizedBox(height: 18),

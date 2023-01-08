@@ -20,7 +20,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await authRepository.signIn(
             email: event.email, password: event.password);
 
-        final user = await authRepository.getUserInfo();
+        final user = await authRepository
+            .getUserInfo(FirebaseAuth.instance.currentUser!.uid);
 
         emit(Authenticated(user));
       } catch (e) {
@@ -60,7 +61,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<EditUserRequested>((event, emit) async {
       try {
-        if (this.state is Authenticated) {
+        if (state is Authenticated) {
           emit(Loading());
 
           await authRepository.updateUserInfo(
@@ -70,7 +71,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             fullName: event.fullName,
           );
 
-          final user = await authRepository.getUserInfo();
+          final user = await authRepository
+              .getUserInfo(FirebaseAuth.instance.currentUser!.uid);
 
           emit(Authenticated(user));
         }
@@ -80,7 +82,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (e.code == "email-already-in-use") {
           emit(EditFailed(e.message));
 
-          final user = await authRepository.getUserInfo();
+          final user = await authRepository
+              .getUserInfo(FirebaseAuth.instance.currentUser!.uid);
 
           emit(Authenticated(user));
         } else {

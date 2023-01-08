@@ -22,8 +22,12 @@ class AuthRepository {
       final User? user = auth.currentUser;
       final String uid = user!.uid;
 
-      await FirebaseFirestore.instance.collection("Users").doc(uid).set(
-          {"email": email, "phoneNumber": phoneNumber, "fullName": fullName});
+      await FirebaseFirestore.instance.collection("Users").doc(uid).set({
+        "uid": uid,
+        "email": email,
+        "phoneNumber": phoneNumber,
+        "fullName": fullName
+      });
 
       await FirebaseAuth.instance.signOut();
 
@@ -97,14 +101,13 @@ class AuthRepository {
     }
   }
 
-  Future<CustomUser?> getUserInfo() async {
+  Future<CustomUser?> getUserInfo(String uid) async {
     CustomUser user;
-    String uid = FirebaseAuth.instance.currentUser!.uid;
 
     try {
       final data =
           await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-      print(data.data() as Map<String, dynamic>);
+
       user = CustomUser.fromJson(data.data() as Map<String, dynamic>);
 
       return user;

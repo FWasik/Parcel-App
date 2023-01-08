@@ -3,7 +3,7 @@ import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import 'package:email_validator/email_validator.dart';
 
-import 'package:parcel_app/bloc/auth_bloc.dart';
+import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
@@ -14,7 +14,7 @@ class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
   @override
-  _SignUpState createState() => _SignUpState();
+  State<SignUp> createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
