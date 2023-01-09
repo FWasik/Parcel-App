@@ -41,7 +41,7 @@ class PackageRepository {
             DateTime.parse(data["timeCreated"].toDate().toString());
 
         data['timeCreated'] =
-            DateFormat('yyyy-MM-dd – kk:mm').format(timeCreated);
+            DateFormat('yyyy-MM-dd HH:mm:ss').format(timeCreated);
 
         return packages.add(Package.fromJson(data));
       }));
@@ -122,6 +122,55 @@ class PackageRepository {
     }
   }
 
+  Future<void> acceptPackage(
+      {required Package package, required String uidSender}) async {
+    final User user = FirebaseAuth.instance.currentUser!;
+
+    try {
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(user.uid)
+          .collection("Packages")
+          .doc(package.id)
+          .update({"isReceived": true});
+
+      final data = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(uidSender)
+          .collection("Packages")
+          .get();
+
+      Timestamp timestamp =
+          Timestamp.fromDate(DateTime.parse(package.timeCreated));
+
+      var idPackageSender;
+
+      data.docs.forEach(((element) async {
+        print("fdsf");
+        print(timestamp.seconds);
+        print(element.data()["timeCreated"].seconds);
+
+        if (timestamp.seconds == element.data()["timeCreated"].seconds) {
+          idPackageSender = element.reference.id.toString();
+        }
+      }));
+
+      if (idPackageSender != null) {
+        await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(uidSender)
+            .collection("Packages")
+            .doc(idPackageSender)
+            .update({"isReceived": true});
+      }
+
+      Utils.showSnackBar(
+          "Package accepted and set up as received!", Colors.green);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   void createPackageInFirestore(
       String doc,
       String uidSender,
@@ -145,6 +194,7 @@ class PackageRepository {
       "phoneNumber": phoneNumber,
       "address": address,
       "timeCreated": DateTime.now().toLocal(),
+      "isReceived": false
     });
   }
 }
