@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
+import 'package:parcel_app/bloc/theme/theme_bloc.dart';
 import 'package:parcel_app/models/custom_user.dart';
+import 'package:parcel_app/utils/themes.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
 
 class ProfileInfoPage extends StatefulWidget {
@@ -21,6 +23,8 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
   final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final fullNameController = TextEditingController();
+
+  bool isDark = true;
 
   RegExp regExp = RegExp(r'^[0-9]{9}$');
 
@@ -45,99 +49,108 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
 
         return Container(
           padding: const EdgeInsets.all(18),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Edit profile",
-                      style: TextStyle(
-                        fontSize: 38,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    TextFormField(
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.mail, color: Colors.indigo),
-                          hintText: "Email",
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.indigo, width: 2),
-                          )),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        return value != null && !EmailValidator.validate(value)
-                            ? 'Enter a valid email'
-                            : null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    TextFormField(
-                      controller: phoneNumberController,
-                      decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.phone, color: Colors.indigo),
-                          hintText: "Phone number",
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.indigo, width: 2),
-                          )),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        return value == null || !regExp.hasMatch(value)
-                            ? "Enter valid phone number"
-                            : null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    TextFormField(
-                      controller: fullNameController,
-                      decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.person, color: Colors.indigo),
-                          hintText: "Full name",
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.indigo, width: 2),
-                          )),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        return value == null || value.isEmpty
-                            ? "Full name cannot be empty"
-                            : null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CustomButton(
-                        width: 0.7,
-                        color: Theme.of(context).primaryColor,
-                        icon: const Icon(Icons.arrow_forward, size: 32),
-                        text: const Text(
-                          "Edit",
-                          style: TextStyle(fontSize: 24),
+          child: BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+            return Center(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Edit profile",
+                        style: TextStyle(
+                          fontSize: 38,
+                          fontWeight: FontWeight.bold,
                         ),
-                        onPressed: () {
-                          _editUserInfo(context, uid);
-                        }),
-                  ],
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.mail,
+                                color: Theme.of(context).primaryColor),
+                            hintText: "Email",
+                            border: const OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 2),
+                            )),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          return value != null &&
+                                  !EmailValidator.validate(value)
+                              ? 'Enter a valid email'
+                              : null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        controller: phoneNumberController,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.phone,
+                                color: Theme.of(context).primaryColor),
+                            hintText: "Phone number",
+                            border: const OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 2),
+                            )),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          return value == null || !regExp.hasMatch(value)
+                              ? "Enter valid phone number"
+                              : null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        controller: fullNameController,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person,
+                                color: Theme.of(context).primaryColor),
+                            hintText: "Full name",
+                            border: const OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 2),
+                            )),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          return value == null || value.isEmpty
+                              ? "Full name cannot be empty"
+                              : null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CustomButton(
+                          width: 0.7,
+                          color: Theme.of(context).primaryColor,
+                          icon: const Icon(Icons.arrow_forward, size: 32),
+                          text: const Text(
+                            "Edit",
+                            style: TextStyle(fontSize: 24),
+                          ),
+                          onPressed: () {
+                            _editUserInfo(context, uid);
+                          }),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
         );
       } else if (state is Loading) {
         return const Center(child: CircularProgressIndicator());
