@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
+import 'package:parcel_app/bloc/theme/theme_bloc.dart';
 import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/reset_password_page.dart';
 import 'package:parcel_app/utils/utils.dart';
@@ -81,14 +82,15 @@ class _SignInState extends State<SignIn> {
                               TextFormField(
                                 keyboardType: TextInputType.emailAddress,
                                 controller: emailController,
-                                decoration: const InputDecoration(
-                                    prefixIcon:
-                                        Icon(Icons.mail, color: Colors.indigo),
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.mail,
+                                        color: Theme.of(context).primaryColor),
                                     hintText: "Email",
-                                    border: OutlineInputBorder(),
+                                    border: const OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Colors.indigo, width: 2),
+                                          color: Theme.of(context).primaryColor,
+                                          width: 2),
                                     )),
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
@@ -105,14 +107,15 @@ class _SignInState extends State<SignIn> {
                               TextFormField(
                                 keyboardType: TextInputType.text,
                                 controller: passwordController,
-                                decoration: const InputDecoration(
-                                    prefixIcon:
-                                        Icon(Icons.lock, color: Colors.indigo),
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.lock,
+                                        color: Theme.of(context).primaryColor),
                                     hintText: "Password",
-                                    border: OutlineInputBorder(),
+                                    border: const OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Colors.indigo, width: 2),
+                                          color: Theme.of(context).primaryColor,
+                                          width: 2),
                                     )),
                                 obscureText: true,
                                 autovalidateMode:
@@ -154,27 +157,32 @@ class _SignInState extends State<SignIn> {
                         )),
                       ),
                       const SizedBox(height: 18),
-                      RichText(
-                        text: TextSpan(
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 18),
-                            text: "Do not have an account? ",
-                            children: [
-                              TextSpan(
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const SignUp()),
-                                    );
-                                  },
-                                text: "Sign up",
-                                style: const TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: Colors.blueAccent),
-                              ),
-                            ]),
+                      BlocBuilder<ThemeBloc, ThemeState>(
+                        builder: (context, state) {
+                          return RichText(
+                            text: TextSpan(
+                                style:
+                                    TextStyle(color: state.color, fontSize: 18),
+                                text: "Do not have an account? ",
+                                children: [
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignUp()),
+                                        );
+                                      },
+                                    text: "Sign up",
+                                    style: const TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        color: Colors.blueAccent),
+                                  ),
+                                ]),
+                          );
+                        },
                       ),
                     ],
                   ),

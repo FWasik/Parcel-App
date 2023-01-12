@@ -7,6 +7,7 @@ import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/no_data_found_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 import 'package:parcel_app/models/package.dart';
+import 'package:parcel_app/widgets/switch_gesture.dart';
 
 class PackagesSentPage extends StatefulWidget {
   const PackagesSentPage({Key? key}) : super(key: key);
@@ -16,66 +17,109 @@ class PackagesSentPage extends StatefulWidget {
 }
 
 class _PackagesSentPageState extends State<PackagesSentPage> {
+  bool _isReceived = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<PackageBloc, PackageState>(builder: (context, state) {
-        if (state is LoadingPackages || state is Deleted) {
-          return CustomCircularProgressIndicator(
-              color: Theme.of(context).primaryColor);
-        } else if (state is Fetched) {
-          List<Package> data = state.packages;
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+            onPressed: (() {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const SendPackagePage(),
+              ));
+            }),
+            backgroundColor: Theme.of(context).primaryColor,
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+            )),
+        body: BlocBuilder<PackageBloc, PackageState>(builder: (context, state) {
+          if (state is LoadingPackages ||
+              state is Deleted ||
+              state is Accepted) {
+            return CustomCircularProgressIndicator(
+                color: Theme.of(context).primaryColor);
+          } else if (state is Fetched) {
+            List<Package> filteredData = state.packages
+                .where((element) => element.isReceived == _isReceived)
+                .toList();
 
-          if (data.isEmpty) {
-            return const NoDataFound(
-                additionalText: 'Create new package by hitting button below');
-          } else {
-            return ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (_, index) {
-                  return Card(
-                    elevation: 10,
-                    child: ListTile(
-                      title: Text('Package number: \n${data[index].id}'),
-                      subtitle: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 20),
-                            Text('Receiver: \n${data[index].fullName}'),
-                            const SizedBox(height: 10),
-                            Text(
-                                "Receiver's phone number: \n${data[index].phoneNumber}"),
-                            const SizedBox(height: 10),
-                            Text('Address: \n${data[index].address}'),
-                            const SizedBox(height: 10),
-                            Text(
-                                'Created and sent at: \n${data[index].timeCreated}'),
-                          ]),
-                      trailing: CustomDeletePackageButton(onPressed: () {
-                        _showDeletePackageDialog(data[index].id, state.type);
+            if (state.packages.isEmpty) {
+              return const NoDataFound(
+                  additionalText:
+                      'You have sent no packages. Do it by hitting button below!');
+            } else {
+              return Column(children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10, top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SwitchGesture(
+                        "Non received",
+                        onTap: () {
+                          setState(() {
+                            _isReceived = false;
+                          });
+                        },
+                        selected: _isReceived == false,
+                      ),
+                      SwitchGesture(
+                        "Received",
+                        onTap: () {
+                          setState(() {
+                            _isReceived = true;
+                          });
+                        },
+                        selected: _isReceived,
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: filteredData.length,
+                      itemBuilder: (_, index) {
+                        return Card(
+                          elevation: 10,
+                          child: ListTile(
+                            title: Text(
+                                'Package number: \n${filteredData[index].id}'),
+                            subtitle: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 20),
+                                  Text(
+                                      'Receiver: \n${filteredData[index].fullName}'),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                      "Receiver's phone number: \n${filteredData[index].phoneNumber}"),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                      "Receiver's email: \n${filteredData[index].emailSender}"),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                      "Parcel machine's address: \n${filteredData[index].address}"),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                      'Created and sent at: \n${filteredData[index].timeCreated}'),
+                                ]),
+                            trailing: CustomDeletePackageButton(onPressed: () {
+                              _showDeletePackageDialog(
+                                  filteredData[index].id, state.type);
+                            }),
+                          ),
+                        );
                       }),
-                    ),
-                  );
-                });
+                ),
+              ]);
+            }
+          } else {
+            return Container();
           }
-        } else {
-          return Container();
-        }
-      }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-          onPressed: (() {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const SendPackagePage(),
-            ));
-          }),
-          backgroundColor: Theme.of(context).primaryColor,
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          )),
-    );
+        }));
   }
 
   Future<void> _showDeletePackageDialog(String id, String type) async {

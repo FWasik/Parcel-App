@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/bloc/package/package_bloc.dart';
+import 'package:parcel_app/bloc/theme/theme_bloc.dart';
 import 'package:parcel_app/repositories/auth_repository.dart';
 import 'package:parcel_app/repositories/package_repository.dart';
 import 'package:parcel_app/screens/main_page.dart';
@@ -33,20 +34,24 @@ class MyApp extends StatelessWidget {
         BlocProvider<PackageBloc>(
             create: (context) => PackageBloc(
                 packageRepository:
-                    PackageRepository(authRepository: AuthRepository())))
+                    PackageRepository(authRepository: AuthRepository()))),
+        BlocProvider<ThemeBloc>(create: (context) => ThemeBloc())
       ],
-      child: MaterialApp(
-        theme:
-            ThemeData(brightness: Brightness.dark, primaryColor: Colors.indigo),
-        scaffoldMessengerKey: Utils.messengerKey,
-        home: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return const MainPage();
-              }
-              return const SignIn();
-            }),
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp(
+            theme: state.themeData,
+            scaffoldMessengerKey: Utils.messengerKey,
+            home: StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return const MainPage();
+                  }
+                  return const SignIn();
+                }),
+          );
+        },
       ),
     );
   }

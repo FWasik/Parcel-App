@@ -41,3 +41,8 @@ class Deleted extends PackageState {
   @override
   List<Object?> get props => [];
 }
+
+class Accepted extends PackageState {
+  @override
+  List<Object?> get props => [];
+}

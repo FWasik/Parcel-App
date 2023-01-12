@@ -9,6 +9,7 @@ import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
+import 'package:parcel_app/bloc/theme/theme_bloc.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -23,6 +24,8 @@ class _SignUpState extends State<SignUp> {
   final passwordController = TextEditingController();
   final fullNameController = TextEditingController();
   final phoneNumberController = TextEditingController();
+
+  RegExp regExp = RegExp(r'^[0-9]{9}$');
 
   @override
   void dispose() {
@@ -90,14 +93,15 @@ class _SignUpState extends State<SignUp> {
                             ),
                             TextFormField(
                               controller: emailController,
-                              decoration: const InputDecoration(
-                                  prefixIcon:
-                                      Icon(Icons.mail, color: Colors.indigo),
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.mail,
+                                      color: Theme.of(context).primaryColor),
                                   hintText: "Email",
-                                  border: OutlineInputBorder(),
+                                  border: const OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.indigo, width: 2),
+                                        color: Theme.of(context).primaryColor,
+                                        width: 2),
                                   )),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -113,14 +117,15 @@ class _SignUpState extends State<SignUp> {
                             ),
                             TextFormField(
                               controller: passwordController,
-                              decoration: const InputDecoration(
-                                  prefixIcon:
-                                      Icon(Icons.lock, color: Colors.indigo),
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.lock,
+                                      color: Theme.of(context).primaryColor),
                                   hintText: "Password",
-                                  border: OutlineInputBorder(),
+                                  border: const OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.indigo, width: 2),
+                                        color: Theme.of(context).primaryColor,
+                                        width: 2),
                                   )),
                               obscureText: true,
                               autovalidateMode:
@@ -138,14 +143,15 @@ class _SignUpState extends State<SignUp> {
                               initialValue: passwordController.text,
                               cursorColor: Colors.white,
                               textInputAction: TextInputAction.done,
-                              decoration: const InputDecoration(
-                                  prefixIcon:
-                                      Icon(Icons.lock, color: Colors.indigo),
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.lock,
+                                      color: Theme.of(context).primaryColor),
                                   hintText: "Confirm password",
-                                  border: OutlineInputBorder(),
+                                  border: const OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.indigo, width: 2),
+                                        color: Theme.of(context).primaryColor,
+                                        width: 2),
                                   )),
                               obscureText: true,
                               autovalidateMode:
@@ -160,20 +166,21 @@ class _SignUpState extends State<SignUp> {
                             ),
                             TextFormField(
                               controller: phoneNumberController,
-                              decoration: const InputDecoration(
-                                  prefixIcon:
-                                      Icon(Icons.phone, color: Colors.indigo),
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.phone,
+                                      color: Theme.of(context).primaryColor),
                                   hintText: "Phone number",
-                                  border: OutlineInputBorder(),
+                                  border: const OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.indigo, width: 2),
+                                        color: Theme.of(context).primaryColor,
+                                        width: 2),
                                   )),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               validator: (value) {
-                                return value == null || value.isEmpty
-                                    ? "Phone number cannot be empty"
+                                return value == null || !regExp.hasMatch(value)
+                                    ? "Enter valid phone number"
                                     : null;
                               },
                             ),
@@ -182,14 +189,15 @@ class _SignUpState extends State<SignUp> {
                             ),
                             TextFormField(
                               controller: fullNameController,
-                              decoration: const InputDecoration(
-                                  prefixIcon:
-                                      Icon(Icons.person, color: Colors.indigo),
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.person,
+                                      color: Theme.of(context).primaryColor),
                                   hintText: "Full name",
-                                  border: OutlineInputBorder(),
+                                  border: const OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.indigo, width: 2),
+                                        color: Theme.of(context).primaryColor,
+                                        width: 2),
                                   )),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -215,28 +223,32 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      RichText(
-                        text: TextSpan(
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 18),
-                            text: "Already have an account? ",
-                            children: [
-                              TextSpan(
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const SignIn()),
-                                    );
-                                  },
-                                text: "Sign in",
-                                style: const TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: Colors.blueAccent),
-                              ),
-                            ]),
-                      ),
+                      BlocBuilder<ThemeBloc, ThemeState>(
+                          builder: (context, state) {
+                        return RichText(
+                          text: TextSpan(
+                              style:
+                                  TextStyle(color: state.color, fontSize: 18),
+                              text: "Already have an account? ",
+                              children: [
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SignIn()),
+                                      );
+                                    },
+                                  text: "Sign in",
+                                  style: const TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.blueAccent),
+                                ),
+                              ]),
+                        );
+                      }),
                     ],
                   ),
                 ),

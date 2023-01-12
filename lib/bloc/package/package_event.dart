@@ -28,3 +28,11 @@ class DeleteRequested extends PackageEvent {
 
   DeleteRequested(this.id, this.type);
 }
+
+class AcceptRequested extends PackageEvent {
+  final Package package;
+  final String uidSender;
+  final String type;
+
+  AcceptRequested(this.package, this.uidSender, this.type);
+}

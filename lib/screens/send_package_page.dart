@@ -25,6 +25,8 @@ class _SendPackagePageState extends State<SendPackagePage> {
   final fullNameController = TextEditingController();
   final addressController = TextEditingController();
 
+  RegExp regExp = RegExp(r'^[0-9]{9}$');
+
   @override
   void dispose() {
     emailController.dispose();
@@ -75,14 +77,15 @@ class _SendPackagePageState extends State<SendPackagePage> {
                         ),
                         TextFormField(
                           controller: emailController,
-                          decoration: const InputDecoration(
-                              prefixIcon:
-                                  Icon(Icons.mail, color: Colors.indigo),
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.mail,
+                                  color: Theme.of(context).primaryColor),
                               hintText: "Email",
                               border: OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.indigo, width: 2),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2),
                               )),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
@@ -97,19 +100,20 @@ class _SendPackagePageState extends State<SendPackagePage> {
                         ),
                         TextFormField(
                           controller: phoneNumberController,
-                          decoration: const InputDecoration(
-                              prefixIcon:
-                                  Icon(Icons.phone, color: Colors.indigo),
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.phone,
+                                  color: Theme.of(context).primaryColor),
                               hintText: "Phone number",
-                              border: OutlineInputBorder(),
+                              border: const OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.indigo, width: 2),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2),
                               )),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
-                            return value == null || value.isEmpty
-                                ? "Phone number cannot be empty"
+                            return value == null || !regExp.hasMatch(value)
+                                ? "Enter valid phone number"
                                 : null;
                           },
                         ),
@@ -118,14 +122,15 @@ class _SendPackagePageState extends State<SendPackagePage> {
                         ),
                         TextFormField(
                           controller: fullNameController,
-                          decoration: const InputDecoration(
-                              prefixIcon:
-                                  Icon(Icons.person, color: Colors.indigo),
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.person,
+                                  color: Theme.of(context).primaryColor),
                               hintText: "Full name",
-                              border: OutlineInputBorder(),
+                              border: const OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.indigo, width: 2),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2),
                               )),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
@@ -140,14 +145,15 @@ class _SendPackagePageState extends State<SendPackagePage> {
                         TextFormField(
                           controller: addressController,
                           onTap: _getAddress,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               prefixIcon: Icon(Icons.location_city,
-                                  color: Colors.indigo),
+                                  color: Theme.of(context).primaryColor),
                               hintText: "Address of parcel machine",
-                              border: OutlineInputBorder(),
+                              border: const OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.indigo, width: 2),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2),
                               )),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {

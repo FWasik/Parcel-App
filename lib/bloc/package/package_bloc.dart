@@ -84,5 +84,23 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
         emit(Error(e.toString()));
       }
     }));
+
+    on<AcceptRequested>(((event, emit) async {
+      emit(LoadingPackages());
+
+      try {
+        await packageRepository.acceptPackage(
+            package: event.package, uidSender: event.uidSender);
+
+        emit(Accepted());
+
+        List<Package> packages =
+            await packageRepository.fetchPackages(event.type);
+
+        emit(Fetched(packages: packages, type: event.type));
+      } catch (e) {
+        emit(Error(e.toString()));
+      }
+    }));
   }
 }
