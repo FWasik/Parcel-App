@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:parcel_app/bloc/font/font_bloc.dart';
 import 'package:parcel_app/bloc/package/package_bloc.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/no_data_found_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 import 'package:parcel_app/models/package.dart';
 import 'package:parcel_app/widgets/switch_gesture.dart';
+import 'package:parcel_app/utils/delete_dialogs.dart';
 
 class PackagesReceivedPage extends StatefulWidget {
   const PackagesReceivedPage({Key? key}) : super(key: key);
@@ -35,135 +37,102 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
               additionalText:
                   'First someone needs to send you a package. Wait for it :)');
         } else {
-          return Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10, top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SwitchGesture(
-                    "Non received",
-                    onTap: () {
-                      setState(() {
-                        _isReceived = false;
-                      });
-                    },
-                    selected: _isReceived == false,
-                  ),
-                  SwitchGesture(
-                    "Received",
-                    onTap: () {
-                      setState(() {
-                        _isReceived = true;
-                      });
-                    },
-                    selected: _isReceived,
-                  ),
-                ],
+          return BlocBuilder<FontBloc, FontState>(
+              builder: (context, stateFont) {
+            return Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10, top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SwitchGesture(
+                      text: "Non received",
+                      onTap: () {
+                        setState(() {
+                          _isReceived = false;
+                        });
+                      },
+                      selected: _isReceived == false,
+                      size: 20 * stateFont.resize,
+                    ),
+                    SwitchGesture(
+                      text: "Received",
+                      onTap: () {
+                        setState(() {
+                          _isReceived = true;
+                        });
+                      },
+                      selected: _isReceived,
+                      size: 20 * stateFont.resize,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            // (_isReceived
-            //     ? Padding(
-            //         padding: const EdgeInsets.only(bottom: 20, top: 10),
-            //         child: CustomButton(
-            //             text: const Text(
-            //               "Delete All",
-            //               style: TextStyle(fontSize: 20),
-            //             ),
-            //             color: Colors.red,
-            //             onPressed: () {},
-            //             icon: const Icon(Icons.delete),
-            //             width: 0.7),
-            //       )''
-            //     : null),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: filteredData.length,
-                  itemBuilder: (_, index) {
-                    return Card(
-                      elevation: 10,
-                      child: ListTile(
-                        title:
-                            Text('Package number: \n${filteredData[index].id}'),
-                        subtitle: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 20),
-                              Text('Sender: \n${filteredData[index].fullName}'),
-                              const SizedBox(height: 10),
-                              Text(
-                                  "Sender's phone number: \n${filteredData[index].phoneNumber}"),
-                              const SizedBox(height: 10),
-                              Text(
-                                  "Sender's email: \n${filteredData[index].emailSender}"),
-                              const SizedBox(height: 10),
-                              Text(
-                                  "Parcel machine's address: \n${filteredData[index].address}"),
-                              const SizedBox(height: 10),
-                              Text(
-                                  'Created and sent at: \n${filteredData[index].timeCreated}'),
-                            ]),
-                        trailing: (!_isReceived
-                            ? CustomAcceptPackageButton(
-                                onPressed: () {
-                                  context.read<PackageBloc>().add(
-                                      AcceptRequested(
-                                          filteredData[index],
-                                          filteredData[index].uidSender,
-                                          "received"));
-                                },
-                              )
-                            : CustomDeletePackageButton(onPressed: () {
-                                _showDeletePackageDialog(
-                                    filteredData[index].id, state.type);
-                              })),
-                      ),
-                    );
-                  }),
-            ),
-          ]);
+              Expanded(
+                child: ListView.builder(
+                    itemCount: filteredData.length,
+                    itemBuilder: (_, index) {
+                      return Card(
+                        elevation: 10,
+                        child: ListTile(
+                          title: Text(
+                              'Package number: \n${filteredData[index].id}',
+                              style:
+                                  TextStyle(fontSize: 18 * stateFont.resize)),
+                          subtitle: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 20),
+                                Text(
+                                    'Sender: \n${filteredData[index].fullName}',
+                                    style: TextStyle(
+                                        fontSize: 14 * stateFont.resize)),
+                                const SizedBox(height: 10),
+                                Text(
+                                    "Sender's phone number: \n${filteredData[index].phoneNumber}",
+                                    style: TextStyle(
+                                        fontSize: 14 * stateFont.resize)),
+                                const SizedBox(height: 10),
+                                Text(
+                                    "Sender's email: \n${filteredData[index].emailSender}",
+                                    style: TextStyle(
+                                        fontSize: 14 * stateFont.resize)),
+                                const SizedBox(height: 10),
+                                Text(
+                                    "Parcel machine's address: \n${filteredData[index].address}",
+                                    style: TextStyle(
+                                        fontSize: 14 * stateFont.resize)),
+                                const SizedBox(height: 10),
+                                Text(
+                                    'Created and sent at: \n${filteredData[index].timeCreated}',
+                                    style: TextStyle(
+                                        fontSize: 14 * stateFont.resize)),
+                              ]),
+                          trailing: (!_isReceived
+                              ? CustomAcceptPackageButton(
+                                  onPressed: () {
+                                    context.read<PackageBloc>().add(
+                                        AcceptRequested(
+                                            filteredData[index],
+                                            filteredData[index].uidSender,
+                                            "received"));
+                                  },
+                                )
+                              : CustomDeletePackageButton(onPressed: () {
+                                  DeleteDialogs.showDeletePackageDialog(context,
+                                      filteredData[index].id, state.type);
+                                })),
+                        ),
+                      );
+                    }),
+              ),
+            ]);
+          });
         }
       } else {
         return Container();
       }
     }));
-  }
-
-  Future<void> _showDeletePackageDialog(String id, String type) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Deleting a packge'),
-          content: const SingleChildScrollView(
-            child: Text(
-              'Are you sure you want to delete this package from history?',
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel', style: TextStyle(fontSize: 18)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(
-                'Confirm',
-                style: TextStyle(color: Colors.red, fontSize: 18),
-              ),
-              onPressed: () {
-                context.read<PackageBloc>().add(DeleteRequested(id, type));
-
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }

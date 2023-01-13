@@ -4,13 +4,15 @@ class SwitchGesture extends StatelessWidget {
   final String text;
   final bool? selected;
   final VoidCallback onTap;
+  final double? size;
 
   const SwitchGesture(
-    this.text, {
-    Key? key,
-    required this.onTap,
-    this.selected,
-  }) : super(key: key);
+      {Key? key,
+      required this.text,
+      required this.onTap,
+      required this.selected,
+      required this.size})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class SwitchGesture extends StatelessWidget {
         text,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 18,
+          fontSize: size,
           color: selected == true ? Theme.of(context).primaryColor : null,
           fontWeight: selected == true ? FontWeight.bold : null,
         ),

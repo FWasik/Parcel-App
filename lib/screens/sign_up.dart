@@ -8,8 +8,10 @@ import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
+import 'package:parcel_app/widgets/menu_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 import 'package:parcel_app/bloc/theme/theme_bloc.dart';
+import 'package:parcel_app/bloc/font/font_bloc.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -42,7 +44,8 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Center(child: Text("Sign Up")),
+        title: const Text("Sign Un"),
+        actions: [CustomMenu()],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -70,190 +73,197 @@ class _SignUpState extends State<SignUp> {
                 color: Theme.of(context).primaryColor);
           }
           if (state is UnAuthenticated) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Form(
-                        key: formKey,
-                        child: Column(
-                          children: [
-                            const Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                fontSize: 38,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            TextFormField(
-                              controller: emailController,
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.mail,
-                                      color: Theme.of(context).primaryColor),
-                                  hintText: "Email",
-                                  border: const OutlineInputBorder(),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor,
-                                        width: 2),
-                                  )),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (value) {
-                                return value != null &&
-                                        !EmailValidator.validate(value)
-                                    ? 'Enter a valid email'
-                                    : null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            TextFormField(
-                              controller: passwordController,
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.lock,
-                                      color: Theme.of(context).primaryColor),
-                                  hintText: "Password",
-                                  border: const OutlineInputBorder(),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor,
-                                        width: 2),
-                                  )),
-                              obscureText: true,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (value) {
-                                return value != null && value.length < 6
-                                    ? "Enter min. 6 characters"
-                                    : null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            TextFormField(
-                              initialValue: passwordController.text,
-                              cursorColor: Colors.white,
-                              textInputAction: TextInputAction.done,
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.lock,
-                                      color: Theme.of(context).primaryColor),
-                                  hintText: "Confirm password",
-                                  border: const OutlineInputBorder(),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor,
-                                        width: 2),
-                                  )),
-                              obscureText: true,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (value) => value != null &&
-                                      value != passwordController.text
-                                  ? "Passwords are different"
-                                  : null,
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            TextFormField(
-                              controller: phoneNumberController,
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.phone,
-                                      color: Theme.of(context).primaryColor),
-                                  hintText: "Phone number",
-                                  border: const OutlineInputBorder(),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor,
-                                        width: 2),
-                                  )),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (value) {
-                                return value == null || !regExp.hasMatch(value)
-                                    ? "Enter valid phone number"
-                                    : null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            TextFormField(
-                              controller: fullNameController,
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.person,
-                                      color: Theme.of(context).primaryColor),
-                                  hintText: "Full name",
-                                  border: const OutlineInputBorder(),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor,
-                                        width: 2),
-                                  )),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (value) {
-                                return value == null || value.isEmpty
-                                    ? "Full name cannot be empty"
-                                    : null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            CustomButton(
-                                width: 0.7,
-                                onPressed: () {
-                                  _createAccountWithEmailAndPassword(context);
-                                },
-                                text: const Text("Sign Up",
-                                    style: TextStyle(fontSize: 24)),
-                                icon: const Icon(Icons.lock_open, size: 32),
-                                color: Theme.of(context).primaryColor),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      BlocBuilder<ThemeBloc, ThemeState>(
-                          builder: (context, state) {
-                        return RichText(
-                          text: TextSpan(
-                              style:
-                                  TextStyle(color: state.color, fontSize: 18),
-                              text: "Already have an account? ",
-                              children: [
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SignIn()),
-                                      );
-                                    },
-                                  text: "Sign in",
-                                  style: const TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: Colors.blueAccent),
+            return BlocBuilder<FontBloc, FontState>(
+                builder: (context, stateFont) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  fontSize: 38 * stateFont.resize,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ]),
-                        );
-                      }),
-                    ],
+                              ),
+                              const SizedBox(
+                                height: 24,
+                              ),
+                              TextFormField(
+                                controller: emailController,
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.mail,
+                                        color: Theme.of(context).primaryColor),
+                                    hintText: "Email",
+                                    border: const OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).primaryColor,
+                                          width: 2),
+                                    )),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  return value != null &&
+                                          !EmailValidator.validate(value)
+                                      ? 'Enter a valid email'
+                                      : null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              TextFormField(
+                                controller: passwordController,
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.lock,
+                                        color: Theme.of(context).primaryColor),
+                                    hintText: "Password",
+                                    border: const OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).primaryColor,
+                                          width: 2),
+                                    )),
+                                obscureText: true,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  return value != null && value.length < 6
+                                      ? "Enter min. 6 characters"
+                                      : null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              TextFormField(
+                                initialValue: passwordController.text,
+                                cursorColor: Colors.white,
+                                textInputAction: TextInputAction.done,
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.lock,
+                                        color: Theme.of(context).primaryColor),
+                                    hintText: "Confirm password",
+                                    border: const OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).primaryColor,
+                                          width: 2),
+                                    )),
+                                obscureText: true,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) => value != null &&
+                                        value != passwordController.text
+                                    ? "Passwords are different"
+                                    : null,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              TextFormField(
+                                controller: phoneNumberController,
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.phone,
+                                        color: Theme.of(context).primaryColor),
+                                    hintText: "Phone number",
+                                    border: const OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).primaryColor,
+                                          width: 2),
+                                    )),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  return value == null ||
+                                          !regExp.hasMatch(value)
+                                      ? "Enter valid phone number"
+                                      : null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              TextFormField(
+                                controller: fullNameController,
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.person,
+                                        color: Theme.of(context).primaryColor),
+                                    hintText: "Full name",
+                                    border: const OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).primaryColor,
+                                          width: 2),
+                                    )),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  return value == null || value.isEmpty
+                                      ? "Full name cannot be empty"
+                                      : null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              CustomButton(
+                                  width: 0.7,
+                                  onPressed: () {
+                                    _createAccountWithEmailAndPassword(context);
+                                  },
+                                  text: Text("Sign Up",
+                                      style: TextStyle(
+                                          fontSize: 28 * stateFont.resize)),
+                                  icon: const Icon(Icons.lock_open, size: 32),
+                                  color: Theme.of(context).primaryColor),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        BlocBuilder<ThemeBloc, ThemeState>(
+                            builder: (context, state) {
+                          return RichText(
+                            text: TextSpan(
+                                style: TextStyle(
+                                    color: state.color,
+                                    fontSize: 20 * stateFont.resize),
+                                text: "Already have an account? ",
+                                children: [
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignIn()),
+                                        );
+                                      },
+                                    text: "Sign in",
+                                    style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        color: Colors.blueAccent,
+                                        fontSize: 20 * stateFont.resize),
+                                  ),
+                                ]),
+                          );
+                        }),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
+              );
+            });
           }
           return Container();
         },

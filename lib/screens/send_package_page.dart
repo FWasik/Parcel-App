@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:parcel_app/bloc/font/font_bloc.dart';
 
 import 'package:parcel_app/bloc/package/package_bloc.dart';
 import 'package:parcel_app/screens/google_page.dart';
@@ -56,132 +57,140 @@ class _SendPackagePageState extends State<SendPackagePage> {
             return CustomCircularProgressIndicator(
                 color: Theme.of(context).primaryColor);
           } else {
-            return Container(
-              padding: const EdgeInsets.all(18),
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Send Package",
-                          style: TextStyle(
-                            fontSize: 38,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.mail,
-                                  color: Theme.of(context).primaryColor),
-                              hintText: "Email",
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2),
-                              )),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            return value != null &&
-                                    !EmailValidator.validate(value)
-                                ? 'Enter a valid email'
-                                : null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        TextFormField(
-                          controller: phoneNumberController,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.phone,
-                                  color: Theme.of(context).primaryColor),
-                              hintText: "Phone number",
-                              border: const OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2),
-                              )),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            return value == null || !regExp.hasMatch(value)
-                                ? "Enter valid phone number"
-                                : null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        TextFormField(
-                          controller: fullNameController,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.person,
-                                  color: Theme.of(context).primaryColor),
-                              hintText: "Full name",
-                              border: const OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2),
-                              )),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            return value == null || value.isEmpty
-                                ? "Full name cannot be empty"
-                                : null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        TextFormField(
-                          controller: addressController,
-                          onTap: _getAddress,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.location_city,
-                                  color: Theme.of(context).primaryColor),
-                              hintText: "Address of parcel machine",
-                              border: const OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2),
-                              )),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            return value == null || value.isEmpty
-                                ? "Address cannot be empty"
-                                : null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        CustomButton(
-                            width: 0.7,
-                            color: Theme.of(context).primaryColor,
-                            icon: const Icon(Icons.local_shipping, size: 32),
-                            text: const Text(
-                              "Create and sent",
-                              style: TextStyle(fontSize: 24),
+            return BlocBuilder<FontBloc, FontState>(
+                builder: (context, stateFont) {
+              return Container(
+                padding: const EdgeInsets.all(18),
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Send Package",
+                            style: TextStyle(
+                              fontSize: 38 * stateFont.resize,
+                              fontWeight: FontWeight.bold,
                             ),
-                            onPressed: () {
-                              _createPackageInfo(context);
-                            }),
-                      ],
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          TextFormField(
+                            controller: emailController,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.mail,
+                                    color: Theme.of(context).primaryColor),
+                                hintText: "Email",
+                                border: const OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 2),
+                                )),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              return value != null &&
+                                      !EmailValidator.validate(value)
+                                  ? 'Enter a valid email'
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          TextFormField(
+                            controller: phoneNumberController,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.phone,
+                                    color: Theme.of(context).primaryColor),
+                                hintText: "Phone number",
+                                border: const OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 2),
+                                )),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              return value == null || !regExp.hasMatch(value)
+                                  ? "Enter valid phone number"
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          TextFormField(
+                            controller: fullNameController,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.person,
+                                    color: Theme.of(context).primaryColor),
+                                hintText: "Full name",
+                                border: const OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 2),
+                                )),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              return value == null || value.isEmpty
+                                  ? "Full name cannot be empty"
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          TextFormField(
+                            controller: addressController,
+                            onTap: _getAddress,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.location_city,
+                                    color: Theme.of(context).primaryColor),
+                                hintText: "Address of parcel machine",
+                                border: const OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 2),
+                                )),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              return value == null || value.isEmpty
+                                  ? "Address cannot be empty"
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomButton(
+                              width: 0.7,
+                              color: Theme.of(context).primaryColor,
+                              icon: const Icon(Icons.local_shipping, size: 32),
+                              text: Text(
+                                "Create and sent",
+                                style:
+                                    TextStyle(fontSize: 24 * stateFont.resize),
+                              ),
+                              onPressed: () {
+                                _createPackageInfo(context);
+                              }),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
+              );
+            });
           }
         }));
   }
