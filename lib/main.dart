@@ -12,6 +12,7 @@ import 'package:parcel_app/repositories/package_repository.dart';
 import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
+import 'package:parcel_app/bloc/font/font_bloc.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -35,12 +36,13 @@ class MyApp extends StatelessWidget {
             create: (context) => PackageBloc(
                 packageRepository:
                     PackageRepository(authRepository: AuthRepository()))),
-        BlocProvider<ThemeBloc>(create: (context) => ThemeBloc())
+        BlocProvider<ThemeBloc>(create: (context) => ThemeBloc()),
+        BlocProvider<FontBloc>(create: (context) => FontBloc())
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
+        builder: (context, stateTheme) {
           return MaterialApp(
-            theme: state.themeData,
+            theme: stateTheme.themeData,
             scaffoldMessengerKey: Utils.messengerKey,
             home: StreamBuilder<User?>(
                 stream: FirebaseAuth.instance.authStateChanges(),

@@ -4,9 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
-import 'package:parcel_app/bloc/theme/theme_bloc.dart';
+import 'package:parcel_app/bloc/font/font_bloc.dart';
 import 'package:parcel_app/models/custom_user.dart';
-import 'package:parcel_app/utils/themes.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
 
 class ProfileInfoPage extends StatefulWidget {
@@ -23,8 +22,6 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
   final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final fullNameController = TextEditingController();
-
-  bool isDark = true;
 
   RegExp regExp = RegExp(r'^[0-9]{9}$');
 
@@ -49,7 +46,8 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
 
         return Container(
           padding: const EdgeInsets.all(18),
-          child: BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+          child:
+              BlocBuilder<FontBloc, FontState>(builder: (context, stateFont) {
             return Center(
               child: SingleChildScrollView(
                 child: Form(
@@ -57,10 +55,10 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Edit profile",
                         style: TextStyle(
-                          fontSize: 38,
+                          fontSize: 38 * stateFont.resize,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -138,9 +136,9 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                           width: 0.7,
                           color: Theme.of(context).primaryColor,
                           icon: const Icon(Icons.arrow_forward, size: 32),
-                          text: const Text(
+                          text: Text(
                             "Edit",
-                            style: TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: 28 * stateFont.resize),
                           ),
                           onPressed: () {
                             _editUserInfo(context, uid);

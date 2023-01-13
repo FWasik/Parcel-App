@@ -10,7 +10,9 @@ import 'package:parcel_app/screens/reset_password_page.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/screens/sign_up.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
+import 'package:parcel_app/widgets/menu_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
+import 'package:parcel_app/bloc/font/font_bloc.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -37,7 +39,8 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Center(child: Text("Sign In")),
+        title: const Text("Sign In"),
+        actions: [CustomMenu()],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -56,139 +59,150 @@ class _SignInState extends State<SignIn> {
             );
           }
           if (state is UnAuthenticated || state is SignedUp) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: SingleChildScrollView(
-                  reverse: true,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Sign In",
-                        style: TextStyle(
-                          fontSize: 38,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      Center(
-                        child: Form(
-                          key: formKey,
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                    prefixIcon: Icon(Icons.mail,
-                                        color: Theme.of(context).primaryColor),
-                                    hintText: "Email",
-                                    border: const OutlineInputBorder(),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context).primaryColor,
-                                          width: 2),
-                                    )),
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: (value) {
-                                  return value != null &&
-                                          !EmailValidator.validate(value)
-                                      ? 'Enter a valid email'
-                                      : null;
-                                },
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextFormField(
-                                keyboardType: TextInputType.text,
-                                controller: passwordController,
-                                decoration: InputDecoration(
-                                    prefixIcon: Icon(Icons.lock,
-                                        color: Theme.of(context).primaryColor),
-                                    hintText: "Password",
-                                    border: const OutlineInputBorder(),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context).primaryColor,
-                                          width: 2),
-                                    )),
-                                obscureText: true,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: (value) {
-                                  return value != null && value.length < 6
-                                      ? "Enter min. 6 characters"
-                                      : null;
-                                },
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              CustomButton(
-                                  width: 0.7,
-                                  onPressed: () {
-                                    _authenticateWithEmailAndPassword(context);
-                                  },
-                                  text: const Text("Sign In",
-                                      style: TextStyle(fontSize: 24)),
-                                  icon: const Icon(Icons.lock_open, size: 32),
-                                  color: Theme.of(context).primaryColor),
-                            ],
+            return BlocBuilder<FontBloc, FontState>(
+                builder: (context, stateFont) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: SingleChildScrollView(
+                    reverse: true,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Sign In",
+                          style: TextStyle(
+                            fontSize: 38 * stateFont.resize,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      GestureDetector(
-                        child: const Text(
-                          "Forgot password?",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blueAccent,
-                              fontSize: 20),
+                        const SizedBox(
+                          height: 24,
                         ),
-                        onTap: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ResetPasswordPage(),
-                        )),
-                      ),
-                      const SizedBox(height: 18),
-                      BlocBuilder<ThemeBloc, ThemeState>(
-                        builder: (context, state) {
-                          return RichText(
-                            text: TextSpan(
-                                style:
-                                    TextStyle(color: state.color, fontSize: 18),
-                                text: "Do not have an account? ",
-                                children: [
-                                  TextSpan(
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const SignUp()),
-                                        );
-                                      },
-                                    text: "Sign up",
-                                    style: const TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        color: Colors.blueAccent),
-                                  ),
-                                ]),
-                          );
-                        },
-                      ),
-                    ],
+                        Center(
+                          child: Form(
+                            key: formKey,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: emailController,
+                                  decoration: InputDecoration(
+                                      prefixIcon: Icon(Icons.mail,
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                      hintText: "Email",
+                                      border: const OutlineInputBorder(),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            width: 2),
+                                      )),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: (value) {
+                                    return value != null &&
+                                            !EmailValidator.validate(value)
+                                        ? 'Enter a valid email'
+                                        : null;
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  keyboardType: TextInputType.text,
+                                  controller: passwordController,
+                                  decoration: InputDecoration(
+                                      prefixIcon: Icon(Icons.lock,
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                      hintText: "Password",
+                                      border: const OutlineInputBorder(),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            width: 2),
+                                      )),
+                                  obscureText: true,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: (value) {
+                                    return value != null && value.length < 6
+                                        ? "Enter min. 6 characters"
+                                        : null;
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                CustomButton(
+                                    width: 0.7,
+                                    onPressed: () {
+                                      _authenticateWithEmailAndPassword(
+                                          context);
+                                    },
+                                    text: Text("Sign In",
+                                        style: TextStyle(
+                                            fontSize: 28 * stateFont.resize)),
+                                    icon: const Icon(Icons.lock_open, size: 32),
+                                    color: Theme.of(context).primaryColor),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        GestureDetector(
+                          child: Text(
+                            "Forgot password?",
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blueAccent,
+                                fontSize: 20 * stateFont.resize),
+                          ),
+                          onTap: () =>
+                              Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const ResetPasswordPage(),
+                          )),
+                        ),
+                        const SizedBox(height: 18),
+                        BlocBuilder<ThemeBloc, ThemeState>(
+                          builder: (context, state) {
+                            return RichText(
+                              text: TextSpan(
+                                  style: TextStyle(
+                                      color: state.color,
+                                      fontSize: 20 * stateFont.resize),
+                                  text: "Do not have an account? ",
+                                  children: [
+                                    TextSpan(
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SignUp()),
+                                          );
+                                        },
+                                      text: "Sign up",
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          color: Colors.blueAccent,
+                                          fontSize: 20 * stateFont.resize),
+                                    ),
+                                  ]),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
+              );
+            });
           }
           return Container();
         },
