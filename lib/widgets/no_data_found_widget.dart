@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NoDataFound extends StatelessWidget {
   const NoDataFound({Key? key, required this.additionalText}) : super(key: key);
@@ -15,7 +16,7 @@ class NoDataFound extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "No data found",
+              AppLocalizations.of(context)!.noDataFound,
               style: TextStyle(fontSize: 25 * stateFont.resize),
             ),
             const SizedBox(height: 10),

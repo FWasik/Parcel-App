@@ -3,8 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
+import 'package:parcel_app/bloc/language/language_bloc.dart';
 import 'package:parcel_app/bloc/package/package_bloc.dart';
 import 'package:parcel_app/bloc/theme/theme_bloc.dart';
 import 'package:parcel_app/repositories/auth_repository.dart';
@@ -37,24 +40,35 @@ class MyApp extends StatelessWidget {
                 packageRepository:
                     PackageRepository(authRepository: AuthRepository()))),
         BlocProvider<ThemeBloc>(create: (context) => ThemeBloc()),
-        BlocProvider<FontBloc>(create: (context) => FontBloc())
+        BlocProvider<FontBloc>(create: (context) => FontBloc()),
+        BlocProvider<LanguageBloc>(create: (context) => LanguageBloc())
       ],
-      child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, stateTheme) {
-          return MaterialApp(
-            theme: stateTheme.themeData,
-            scaffoldMessengerKey: Utils.messengerKey,
-            home: StreamBuilder<User?>(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return const MainPage();
-                  }
-                  return const SignIn();
-                }),
-          );
-        },
-      ),
+      child: BlocBuilder<LanguageBloc, LanguageState>(
+          builder: (context, stateLan) {
+        return BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, stateTheme) {
+            return MaterialApp(
+              theme: stateTheme.themeData,
+              scaffoldMessengerKey: Utils.messengerKey,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate
+              ],
+              supportedLocales: const [Locale('en'), Locale('pl')],
+              locale: Locale(stateLan.language),
+              home: StreamBuilder<User?>(
+                  stream: FirebaseAuth.instance.authStateChanges(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return const MainPage();
+                    }
+                    return const SignIn();
+                  }),
+            );
+          },
+        );
+      }),
     );
   }
 }

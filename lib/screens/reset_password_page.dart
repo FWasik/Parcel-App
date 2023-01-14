@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
@@ -30,7 +31,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Reset Password"),
+        title: Text(AppLocalizations.of(context)!.resetPassword),
       ),
       body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
         if (state is AuthError) {
@@ -41,6 +42,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           return CustomCircularProgressIndicator(
               color: Theme.of(context).primaryColor);
         } else {
+          var appLoc = AppLocalizations.of(context)!;
+
           return BlocBuilder<FontBloc, FontState>(
               builder: (context, stateFont) {
             return Container(
@@ -51,7 +54,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Type email to reset your password",
+                      appLoc.typeEmail,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 32 * stateFont.resize,
@@ -75,7 +78,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (email) =>
                           email != null && !EmailValidator.validate(email)
-                              ? "Enter a valid email"
+                              ? appLoc.validEmail
                               : null,
                     ),
                     const SizedBox(height: 20),
@@ -84,7 +87,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         color: Theme.of(context).primaryColor,
                         icon: const Icon(Icons.email_outlined, size: 32),
                         text: Text(
-                          "Reset Password",
+                          appLoc.resetPassword,
                           style: TextStyle(fontSize: 24 * stateFont.resize),
                         ),
                         onPressed: () {

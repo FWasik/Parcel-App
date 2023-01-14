@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
@@ -9,7 +10,6 @@ import 'package:parcel_app/screens/home_page.dart';
 import 'package:parcel_app/screens/packages_received_page.dart';
 import 'package:parcel_app/screens/packages_sent_page.dart';
 import 'package:parcel_app/screens/profile_info_page.dart';
-import 'package:parcel_app/screens/settings_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/widgets/menu_widget.dart';
@@ -40,11 +40,13 @@ class _MainPageState extends State<MainPage> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
-          title: const Text('Parcel App'),
+          title: Text(AppLocalizations.of(context)!.parcelApp),
           actions: [CustomMenu()],
         ),
         bottomNavigationBar:
             BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+          var appLoc = AppLocalizations.of(context)!;
+
           return BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             unselectedItemColor: state.color,
@@ -64,14 +66,16 @@ class _MainPageState extends State<MainPage> {
                 }
               });
             },
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.vertical_align_top), label: "Sent"),
+                  icon: Icon(Icons.home), label: appLoc.home),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.vertical_align_bottom), label: "Received"),
+                  icon: Icon(Icons.vertical_align_top), label: appLoc.sent),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "Profile")
+                  icon: Icon(Icons.vertical_align_bottom),
+                  label: appLoc.received),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: appLoc.profile)
             ],
           );
         }),

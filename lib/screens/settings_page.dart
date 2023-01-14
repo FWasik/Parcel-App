@@ -1,13 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parcel_app/screens/sign_in.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:parcel_app/bloc/language/language_bloc.dart';
 
 import 'package:parcel_app/utils/themes.dart';
 import 'package:parcel_app/bloc/theme/theme_bloc.dart';
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:parcel_app/utils/delete_dialogs.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -21,9 +22,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var appLoc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(appLoc.settings),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
@@ -39,17 +41,24 @@ class _SettingsPageState extends State<SettingsPage> {
               padding: const EdgeInsets.all(30.0),
               child: Column(children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      "Dark mode",
-                      style: TextStyle(fontSize: 22 * stateFont.resize),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          appLoc.darkMode,
+                          style: TextStyle(fontSize: 20 * stateFont.resize),
+                        ),
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 1,
                     ),
                     BlocBuilder<ThemeBloc, ThemeState>(
                       builder: (context, stateTheme) {
                         return Expanded(
                           child: Align(
-                            alignment: Alignment.center,
+                            alignment: Alignment.centerLeft,
                             child: Switch.adaptive(
                                 value: stateTheme.isDark,
                                 onChanged: ((value) {
@@ -81,26 +90,74 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 24),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Font size",
-                        style: TextStyle(fontSize: 22 * stateFont.resize)),
                     Expanded(
                       child: Align(
-                        alignment: Alignment.center,
-                        child: Slider(
-                          value: _currentSliderValue,
-                          max: 1.15,
-                          min: 0.85,
-                          label: _currentSliderValue.toString(),
-                          onChanged: (double value) {
-                            context.read<FontBloc>().add(FontChangeRequested(
-                                  resize: value,
-                                ));
+                          alignment: Alignment.center,
+                          child: Text(appLoc.fontSize,
+                              style:
+                                  TextStyle(fontSize: 20 * stateFont.resize))),
+                    ),
+                    Slider(
+                      value: _currentSliderValue,
+                      max: 1.15,
+                      min: 0.85,
+                      label: _currentSliderValue.toString(),
+                      onChanged: (double value) {
+                        context.read<FontBloc>().add(FontChangeRequested(
+                              resize: value,
+                            ));
 
-                            setState(() {
-                              _currentSliderValue = value;
-                            });
+                        setState(() {
+                          _currentSliderValue = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          appLoc.language,
+                          style: TextStyle(fontSize: 20 * stateFont.resize),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          child: Text(
+                            appLoc.setEnglish,
+                            style: TextStyle(fontSize: 18 * stateFont.resize),
+                          ),
+                          onPressed: () {
+                            context
+                                .read<LanguageBloc>()
+                                .add(LanguageChangeRequested(
+                                  language: "en",
+                                ));
+                          },
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          child: Text(appLoc.setPolish,
+                              style:
+                                  TextStyle(fontSize: 18 * stateFont.resize)),
+                          onPressed: () {
+                            context
+                                .read<LanguageBloc>()
+                                .add(LanguageChangeRequested(
+                                  language: "pl",
+                                ));
                           },
                         ),
                       ),
@@ -111,11 +168,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 if (state is Authenticated)
                   CustomButton(
                       text: Text(
-                        "Delete user",
+                        appLoc.deleteUserButton,
                         style: TextStyle(fontSize: 26 * stateFont.resize),
                       ),
                       color: Colors.red,
-                      onPressed: _showDeleteUserDialog,
+                      onPressed: () {
+                        DeleteDialogs.showDeleteUserDialog(context);
+                      },
                       icon: const Icon(
                         Icons.delete,
                         size: 32,
@@ -126,51 +185,6 @@ class _SettingsPageState extends State<SettingsPage> {
           );
         });
       }),
-    );
-  }
-
-  Future<void> _showDeleteUserDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return BlocBuilder<FontBloc, FontState>(builder: (context, stateFont) {
-          return AlertDialog(
-            title: Text('Deleting an account',
-                style: TextStyle(fontSize: 24 * stateFont.resize)),
-            content: SingleChildScrollView(
-              child: Text(
-                'Are you sure you want to delete an account?',
-                style: TextStyle(fontSize: 18 * stateFont.resize),
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Cancel',
-                    style: TextStyle(fontSize: 18 * stateFont.resize)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  'Confirm',
-                  style: TextStyle(
-                      color: Colors.red, fontSize: 18 * stateFont.resize),
-                ),
-                onPressed: () {
-                  context.read<AuthBloc>().add(DeleteUserRequested(
-                      FirebaseAuth.instance.currentUser!.uid));
-
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const SignIn()),
-                      (route) => false);
-                },
-              ),
-            ],
-          );
-        });
-      },
     );
   }
 }

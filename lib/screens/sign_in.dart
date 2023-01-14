@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/bloc/theme/theme_bloc.dart';
@@ -39,7 +40,7 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Sign In"),
+        title: Text(AppLocalizations.of(context)!.signIn),
         actions: [CustomMenu()],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
@@ -59,6 +60,8 @@ class _SignInState extends State<SignIn> {
             );
           }
           if (state is UnAuthenticated || state is SignedUp) {
+            var appLoc = AppLocalizations.of(context)!;
+
             return BlocBuilder<FontBloc, FontState>(
                 builder: (context, stateFont) {
               return Center(
@@ -70,7 +73,7 @@ class _SignInState extends State<SignIn> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Sign In",
+                          appLoc.signIn,
                           style: TextStyle(
                             fontSize: 38 * stateFont.resize,
                             fontWeight: FontWeight.bold,
@@ -104,7 +107,7 @@ class _SignInState extends State<SignIn> {
                                   validator: (value) {
                                     return value != null &&
                                             !EmailValidator.validate(value)
-                                        ? 'Enter a valid email'
+                                        ? appLoc.validEmail
                                         : null;
                                   },
                                 ),
@@ -118,7 +121,7 @@ class _SignInState extends State<SignIn> {
                                       prefixIcon: Icon(Icons.lock,
                                           color:
                                               Theme.of(context).primaryColor),
-                                      hintText: "Password",
+                                      hintText: appLoc.password,
                                       border: const OutlineInputBorder(),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -131,7 +134,7 @@ class _SignInState extends State<SignIn> {
                                       AutovalidateMode.onUserInteraction,
                                   validator: (value) {
                                     return value != null && value.length < 6
-                                        ? "Enter min. 6 characters"
+                                        ? appLoc.validPass
                                         : null;
                                   },
                                 ),
@@ -144,7 +147,7 @@ class _SignInState extends State<SignIn> {
                                       _authenticateWithEmailAndPassword(
                                           context);
                                     },
-                                    text: Text("Sign In",
+                                    text: Text(appLoc.signIn,
                                         style: TextStyle(
                                             fontSize: 28 * stateFont.resize)),
                                     icon: const Icon(Icons.lock_open, size: 32),
@@ -156,7 +159,7 @@ class _SignInState extends State<SignIn> {
                         const SizedBox(height: 24),
                         GestureDetector(
                           child: Text(
-                            "Forgot password?",
+                            AppLocalizations.of(context)!.askForgotPass,
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 color: Colors.blueAccent,
@@ -175,7 +178,7 @@ class _SignInState extends State<SignIn> {
                                   style: TextStyle(
                                       color: state.color,
                                       fontSize: 20 * stateFont.resize),
-                                  text: "Do not have an account? ",
+                                  text: appLoc.askHaveNotAccount,
                                   children: [
                                     TextSpan(
                                       recognizer: TapGestureRecognizer()
@@ -187,7 +190,7 @@ class _SignInState extends State<SignIn> {
                                                     const SignUp()),
                                           );
                                         },
-                                      text: "Sign up",
+                                      text: appLoc.signUp,
                                       style: TextStyle(
                                           decoration: TextDecoration.underline,
                                           color: Colors.blueAccent,
