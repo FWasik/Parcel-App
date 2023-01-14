@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:parcel_app/l10n/localization.dart';
 
 class Utils {
   static final messengerKey = GlobalKey<ScaffoldMessengerState>();
 
-  static showSnackBar(String? text, Color? color) {
+  static showSnackBar(String? text, Color? color, String dissmiss) {
     if (text == null) return;
 
     final snackBar = SnackBar(
@@ -13,7 +14,7 @@ class Utils {
       ),
       backgroundColor: color,
       action: SnackBarAction(
-        label: "Dissmiss",
+        label: dissmiss,
         textColor: Colors.orangeAccent,
         onPressed: () {},
       ),

@@ -1,0 +1,159 @@
+{
+    "signIn": "Sign In",
+    "signInButton": "Sign In",
+    "signUp": "Sign Up",
+    "resetPassword": "Reset Password",
+    "fullName": "Full name",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "phoneNumber": "Phone number",
+    "validEmail": "Enter a valid email",
+    "validPass": "Enter min. 6 characters",
+    "validConfirmPass": "Passwords are different",
+    "validPhoneNumber": "Enter valid phone number",
+    "validFullName": "Enter valid full name",
+    "askHaveNotAccount": "Do not have an account? ",
+    "askForgotPass": "Forgot password?",
+    "askHaveAccount": "Already have an account? ",
+    "typeEmail": "Type email to reset your password",
+    "parcelApp": "Parcel App",
+    "home": "Home",
+    "sent": "Sent",
+    "received": "Received",
+    "profile": "Profile",
+    "welcome": "Welcome to Parcel App!",
+    "logAs": "You are logged in as",
+    "optionsBelow": "Choose one of options below",
+    "sendPackage": "Send Package",
+    "addressReceive": "Address of parcel machine to receive",
+    "validAdress": "Address cannot be empty",
+    "createAndSend": "Create and send",
+    "chooseParcelMachine": "Choose parcel machine",
+    "searchLocation": "Search location",
+    "noDataFound": "No data found",
+    "additionalTextSent": "You have sent no packages. Do it by hitting button below!",
+    "nonReceived": "Non received",
+    "received": "Received",
+
+    "packageNumber": "Package number: \n{index}",
+    "@packageNumber": {
+        "description": "Package number",
+        "placeholders": {
+            "index": {
+                "type": "String"
+            }
+        }
+    },
+    "receiver": "Receiver: \n{fullName}",
+    "@receiver": {
+        "description": "Receiver full name",
+        "placeholders": {
+            "fullName": {
+                "type": "String"
+            }
+        }
+    },
+
+    "receiverPhoneNumber": "Receiver's phone number: \n{phoneNumber}",
+    "@receiverPhoneNumber": {
+        "description": "Receiver phone number",
+        "placeholders": {
+            "phoneNumber": {
+                "type": "String"
+            }
+        }
+    },
+
+    "receiverEmail": "Receiver's email: \n{email}",
+    "@receiverEmail": {
+        "description": "Receiver email",
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+
+    "parcelMachineAddressReceive": "Parcel machine's address to receive package: \n{address}",
+    "@parcelMachineAddressReceive": {
+        "description": "Parcel machine's address to receive",
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
+
+    "sender": "Sender: \n{fullName}",
+    "@sender": {
+        "description": "Sender full name",
+        "placeholders": {
+            "fullName": {
+                "type": "String"
+            }
+        }
+    },
+
+    "senderPhoneNumber": "Sender's phone number: \n{phoneNumber}",
+    "@senderPhoneNumber": {
+        "description": "Sender phone number",
+        "placeholders": {
+            "phoneNumber": {
+                "type": "String"
+            }
+        }
+    },
+
+    "senderEmail": "Sender's email: \n{email}",
+    "@senderEmail": {
+        "description": "Receiver email",
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+
+    "createdAndSent": "Created and sent at: \n{time}",
+    "@createdAndSent": {
+        "description": "Time when package was created and sent",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+
+    "additionalTextReceived": "First someone needs to send you a package. Wait for it :)",
+    "deletePackage": "Deleting a package",
+    "askDeletePackage": "Are you sure you want to delete this package from history?",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "editProfile": "Edit profile",
+    "edit": "Edit",
+    "settings": "Settings",
+    "signOut": "Sign Out",
+    "darkMode": "Dark mode",
+    "fontSize": "Font size",
+    "setPolish": "Polish",
+    "setEnglish": "English",
+    "deleteUserButton": "Delete user",
+    "deleteUser": "Deleting an user",
+    "askDeleteUser": "Are you sure you want to delete an account?",
+    "language": "Language",
+
+    "signedIn": "You successful signed in!",
+    "signedOut": "You successful signed out!",
+    "signedUp": "You successful signed up!",
+    "emailUse": "Email already in use. Choose different",
+    "invalidCredentials": "Invalid credentials. Try again",
+    "updated": "You successful updated profile!",
+    "deletedUser": "You successful deleted an account!",
+    "emailSent": "Email sent!", 
+    "packageCreatedAndSent": "Package created and sent!",
+    "packageDeleted": "Package deleted!",
+    "packageAccepted": "Package accepted as received!",
+    "invalidReceiver": "Invalid info about receiver. Try again!",
+    "sentToYourself": "Cannot send package to yourself!",
+    "dissmiss": "Dissmiss"
+}

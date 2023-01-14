@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
@@ -44,6 +45,8 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
         phoneNumberController.text = user.phoneNumber;
         fullNameController.text = user.fullName;
 
+        var appLoc = AppLocalizations.of(context)!;
+
         return Container(
           padding: const EdgeInsets.all(18),
           child:
@@ -56,7 +59,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Edit profile",
+                        appLoc.editProfile,
                         style: TextStyle(
                           fontSize: 38 * stateFont.resize,
                           fontWeight: FontWeight.bold,
@@ -81,7 +84,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                         validator: (value) {
                           return value != null &&
                                   !EmailValidator.validate(value)
-                              ? 'Enter a valid email'
+                              ? appLoc.validEmail
                               : null;
                         },
                       ),
@@ -93,7 +96,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                         decoration: InputDecoration(
                             prefixIcon: Icon(Icons.phone,
                                 color: Theme.of(context).primaryColor),
-                            hintText: "Phone number",
+                            hintText: appLoc.phoneNumber,
                             border: const OutlineInputBorder(),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -103,7 +106,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           return value == null || !regExp.hasMatch(value)
-                              ? "Enter valid phone number"
+                              ? appLoc.validPhoneNumber
                               : null;
                         },
                       ),
@@ -115,7 +118,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                         decoration: InputDecoration(
                             prefixIcon: Icon(Icons.person,
                                 color: Theme.of(context).primaryColor),
-                            hintText: "Full name",
+                            hintText: appLoc.fullName,
                             border: const OutlineInputBorder(),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -125,7 +128,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           return value == null || value.isEmpty
-                              ? "Full name cannot be empty"
+                              ? appLoc.validFullName
                               : null;
                         },
                       ),
@@ -137,7 +140,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                           color: Theme.of(context).primaryColor,
                           icon: const Icon(Icons.arrow_forward, size: 32),
                           text: Text(
-                            "Edit",
+                            appLoc.edit,
                             style: TextStyle(fontSize: 28 * stateFont.resize),
                           ),
                           onPressed: () {

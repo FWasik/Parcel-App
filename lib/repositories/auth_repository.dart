@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:parcel_app/models/custom_user.dart';
 
 import 'package:parcel_app/utils/utils.dart';
+import 'package:parcel_app/l10n/localization.dart';
 
-class AuthRepository {
+class AuthRepository with Localization {
   final _firebaseAuth = FirebaseAuth.instance;
 
   Future<void> signUp({
@@ -31,11 +32,13 @@ class AuthRepository {
 
       await FirebaseAuth.instance.signOut();
 
-      Utils.showSnackBar('You successful signed up!', Colors.green);
+      Utils.showSnackBar(loc.signedUp, Colors.green, loc.dissmiss);
     } on FirebaseAuthException catch (e) {
-      print(e);
-
-      throw Exception(e.message);
+      if (e.code == 'email-already-in-use') {
+        throw Exception(loc.emailUse);
+      } else {
+        throw Exception(e.message);
+      }
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -46,12 +49,12 @@ class AuthRepository {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
 
-      Utils.showSnackBar('You successful signed in!', Colors.green);
+      Utils.showSnackBar(loc.signedIn, Colors.green, loc.dissmiss);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        throw Exception('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        throw Exception('Wrong password provided for that user.');
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        throw Exception(loc.invalidCredentials);
+      } else {
+        throw Exception(e.message);
       }
     }
   }
@@ -60,7 +63,7 @@ class AuthRepository {
     try {
       await _firebaseAuth.signOut();
 
-      Utils.showSnackBar('You successful signed out!', Colors.green);
+      Utils.showSnackBar(loc.signedOut, Colors.green, loc.dissmiss);
     } catch (e) {
       throw Exception(e);
     }
@@ -78,7 +81,7 @@ class AuthRepository {
     await FirebaseFirestore.instance.collection('Users').doc(uid).update(
         {'email': email, "phoneNumber": phoneNumber, 'fullName': fullName});
 
-    Utils.showSnackBar("You successful updated profile!", Colors.green);
+    Utils.showSnackBar(loc.updated, Colors.green, loc.dissmiss);
   }
 
   Future<void> deleteUser({required String uid}) async {
@@ -88,7 +91,7 @@ class AuthRepository {
 
       await FirebaseFirestore.instance.collection("Users").doc(uid).delete();
 
-      Utils.showSnackBar("You successful deleted an account!", Colors.green);
+      Utils.showSnackBar(loc.deletedUser, Colors.green, loc.dissmiss);
     } on FirebaseAuthException catch (e) {
       print(e);
 
@@ -121,7 +124,7 @@ class AuthRepository {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 
-      Utils.showSnackBar("Email sent!", Colors.green);
+      Utils.showSnackBar(loc.emailSent, Colors.green, loc.dissmiss);
     } on FirebaseAuthException catch (e) {
       print(e);
 

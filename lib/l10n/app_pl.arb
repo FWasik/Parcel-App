@@ -1,0 +1,160 @@
+{
+    "signIn": "Logowanie",
+    "signInButton": "Zaloguj się",
+    "signUp": "Rejestracja",
+    "resetPassword": "Resetuj hasło",
+    "fullName": "Imie i nazwisko",
+    "password": "Hasło",
+    "confirmPassword": "Powtórz hasło",
+    "phoneNumber": "Numer telefonu",
+    "validEmail": "Wprowadź prawidłowy adres email",
+    "validPass": "Wprowadź min. 6 znaków",
+    "validConfirmPass": "Hasła są inne",
+    "validPhoneNumber": "Wprowadź prawidłowy number telefonu",
+    "validFullName": "Wprowadź prawidłowe imie i nazwisko",
+    "askHaveNotAccount": "Nie masz konta? ",
+    "askForgotPass": "Zapomniałeś hasła?",
+    "askHaveAccount": "Masz już konto? ",
+    "typeEmail": "Podaj adres email by zresetować hasło",
+    "parcelApp": "Paczkomat",
+    "home": "Strona główna",
+    "sent": "Wyślij",
+    "received": "Odbierz",
+    "profile": "Profil",
+    "welcome": "Witaj w Paczkomacie!",
+    "logAs": "Jesteś zalogowany jako",
+    "optionsBelow": "Wybierz jedną z opcji poniżej",
+    "sendPackage": "Wyślij Paczkę",
+    "addressReceive": "Adres paczkomatu do odbioru",
+    "validAdress": "Wprowadź prawidłowy adres",
+    "createAndSend": "Utwórz i wyślij",
+    "chooseParcelMachine": "Wybierz paczkomat",
+    "searchLocation": "Wyszukaj lokacje",
+    "noDataFound": "Brak danych",
+    "additionalTextSent": "Nie wysłałeś żadnych paczek! Wyślij klikając przycisk na dole",
+    "nonReceived": "Nieodebrane",
+    "received": "Odebrane",
+
+    "packageNumber": "Numer paczki: \n{index}",
+    "@packageNumber": {
+        "description": "Numer paczki",
+        "placeholders": {
+            "index": {
+                "type": "String"
+            }
+        }
+    },
+    "receiver": "Odbiorca: \n{fullName}",
+    "@receiver": {
+        "description": "Imie i nazwisko odbiorcy",
+        "placeholders": {
+            "fullName": {
+                "type": "String"
+            }
+        }
+    },
+
+    "receiverPhoneNumber": "Numer telefonu odbiorcy: \n{phoneNumber}",
+    "@receiverPhoneNumber": {
+        "description": "Numer telefonu odbiorcy",
+        "placeholders": {
+            "phoneNumber": {
+                "type": "String"
+            }
+        }
+    },
+
+    "receiverEmail": "Email odbiorcy: \n{email}",
+    "@receiverEmail": {
+        "description": "Email odbiorcy",
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+
+    "parcelMachineAddressReceive": "Paczkomat do odebrania paczki: \n{address}",
+    "@parcelMachineAddressReceive": {
+        "description": "Paczkomat do odebrania paczki",
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
+
+    "sender": "Nadawca: \n{fullName}",
+    "@sender": {
+        "description": "Imie i nazwisko nadawcy",
+        "placeholders": {
+            "fullName": {
+                "type": "String"
+            }
+        }
+    },
+
+    "senderPhoneNumber": "Numer telefonu nadawcy: \n{phoneNumber}",
+    "@senderPhoneNumber": {
+        "description": "Numer telefonu nadawcy",
+        "placeholders": {
+            "phoneNumber": {
+                "type": "String"
+            }
+        }
+    },
+
+    "senderEmail": "Email nadawcy: \n{email}",
+    "@senderEmail": {
+        "description": "Email nadawcy",
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+
+
+    "createdAndSent": "Paczke utworzono i wysłano: \n{time}",
+    "@createdAndSent": {
+        "description": "Paczke utworzono i wysłano",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    
+    "additionalTextReceived": "Nikt do tej pory nie wysłał paczki. Musisz czekać :)",
+    "deletePackage": "Usuwanie paczki",
+    "askDeletePackage": "Jesteś pewien, że chcesz usunąć paczkę z historii?",
+    "cancel": "Anuluj",
+    "confirm": "Usuń",
+    "editProfile": "Edycja profilu",
+    "edit": "Edytuj",
+    "settings": "Ustawienia",
+    "signOut": "Wyloguj",
+    "darkMode": "Motyw",
+    "fontSize": "Czcionka",
+    "setPolish": "Polski",
+    "setEnglish": "Angielski",
+    "deleteUserButton": "Usuń konto",
+    "deleteUser": "Usuwanie konta",
+    "askDeleteUser": "Jesteś pewien, że chcesz usunąć konto?",
+    "language": "Język",
+
+    "signedIn": "Pomyślnie zalogowano!",
+    "signedOut": "Pomyślnie wylogowano!",
+    "signedUp": "Pomyślnie założono konto!",
+    "emailUse": "Podany adres email jest używany. Wybierz inny.",
+    "invalidCredentials": "Zły email lub hasło!",
+    "updated": "Zaktualizowano profil!",
+    "deletedUser": "Usunięto konto!",
+    "emailSent": "Wysłano maila!",
+    "packageCreatedAndSent": "Paczkę utworzono i wysłano!",
+    "packageDeleted": "Usunięto paczkę z historii",
+    "packageAccepted": "Paczkę zaakceptowano jako przyjętą!",
+    "invalidReceiver": "Podano błędne dane odbiorcy. Spróbuj ponownie!",
+    "sentToYourself": "Nie można wysłać paczki do samego siebie!",
+    "dissmiss": "Schowaj"
+}

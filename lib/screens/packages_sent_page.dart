@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:parcel_app/bloc/package/package_bloc.dart';
 import 'package:parcel_app/screens/send_package_page.dart';
@@ -46,11 +47,10 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
             List<Package> filteredData = state.packages
                 .where((element) => element.isReceived == _isReceived)
                 .toList();
+            var appLoc = AppLocalizations.of(context)!;
 
             if (state.packages.isEmpty) {
-              return const NoDataFound(
-                  additionalText:
-                      'You have sent no packages. Do it by hitting button below!');
+              return NoDataFound(additionalText: appLoc.additionalTextSent);
             } else {
               return BlocBuilder<FontBloc, FontState>(
                   builder: (context, stateFont) {
@@ -61,7 +61,7 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         SwitchGesture(
-                            text: "Non received",
+                            text: appLoc.nonReceived,
                             onTap: () {
                               setState(() {
                                 _isReceived = false;
@@ -70,7 +70,7 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
                             selected: _isReceived == false,
                             size: 20 * stateFont.resize),
                         SwitchGesture(
-                            text: "Received",
+                            text: appLoc.received,
                             onTap: () {
                               setState(() {
                                 _isReceived = true;
@@ -89,7 +89,7 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
                             elevation: 10,
                             child: ListTile(
                               title: Text(
-                                'Package number: \n${filteredData[index].id}',
+                                appLoc.packageNumber(filteredData[index].id),
                                 style:
                                     TextStyle(fontSize: 18 * stateFont.resize),
                               ),
@@ -99,31 +99,36 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
                                   children: [
                                     const SizedBox(height: 20),
                                     Text(
-                                      'Receiver: \n${filteredData[index].fullName}',
+                                      appLoc.receiver(
+                                          filteredData[index].fullName),
                                       style: TextStyle(
                                           fontSize: 14 * stateFont.resize),
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
-                                      "Receiver's phone number: \n${filteredData[index].phoneNumber}",
+                                      appLoc.receiverPhoneNumber(
+                                          filteredData[index].phoneNumber),
                                       style: TextStyle(
                                           fontSize: 14 * stateFont.resize),
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
-                                      "Receiver's email: \n${filteredData[index].emailSender}",
+                                      appLoc.receiverEmail(
+                                          filteredData[index].emailSender),
                                       style: TextStyle(
                                           fontSize: 14 * stateFont.resize),
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
-                                      "Parcel machine's address: \n${filteredData[index].address}",
+                                      appLoc.parcelMachineAddressReceive(
+                                          filteredData[index].address),
                                       style: TextStyle(
                                           fontSize: 14 * stateFont.resize),
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
-                                      'Created and sent at: \n${filteredData[index].timeCreated}',
+                                      appLoc.createdAndSent(
+                                          filteredData[index].timeCreated),
                                       style: TextStyle(
                                           fontSize: 14 * stateFont.resize),
                                     ),

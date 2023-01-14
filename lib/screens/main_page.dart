@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
@@ -9,12 +10,12 @@ import 'package:parcel_app/screens/home_page.dart';
 import 'package:parcel_app/screens/packages_received_page.dart';
 import 'package:parcel_app/screens/packages_sent_page.dart';
 import 'package:parcel_app/screens/profile_info_page.dart';
-import 'package:parcel_app/screens/settings_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/widgets/menu_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 import 'package:parcel_app/bloc/package/package_bloc.dart';
+import 'package:parcel_app/l10n/localization.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -35,12 +36,14 @@ class _MainPageState extends State<MainPage> {
       PackagesReceivedPage(),
       ProfileInfoPage(),
     ];
+    Localization.init(context);
 
     return BlocBuilder<FontBloc, FontState>(builder: (context, stateFont) {
+      var appLoc = AppLocalizations.of(context)!;
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
-          title: const Text('Parcel App'),
+          title: Text(AppLocalizations.of(context)!.parcelApp),
           actions: [CustomMenu()],
         ),
         bottomNavigationBar:
@@ -64,14 +67,16 @@ class _MainPageState extends State<MainPage> {
                 }
               });
             },
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.vertical_align_top), label: "Sent"),
+                  icon: Icon(Icons.home), label: appLoc.home),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.vertical_align_bottom), label: "Received"),
+                  icon: Icon(Icons.vertical_align_top), label: appLoc.sent),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "Profile")
+                  icon: Icon(Icons.vertical_align_bottom),
+                  label: appLoc.received),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: appLoc.profile)
             ],
           );
         }),
@@ -85,7 +90,7 @@ class _MainPageState extends State<MainPage> {
               (route) => false,
             );
           } else if (state is EditFailed) {
-            Utils.showSnackBar(state.error, Colors.red);
+            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
           }
         }, builder: (context, state) {
           if (state is Loading) {

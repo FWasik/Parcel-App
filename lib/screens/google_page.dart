@@ -7,6 +7,7 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GooglePage extends StatefulWidget {
   const GooglePage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _GooglePageState extends State<GooglePage> {
   LatLng? _firstPosition;
   bool _isLoading = true;
   String? address;
-  String locationSearch = "Search Location";
+  late String locationSearch;
 
   @override
   void initState() {
@@ -88,9 +89,11 @@ class _GooglePageState extends State<GooglePage> {
 
   @override
   Widget build(BuildContext context) {
+    locationSearch = AppLocalizations.of(context)!.searchLocation;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Choose parcel machine'),
+        title: Text(AppLocalizations.of(context)!.chooseParcelMachine),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: _isLoading

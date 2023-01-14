@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:parcel_app/bloc/package/package_bloc.dart';
 import 'package:parcel_app/screens/google_page.dart';
@@ -40,15 +41,17 @@ class _SendPackagePageState extends State<SendPackagePage> {
 
   @override
   Widget build(BuildContext context) {
+    var appLoc = AppLocalizations.of(context)!;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
-          title: const Text('Send Package'),
+          title: Text(AppLocalizations.of(context)!.sendPackage),
         ),
         body:
             BlocConsumer<PackageBloc, PackageState>(listener: (context, state) {
           if (state is Error) {
-            Utils.showSnackBar(state.error, Colors.red);
+            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
           } else if (state is Created) {
             Navigator.of(context).pop();
           }
@@ -69,7 +72,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Send Package",
+                            appLoc.sendPackage,
                             style: TextStyle(
                               fontSize: 38 * stateFont.resize,
                               fontWeight: FontWeight.bold,
@@ -95,7 +98,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                             validator: (value) {
                               return value != null &&
                                       !EmailValidator.validate(value)
-                                  ? 'Enter a valid email'
+                                  ? appLoc.validEmail
                                   : null;
                             },
                           ),
@@ -107,7 +110,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.phone,
                                     color: Theme.of(context).primaryColor),
-                                hintText: "Phone number",
+                                hintText: appLoc.phoneNumber,
                                 border: const OutlineInputBorder(),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -118,7 +121,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               return value == null || !regExp.hasMatch(value)
-                                  ? "Enter valid phone number"
+                                  ? appLoc.validPhoneNumber
                                   : null;
                             },
                           ),
@@ -130,7 +133,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.person,
                                     color: Theme.of(context).primaryColor),
-                                hintText: "Full name",
+                                hintText: appLoc.fullName,
                                 border: const OutlineInputBorder(),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -141,7 +144,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               return value == null || value.isEmpty
-                                  ? "Full name cannot be empty"
+                                  ? appLoc.validFullName
                                   : null;
                             },
                           ),
@@ -154,7 +157,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.location_city,
                                     color: Theme.of(context).primaryColor),
-                                hintText: "Address of parcel machine",
+                                hintText: appLoc.addressReceive,
                                 border: const OutlineInputBorder(),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -165,7 +168,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               return value == null || value.isEmpty
-                                  ? "Address cannot be empty"
+                                  ? appLoc.validAdress
                                   : null;
                             },
                           ),
@@ -177,7 +180,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                               color: Theme.of(context).primaryColor,
                               icon: const Icon(Icons.local_shipping, size: 32),
                               text: Text(
-                                "Create and sent",
+                                appLoc.createAndSend,
                                 style:
                                     TextStyle(fontSize: 24 * stateFont.resize),
                               ),

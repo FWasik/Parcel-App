@@ -5,11 +5,12 @@ import 'package:meta/meta.dart';
 
 import 'package:parcel_app/repositories/package_repository.dart';
 import 'package:parcel_app/models/package.dart';
+import 'package:parcel_app/l10n/localization.dart';
 
 part 'package_event.dart';
 part 'package_state.dart';
 
-class PackageBloc extends Bloc<PackageEvent, PackageState> {
+class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
   final PackageRepository packageRepository;
 
   PackageBloc({required this.packageRepository}) : super(Init()) {
@@ -57,9 +58,9 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
             'Exception: RangeError (index): Invalid value: Valid value range is empty: 0';
 
         if (e.toString() == exception) {
-          emit(Error('Invalid receiver. Try again'));
+          emit(Error(loc.invalidReceiver));
         } else {
-          emit(Error('Cannot send package to yourself!'));
+          emit(Error(loc.sentToYourself));
         }
 
         List<Package> packages = await packageRepository.fetchPackages('sent');

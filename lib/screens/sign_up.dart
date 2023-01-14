@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/screens/main_page.dart';
@@ -41,10 +42,12 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    var appLoc = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Sign Un"),
+        title: Text(appLoc.signUp),
         actions: [CustomMenu()],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
@@ -64,7 +67,7 @@ class _SignUpState extends State<SignUp> {
             );
           }
           if (state is AuthError) {
-            Utils.showSnackBar(state.error, Colors.red);
+            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
           }
         },
         builder: (context, state) {
@@ -87,7 +90,7 @@ class _SignUpState extends State<SignUp> {
                           child: Column(
                             children: [
                               Text(
-                                "Sign Up",
+                                appLoc.signUp,
                                 style: TextStyle(
                                   fontSize: 38 * stateFont.resize,
                                   fontWeight: FontWeight.bold,
@@ -113,7 +116,7 @@ class _SignUpState extends State<SignUp> {
                                 validator: (value) {
                                   return value != null &&
                                           !EmailValidator.validate(value)
-                                      ? 'Enter a valid email'
+                                      ? appLoc.validEmail
                                       : null;
                                 },
                               ),
@@ -125,7 +128,7 @@ class _SignUpState extends State<SignUp> {
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(Icons.lock,
                                         color: Theme.of(context).primaryColor),
-                                    hintText: "Password",
+                                    hintText: appLoc.password,
                                     border: const OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -137,7 +140,7 @@ class _SignUpState extends State<SignUp> {
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   return value != null && value.length < 6
-                                      ? "Enter min. 6 characters"
+                                      ? appLoc.validPass
                                       : null;
                                 },
                               ),
@@ -151,7 +154,7 @@ class _SignUpState extends State<SignUp> {
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(Icons.lock,
                                         color: Theme.of(context).primaryColor),
-                                    hintText: "Confirm password",
+                                    hintText: appLoc.confirmPassword,
                                     border: const OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -163,7 +166,7 @@ class _SignUpState extends State<SignUp> {
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) => value != null &&
                                         value != passwordController.text
-                                    ? "Passwords are different"
+                                    ? appLoc.validPass
                                     : null,
                               ),
                               const SizedBox(
@@ -174,7 +177,7 @@ class _SignUpState extends State<SignUp> {
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(Icons.phone,
                                         color: Theme.of(context).primaryColor),
-                                    hintText: "Phone number",
+                                    hintText: appLoc.phoneNumber,
                                     border: const OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -186,7 +189,7 @@ class _SignUpState extends State<SignUp> {
                                 validator: (value) {
                                   return value == null ||
                                           !regExp.hasMatch(value)
-                                      ? "Enter valid phone number"
+                                      ? appLoc.validPhoneNumber
                                       : null;
                                 },
                               ),
@@ -198,7 +201,7 @@ class _SignUpState extends State<SignUp> {
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(Icons.person,
                                         color: Theme.of(context).primaryColor),
-                                    hintText: "Full name",
+                                    hintText: appLoc.fullName,
                                     border: const OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -209,7 +212,7 @@ class _SignUpState extends State<SignUp> {
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   return value == null || value.isEmpty
-                                      ? "Full name cannot be empty"
+                                      ? appLoc.validFullName
                                       : null;
                                 },
                               ),
@@ -221,7 +224,7 @@ class _SignUpState extends State<SignUp> {
                                   onPressed: () {
                                     _createAccountWithEmailAndPassword(context);
                                   },
-                                  text: Text("Sign Up",
+                                  text: Text(appLoc.signUp,
                                       style: TextStyle(
                                           fontSize: 28 * stateFont.resize)),
                                   icon: const Icon(Icons.lock_open, size: 32),
@@ -237,7 +240,7 @@ class _SignUpState extends State<SignUp> {
                                 style: TextStyle(
                                     color: state.color,
                                     fontSize: 20 * stateFont.resize),
-                                text: "Already have an account? ",
+                                text: appLoc.askHaveAccount,
                                 children: [
                                   TextSpan(
                                     recognizer: TapGestureRecognizer()
@@ -249,7 +252,7 @@ class _SignUpState extends State<SignUp> {
                                                   const SignIn()),
                                         );
                                       },
-                                    text: "Sign in",
+                                    text: appLoc.signInButton,
                                     style: TextStyle(
                                         decoration: TextDecoration.underline,
                                         color: Colors.blueAccent,

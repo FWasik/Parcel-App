@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/models/custom_user.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
@@ -13,6 +15,7 @@ class HomePage extends StatelessWidget {
       body: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
         if (state is Authenticated) {
           CustomUser? user = state.user!;
+          var appLoc = AppLocalizations.of(context)!;
 
           return BlocBuilder<FontBloc, FontState>(
               builder: (context, stateFont) {
@@ -24,13 +27,13 @@ class HomePage extends StatelessWidget {
                       size: 150,
                     ),
                     const SizedBox(height: 20),
-                    Text("Welcome to Parcel App!",
+                    Text(appLoc.welcome,
                         style: TextStyle(fontSize: 38 * stateFont.resize),
                         maxLines: 2,
                         textAlign: TextAlign.center),
                     const SizedBox(height: 30),
                     Text(
-                      'You are logged in as',
+                      appLoc.logAs,
                       style: TextStyle(fontSize: 24 * stateFont.resize),
                     ),
                     const SizedBox(height: 10),
@@ -43,7 +46,7 @@ class HomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Choose one of options below',
+                      appLoc.optionsBelow,
                       style: TextStyle(fontSize: 24 * stateFont.resize),
                     ),
                     const SizedBox(height: 60),
