@@ -5,11 +5,12 @@ import 'package:parcel_app/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:parcel_app/l10n/localization.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState> with Localization {
   final AuthRepository authRepository;
 
   AuthBloc({required this.authRepository}) : super(UnAuthenticated()) {
@@ -25,7 +26,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         emit(Authenticated(user));
       } catch (e) {
-        emit(AuthError(e.toString()));
+        if (e.toString().startsWith("Exception: ")) {
+          emit(AuthError(e.toString().substring(11)));
+        } else {
+          emit(AuthError(e.toString()));
+        }
+
         emit(UnAuthenticated());
       }
     });
@@ -43,7 +49,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         emit(SignedUp());
       } catch (e) {
-        emit(AuthError(e.toString()));
+        if (e.toString().startsWith("Exception: ")) {
+          emit(AuthError(e.toString().substring(11)));
+        } else {
+          emit(AuthError(e.toString()));
+        }
+
         emit(UnAuthenticated());
       }
     });
@@ -80,7 +91,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         print(e);
 
         if (e.code == "email-already-in-use") {
-          emit(EditFailed(e.message));
+          emit(EditFailed(loc.emailUse));
 
           final user = await authRepository
               .getUserInfo(FirebaseAuth.instance.currentUser!.uid);

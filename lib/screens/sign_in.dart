@@ -14,6 +14,7 @@ import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/menu_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:parcel_app/l10n/localization.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -37,10 +38,13 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    Localization.init(context);
+    var appLoc = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text(AppLocalizations.of(context)!.signIn),
+        title: Text(appLoc.signIn),
         actions: [CustomMenu()],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
@@ -50,7 +54,7 @@ class _SignInState extends State<SignIn> {
                 MaterialPageRoute(builder: (context) => const MainPage()));
           }
           if (state is AuthError) {
-            Utils.showSnackBar(state.error, Colors.red);
+            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
           }
         },
         builder: (context, state) {
@@ -60,8 +64,6 @@ class _SignInState extends State<SignIn> {
             );
           }
           if (state is UnAuthenticated || state is SignedUp) {
-            var appLoc = AppLocalizations.of(context)!;
-
             return BlocBuilder<FontBloc, FontState>(
                 builder: (context, stateFont) {
               return Center(
@@ -147,7 +149,7 @@ class _SignInState extends State<SignIn> {
                                       _authenticateWithEmailAndPassword(
                                           context);
                                     },
-                                    text: Text(appLoc.signIn,
+                                    text: Text(appLoc.signInButton,
                                         style: TextStyle(
                                             fontSize: 28 * stateFont.resize)),
                                     icon: const Icon(Icons.lock_open, size: 32),

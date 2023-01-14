@@ -7,8 +7,9 @@ import 'package:parcel_app/models/custom_user.dart';
 import 'package:parcel_app/models/package.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/repositories/auth_repository.dart';
+import 'package:parcel_app/l10n/localization.dart';
 
-class PackageRepository {
+class PackageRepository with Localization {
   final AuthRepository authRepository;
 
   PackageRepository({required this.authRepository});
@@ -99,7 +100,7 @@ class PackageRepository {
           sender.phoneNumber,
           address);
 
-      Utils.showSnackBar("Package created and sent!", Colors.green);
+      Utils.showSnackBar(loc.packageCreatedAndSent, Colors.green, loc.dissmiss);
     } catch (e) {
       throw Exception(e);
     }
@@ -116,7 +117,7 @@ class PackageRepository {
           .doc(id)
           .delete();
 
-      Utils.showSnackBar("Package deleted!", Colors.green);
+      Utils.showSnackBar(loc.packageDeleted, Colors.green, loc.dissmiss);
     } catch (e) {
       throw Exception(e);
     }
@@ -164,8 +165,7 @@ class PackageRepository {
             .update({"isReceived": true});
       }
 
-      Utils.showSnackBar(
-          "Package accepted and set up as received!", Colors.green);
+      Utils.showSnackBar(loc.packageAccepted, Colors.green, loc.dissmiss);
     } catch (e) {
       throw Exception(e);
     }

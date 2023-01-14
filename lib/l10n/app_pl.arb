@@ -1,5 +1,6 @@
 {
-    "signIn": "Zaloguj się",
+    "signIn": "Logowanie",
+    "signInButton": "Zaloguj się",
     "signUp": "Rejestracja",
     "resetPassword": "Resetuj hasło",
     "fullName": "Imie i nazwisko",
@@ -140,5 +141,20 @@
     "deleteUserButton": "Usuń konto",
     "deleteUser": "Usuwanie konta",
     "askDeleteUser": "Jesteś pewien, że chcesz usunąć konto?",
-    "language": "Język"
+    "language": "Język",
+
+    "signedIn": "Pomyślnie zalogowano!",
+    "signedOut": "Pomyślnie wylogowano!",
+    "signedUp": "Pomyślnie założono konto!",
+    "emailUse": "Podany adres email jest używany. Wybierz inny.",
+    "invalidCredentials": "Zły email lub hasło!",
+    "updated": "Zaktualizowano profil!",
+    "deletedUser": "Usunięto konto!",
+    "emailSent": "Wysłano maila!",
+    "packageCreatedAndSent": "Paczkę utworzono i wysłano!",
+    "packageDeleted": "Usunięto paczkę z historii",
+    "packageAccepted": "Paczkę zaakceptowano jako przyjętą!",
+    "invalidReceiver": "Podano błędne dane odbiorcy. Spróbuj ponownie!",
+    "sentToYourself": "Nie można wysłać paczki do samego siebie!",
+    "dissmiss": "Schowaj"
 }

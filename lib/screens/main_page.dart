@@ -15,6 +15,7 @@ import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/widgets/menu_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 import 'package:parcel_app/bloc/package/package_bloc.dart';
+import 'package:parcel_app/l10n/localization.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -35,8 +36,10 @@ class _MainPageState extends State<MainPage> {
       PackagesReceivedPage(),
       ProfileInfoPage(),
     ];
+    Localization.init(context);
 
     return BlocBuilder<FontBloc, FontState>(builder: (context, stateFont) {
+      var appLoc = AppLocalizations.of(context)!;
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
@@ -45,8 +48,6 @@ class _MainPageState extends State<MainPage> {
         ),
         bottomNavigationBar:
             BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
-          var appLoc = AppLocalizations.of(context)!;
-
           return BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             unselectedItemColor: state.color,
@@ -89,7 +90,7 @@ class _MainPageState extends State<MainPage> {
               (route) => false,
             );
           } else if (state is EditFailed) {
-            Utils.showSnackBar(state.error, Colors.red);
+            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
           }
         }, builder: (context, state) {
           if (state is Loading) {

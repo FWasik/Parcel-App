@@ -42,10 +42,12 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    var appLoc = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text(AppLocalizations.of(context)!.signUp),
+        title: Text(appLoc.signUp),
         actions: [CustomMenu()],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
@@ -65,7 +67,7 @@ class _SignUpState extends State<SignUp> {
             );
           }
           if (state is AuthError) {
-            Utils.showSnackBar(state.error, Colors.red);
+            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
           }
         },
         builder: (context, state) {
@@ -74,8 +76,6 @@ class _SignUpState extends State<SignUp> {
                 color: Theme.of(context).primaryColor);
           }
           if (state is UnAuthenticated) {
-            var appLoc = AppLocalizations.of(context)!;
-
             return BlocBuilder<FontBloc, FontState>(
                 builder: (context, stateFont) {
               return Center(
@@ -252,7 +252,7 @@ class _SignUpState extends State<SignUp> {
                                                   const SignIn()),
                                         );
                                       },
-                                    text: appLoc.signIn,
+                                    text: appLoc.signInButton,
                                     style: TextStyle(
                                         decoration: TextDecoration.underline,
                                         color: Colors.blueAccent,

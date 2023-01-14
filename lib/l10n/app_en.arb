@@ -1,5 +1,6 @@
 {
     "signIn": "Sign In",
+    "signInButton": "Sign In",
     "signUp": "Sign Up",
     "resetPassword": "Reset Password",
     "fullName": "Full name",
@@ -139,5 +140,20 @@
     "deleteUserButton": "Delete user",
     "deleteUser": "Deleting an user",
     "askDeleteUser": "Are you sure you want to delete an account?",
-    "language": "Language"
+    "language": "Language",
+
+    "signedIn": "You successful signed in!",
+    "signedOut": "You successful signed out!",
+    "signedUp": "You successful signed up!",
+    "emailUse": "Email already in use. Choose different",
+    "invalidCredentials": "Invalid credentials. Try again",
+    "updated": "You successful updated profile!",
+    "deletedUser": "You successful deleted an account!",
+    "emailSent": "Email sent!", 
+    "packageCreatedAndSent": "Package created and sent!",
+    "packageDeleted": "Package deleted!",
+    "packageAccepted": "Package accepted as received!",
+    "invalidReceiver": "Invalid info about receiver. Try again!",
+    "sentToYourself": "Cannot send package to yourself!",
+    "dissmiss": "Dissmiss"
 }

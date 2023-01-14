@@ -41,6 +41,8 @@ class _SendPackagePageState extends State<SendPackagePage> {
 
   @override
   Widget build(BuildContext context) {
+    var appLoc = AppLocalizations.of(context)!;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
@@ -49,7 +51,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
         body:
             BlocConsumer<PackageBloc, PackageState>(listener: (context, state) {
           if (state is Error) {
-            Utils.showSnackBar(state.error, Colors.red);
+            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
           } else if (state is Created) {
             Navigator.of(context).pop();
           }
@@ -60,8 +62,6 @@ class _SendPackagePageState extends State<SendPackagePage> {
           } else {
             return BlocBuilder<FontBloc, FontState>(
                 builder: (context, stateFont) {
-              var appLoc = AppLocalizations.of(context)!;
-
               return Container(
                 padding: const EdgeInsets.all(18),
                 child: Center(
