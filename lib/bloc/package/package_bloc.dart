@@ -36,7 +36,8 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
             email: event.email,
             phoneNumber: event.phoneNumber,
             fullName: event.fullName,
-            address: event.address);
+            addressToSend: event.addressToSend,
+            addressToReceive: event.addressToReceive);
 
         emit(Created());
 

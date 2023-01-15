@@ -7,6 +7,7 @@ class Utils {
     if (text == null) return;
 
     final snackBar = SnackBar(
+      duration: const Duration(seconds: 10),
       content: Text(
         text,
         style: const TextStyle(color: Colors.white),

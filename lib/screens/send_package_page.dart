@@ -25,7 +25,8 @@ class _SendPackagePageState extends State<SendPackagePage> {
   final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final fullNameController = TextEditingController();
-  final addressController = TextEditingController();
+  final addressToSendController = TextEditingController();
+  final addressToReceiveController = TextEditingController();
 
   RegExp regExp = RegExp(r'^[0-9]{9}$');
 
@@ -34,7 +35,8 @@ class _SendPackagePageState extends State<SendPackagePage> {
     emailController.dispose();
     phoneNumberController.dispose();
     fullNameController.dispose();
-    addressController.dispose();
+    addressToSendController.dispose();
+    addressToReceiveController.dispose();
 
     super.dispose();
   }
@@ -152,8 +154,46 @@ class _SendPackagePageState extends State<SendPackagePage> {
                             height: 12,
                           ),
                           TextFormField(
-                            controller: addressController,
-                            onTap: _getAddress,
+                            readOnly: true,
+                            controller: addressToSendController,
+                            onTap: () async {
+                              addressToSendController.text =
+                                  await Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                builder: (context) => const GooglePage(),
+                              ));
+                            },
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.location_city,
+                                    color: Theme.of(context).primaryColor),
+                                hintText: appLoc.addressSend,
+                                border: const OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 2),
+                                )),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              return value == null || value.isEmpty
+                                  ? appLoc.validAdress
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          TextFormField(
+                            readOnly: true,
+                            controller: addressToReceiveController,
+                            onTap: () async {
+                              addressToReceiveController.text =
+                                  await Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                builder: (context) => const GooglePage(),
+                              ));
+                            },
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.location_city,
                                     color: Theme.of(context).primaryColor),
@@ -204,13 +244,8 @@ class _SendPackagePageState extends State<SendPackagePage> {
           emailController.text,
           phoneNumberController.text,
           fullNameController.text,
-          addressController.text));
+          addressToSendController.text,
+          addressToReceiveController.text));
     }
-  }
-
-  Future<void> _getAddress() async {
-    addressController.text = await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const GooglePage(),
-    ));
   }
 }

@@ -59,11 +59,13 @@ class PackageRepository with Localization {
     }
   }
 
-  Future<void> createPackage(
-      {required String email,
-      required String phoneNumber,
-      required String fullName,
-      required String address}) async {
+  Future<void> createPackage({
+    required String email,
+    required String phoneNumber,
+    required String fullName,
+    required String addressToSend,
+    required String addressToReceive,
+  }) async {
     final User user = FirebaseAuth.instance.currentUser!;
 
     try {
@@ -86,8 +88,16 @@ class PackageRepository with Localization {
       }
 
       // sender
-      createPackageInFirestore(user.uid, user.uid, receiver.uid, sender.email,
-          receiver.email, receiver.fullName, receiver.phoneNumber, address);
+      createPackageInFirestore(
+          user.uid,
+          user.uid,
+          receiver.uid,
+          sender.email,
+          receiver.email,
+          receiver.fullName,
+          receiver.phoneNumber,
+          addressToSend,
+          addressToReceive);
 
       //receiver
       createPackageInFirestore(
@@ -98,7 +108,8 @@ class PackageRepository with Localization {
           receiver.email,
           sender.fullName,
           sender.phoneNumber,
-          address);
+          addressToSend,
+          addressToReceive);
 
       Utils.showSnackBar(loc.packageCreatedAndSent, Colors.green, loc.dissmiss);
     } catch (e) {
@@ -179,7 +190,8 @@ class PackageRepository with Localization {
       String emailReceiver,
       String fullName,
       String phoneNumber,
-      String address) async {
+      String addressToSend,
+      String addressToReceive) async {
     await FirebaseFirestore.instance
         .collection("Users")
         .doc(doc)
@@ -192,7 +204,8 @@ class PackageRepository with Localization {
       "emailReceiver": emailReceiver,
       "fullName": fullName,
       "phoneNumber": phoneNumber,
-      "address": address,
+      "addressToSend": addressToSend,
+      "addressToReceive": addressToReceive,
       "timeCreated": DateTime.now().toLocal(),
       "isReceived": false
     });

@@ -15,10 +15,11 @@ class CreatePackagesRequested extends PackageEvent {
   final String email;
   final String phoneNumber;
   final String fullName;
-  final String address;
+  final String addressToSend;
+  final String addressToReceive;
 
-  CreatePackagesRequested(
-      this.email, this.phoneNumber, this.fullName, this.address);
+  CreatePackagesRequested(this.email, this.phoneNumber, this.fullName,
+      this.addressToSend, this.addressToReceive);
 }
 
 class InitPackagesRequested extends PackageEvent {}

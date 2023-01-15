@@ -26,6 +26,7 @@
     "optionsBelow": "Wybierz jedną z opcji poniżej",
     "sendPackage": "Wyślij Paczkę",
     "addressReceive": "Adres paczkomatu do odbioru",
+    "addressSend": "Adres paczkomatu do nadania",
     "validAdress": "Wprowadź prawidłowy adres",
     "createAndSend": "Utwórz i wyślij",
     "chooseParcelMachine": "Wybierz paczkomat",
@@ -74,9 +75,19 @@
         }
     },
 
-    "parcelMachineAddressReceive": "Paczkomat do odebrania paczki: \n{address}",
+    "parcelMachineAddressReceive": "Adress odbioru: \n{address}",
     "@parcelMachineAddressReceive": {
-        "description": "Paczkomat do odebrania paczki",
+        "description": "Adres paczkomatu gdzie nalezy odebrac paczke",
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
+
+    "parcelMachineAddressSend": "Adres nadania: \n{address}",
+    "@parcelMachineAddressSend": {
+        "description": "Adres paczkomatu skad wysłano paczke",
         "placeholders": {
             "address": {
                 "type": "String"
@@ -151,14 +162,13 @@
     "updated": "Zaktualizowano profil!",
     "deletedUser": "Usunięto konto!",
     "emailSent": "Wysłano maila!",
-    "packageCreatedAndSent": "Paczkę utworzono i wysłano!",
+    "packageCreatedAndSent": "Paczkę utworzono! Skrytka powinna zostać otwarta. Umieść w skrytce paczkę i ją zamknij!",
     "packageDeleted": "Usunięto paczkę z historii",
-    "packageAccepted": "Paczkę zaakceptowano jako przyjętą!",
+    "packageAccepted": "Otwarto skrytke w paczkomacie odbioru. Paczka ustawiona jako przyjęta. Nie zapomnij zamknąć skrytki!",
     "invalidReceiver": "Podano błędne dane odbiorcy. Spróbuj ponownie!",
     "sentToYourself": "Nie można wysłać paczki do samego siebie!",
     "dissmiss": "Schowaj",
 
-    
     "returnId": "Numer zwrotu: \n{id}",
     "@returnId": {
         "description": "Numer zwrotu",
@@ -207,7 +217,7 @@
     "validDesc": "Wprowadź opis",
     "createReturnButton": "Utworz zwrot",
     "noPackageWithNumber": "Brak paczki o takim numerze",
-    "cannotBeReturn": "Paczka o takim numerze nie może być zwrócona. Możliwe, że została otrzymana lub nie jesteś odbiorcą",
+    "cannotBeReturn": "Paczka o takim numerze nie może być zwrócona. Możliwe, że nie została otrzymana lub nie jesteś odbiorcą",
     "alreadyReturn": "Paczka o takim numerze została już zwrócona!",
     "createdReturn": "Zwrot został utworzony! Poczekaj na wiadomość email!",
     "additionalTextReturns": "Nie utworzyłeś dotąd żadnych zwrotów. Stwórz jeden przez naciśnięcie przycisku poniżej!",
@@ -215,5 +225,7 @@
     "typeOne": "Paczka uszkodzona",
     "typeTwo": "Problem z obsługa klienta", 
     "typeDiff": "Inny",
-    "validType": "Type zwrotu musi zostać wybrany"
+    "validType": "Type zwrotu musi zostać wybrany",
+    "addressButton": "Pokaż adres",
+    "findingParcelMachine": "Wyszukiwanie paczkomatu"
 }
