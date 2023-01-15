@@ -5,11 +5,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:parcel_app/bloc/return/return_bloc.dart';
 import 'package:parcel_app/bloc/theme/theme_bloc.dart';
 import 'package:parcel_app/screens/home_page.dart';
 import 'package:parcel_app/screens/packages_received_page.dart';
 import 'package:parcel_app/screens/packages_sent_page.dart';
 import 'package:parcel_app/screens/profile_info_page.dart';
+import 'package:parcel_app/screens/returns_packages_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/widgets/menu_widget.dart';
@@ -34,12 +36,14 @@ class _MainPageState extends State<MainPage> {
       HomePage(),
       PackagesSentPage(),
       PackagesReceivedPage(),
+      ReturnPackagesPage(),
       ProfileInfoPage(),
     ];
     Localization.init(context);
 
     return BlocBuilder<FontBloc, FontState>(builder: (context, stateFont) {
       var appLoc = AppLocalizations.of(context)!;
+
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
@@ -54,29 +58,37 @@ class _MainPageState extends State<MainPage> {
             selectedItemColor: Theme.of(context).primaryColor,
             backgroundColor: state.backgroudBottomBar,
             currentIndex: _currentIndex,
+            selectedFontSize: 13 * stateFont.resize,
+            unselectedFontSize: 13 * stateFont.resize,
             onTap: (int newIndex) {
               setState(() {
                 _currentIndex = newIndex;
 
                 if (_currentIndex == 1) {
                   BlocProvider.of<PackageBloc>(context)
-                      .add(FetchRequested('sent'));
+                      .add(FetchPackagesRequested('sent'));
                 } else if (_currentIndex == 2) {
                   BlocProvider.of<PackageBloc>(context)
-                      .add(FetchRequested('received'));
+                      .add(FetchPackagesRequested('received'));
+                } else if (_currentIndex == 3) {
+                  BlocProvider.of<ReturnBloc>(context)
+                      .add(FetchReturnsRequested());
                 }
               });
             },
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), label: appLoc.home),
+                  icon: const Icon(Icons.home), label: appLoc.home),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.vertical_align_top), label: appLoc.sent),
+                  icon: const Icon(Icons.vertical_align_top),
+                  label: appLoc.sent),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.vertical_align_bottom),
+                  icon: const Icon(Icons.vertical_align_bottom),
                   label: appLoc.received),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: appLoc.profile)
+                  icon: const Icon(Icons.radio), label: appLoc.returns),
+              BottomNavigationBarItem(
+                  icon: const Icon(Icons.person), label: appLoc.profile)
             ],
           );
         }),

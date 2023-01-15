@@ -32,6 +32,7 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
         List<Package> filteredData = state.packages
             .where((element) => element.isReceived == _isReceived)
             .toList();
+
         var appLoc = AppLocalizations.of(context)!;
 
         if (state.packages.isEmpty) {
@@ -75,7 +76,7 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                       return Card(
                         elevation: 10,
                         child: ListTile(
-                          title: Text(
+                          title: SelectableText(
                               appLoc.packageNumber(filteredData[index].id),
                               style:
                                   TextStyle(fontSize: 18 * stateFont.resize)),
@@ -117,7 +118,7 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                               ? CustomAcceptPackageButton(
                                   onPressed: () {
                                     context.read<PackageBloc>().add(
-                                        AcceptRequested(
+                                        AcceptPackagesRequested(
                                             filteredData[index],
                                             filteredData[index].uidSender,
                                             "received"));

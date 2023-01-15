@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:parcel_app/l10n/localization.dart';
 
 class Utils {
   static final messengerKey = GlobalKey<ScaffoldMessengerState>();

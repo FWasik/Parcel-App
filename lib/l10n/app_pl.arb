@@ -17,7 +17,7 @@
     "askHaveAccount": "Masz już konto? ",
     "typeEmail": "Podaj adres email by zresetować hasło",
     "parcelApp": "Paczkomat",
-    "home": "Strona główna",
+    "home": "Główna",
     "sent": "Wyślij",
     "received": "Odbierz",
     "profile": "Profil",
@@ -156,5 +156,64 @@
     "packageAccepted": "Paczkę zaakceptowano jako przyjętą!",
     "invalidReceiver": "Podano błędne dane odbiorcy. Spróbuj ponownie!",
     "sentToYourself": "Nie można wysłać paczki do samego siebie!",
-    "dissmiss": "Schowaj"
+    "dissmiss": "Schowaj",
+
+    
+    "returnId": "Numer zwrotu: \n{id}",
+    "@returnId": {
+        "description": "Numer zwrotu",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+
+    "returnType": "Typ zwrotu: \n{type}",
+    "@returnType": {
+        "description": "Typ zwrotu",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+
+    "description": "Opis: \n{desc}",
+     "@description": {
+        "description": "Opis zwrotu",
+        "placeholders": {
+            "desc": {
+                "type": "String"
+            }
+        }
+    },
+
+    "timeReturnCreated": "Zwrot utworzono: \n{time}",
+     "@timeReturnCreated": {
+        "description": "Czas utworzenia zwrotu",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+
+    "returns": "Zwroty",
+    "createReturn": "Utwórz zwrot",
+    "formNumberPackage": "Numer paczki",
+    "validPackageNumber": "Wprowadź prawidłowy numer paczki",
+    "formDesc": "Opis",
+    "validDesc": "Wprowadź opis",
+    "createReturnButton": "Utworz zwrot",
+    "noPackageWithNumber": "Brak paczki o takim numerze",
+    "cannotBeReturn": "Paczka o takim numerze nie może być zwrócona. Możliwe, że została otrzymana lub nie jesteś odbiorcą",
+    "alreadyReturn": "Paczka o takim numerze została już zwrócona!",
+    "createdReturn": "Zwrot został utworzony! Poczekaj na wiadomość email!",
+    "additionalTextReturns": "Nie utworzyłeś dotąd żadnych zwrotów. Stwórz jeden przez naciśnięcie przycisku poniżej!",
+    "type": "Typ zwrotu",
+    "typeOne": "Paczka uszkodzona",
+    "typeTwo": "Problem z obsługa klienta", 
+    "typeDiff": "Inny",
+    "validType": "Type zwrotu musi zostać wybrany"
 }

@@ -41,7 +41,9 @@ class DeleteDialogs {
                       color: Colors.red, fontSize: 16 * stateFont.resize),
                 ),
                 onPressed: () {
-                  context.read<PackageBloc>().add(DeleteRequested(id, type));
+                  context
+                      .read<PackageBloc>()
+                      .add(DeletePackagesRequested(id, type));
 
                   Navigator.of(context).pop();
                 },

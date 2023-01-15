@@ -1,40 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:parcel_app/bloc/package/package_bloc.dart';
-import 'package:parcel_app/screens/google_page.dart';
+import 'package:parcel_app/bloc/return/return_bloc.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 
-class SendPackagePage extends StatefulWidget {
-  const SendPackagePage({Key? key}) : super(key: key);
+class CreateReturnPage extends StatefulWidget {
+  const CreateReturnPage({Key? key}) : super(key: key);
 
   @override
-  State<SendPackagePage> createState() => _SendPackagePageState();
+  State<CreateReturnPage> createState() => _CreateReturnState();
 }
 
-class _SendPackagePageState extends State<SendPackagePage> {
+class _CreateReturnState extends State<CreateReturnPage> {
   final String uid = FirebaseAuth.instance.currentUser!.uid;
 
   final formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final fullNameController = TextEditingController();
-  final addressController = TextEditingController();
-
-  RegExp regExp = RegExp(r'^[0-9]{9}$');
+  final uidPackageController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final typeController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
-    phoneNumberController.dispose();
-    fullNameController.dispose();
-    addressController.dispose();
+    uidPackageController.dispose();
+    descriptionController.dispose();
+    typeController.dispose();
 
     super.dispose();
   }
@@ -42,21 +36,27 @@ class _SendPackagePageState extends State<SendPackagePage> {
   @override
   Widget build(BuildContext context) {
     var appLoc = AppLocalizations.of(context)!;
+    List<String> list = <String>[
+      appLoc.typeOne,
+      appLoc.typeTwo,
+      appLoc.typeDiff
+    ];
+
+    String? dropdownValue;
 
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
-          title: Text(AppLocalizations.of(context)!.sendPackage),
+          title: Text(appLoc.createReturnButton),
         ),
-        body:
-            BlocConsumer<PackageBloc, PackageState>(listener: (context, state) {
+        body: BlocConsumer<ReturnBloc, ReturnState>(listener: (context, state) {
           if (state is Error) {
             Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
           } else if (state is Created) {
             Navigator.of(context).pop();
           }
         }, builder: (context, state) {
-          if (state is LoadingPackages || state is Created) {
+          if (state is LoadingReturns || state is Created) {
             return CustomCircularProgressIndicator(
                 color: Theme.of(context).primaryColor);
           } else {
@@ -72,7 +72,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            appLoc.sendPackage,
+                            appLoc.createReturn,
                             style: TextStyle(
                               fontSize: 38 * stateFont.resize,
                               fontWeight: FontWeight.bold,
@@ -82,11 +82,11 @@ class _SendPackagePageState extends State<SendPackagePage> {
                             height: 24,
                           ),
                           TextFormField(
-                            controller: emailController,
+                            controller: uidPackageController,
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.mail,
                                     color: Theme.of(context).primaryColor),
-                                hintText: "Email",
+                                hintText: appLoc.formNumberPackage,
                                 border: const OutlineInputBorder(),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -96,32 +96,44 @@ class _SendPackagePageState extends State<SendPackagePage> {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
-                              return value != null &&
-                                      !EmailValidator.validate(value)
-                                  ? appLoc.validEmail
+                              return value != null && value.isEmpty
+                                  ? appLoc.validPackageNumber
                                   : null;
                             },
                           ),
                           const SizedBox(
                             height: 12,
                           ),
-                          TextFormField(
-                            controller: phoneNumberController,
+                          DropdownButtonFormField<String>(
+                            hint: Text(appLoc.type),
+                            value: dropdownValue,
                             decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.phone,
+                                prefixIcon: Icon(Icons.select_all,
                                     color: Theme.of(context).primaryColor),
-                                hintText: appLoc.phoneNumber,
+                                hintText: appLoc.formDesc,
                                 border: const OutlineInputBorder(),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Theme.of(context).primaryColor,
                                       width: 2),
                                 )),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            icon: const Icon(Icons.arrow_downward),
+                            onChanged: (String? value) {
+                              setState(() {
+                                dropdownValue = value!;
+                                typeController.text = value;
+                              });
+                            },
+                            items: list
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
                             validator: (value) {
-                              return value == null || !regExp.hasMatch(value)
-                                  ? appLoc.validPhoneNumber
+                              return value == null || value.isEmpty
+                                  ? appLoc.validType
                                   : null;
                             },
                           ),
@@ -129,11 +141,13 @@ class _SendPackagePageState extends State<SendPackagePage> {
                             height: 12,
                           ),
                           TextFormField(
-                            controller: fullNameController,
+                            controller: descriptionController,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.person,
                                     color: Theme.of(context).primaryColor),
-                                hintText: appLoc.fullName,
+                                hintText: appLoc.formDesc,
                                 border: const OutlineInputBorder(),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -144,31 +158,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               return value == null || value.isEmpty
-                                  ? appLoc.validFullName
-                                  : null;
-                            },
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          TextFormField(
-                            controller: addressController,
-                            onTap: _getAddress,
-                            decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.location_city,
-                                    color: Theme.of(context).primaryColor),
-                                hintText: appLoc.addressReceive,
-                                border: const OutlineInputBorder(),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Theme.of(context).primaryColor,
-                                      width: 2),
-                                )),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              return value == null || value.isEmpty
-                                  ? appLoc.validAdress
+                                  ? appLoc.validDesc
                                   : null;
                             },
                           ),
@@ -178,14 +168,14 @@ class _SendPackagePageState extends State<SendPackagePage> {
                           CustomButton(
                               width: 0.7,
                               color: Theme.of(context).primaryColor,
-                              icon: const Icon(Icons.local_shipping, size: 32),
+                              icon: const Icon(Icons.arrow_forward, size: 32),
                               text: Text(
-                                appLoc.createAndSend,
+                                appLoc.createReturnButton,
                                 style:
                                     TextStyle(fontSize: 24 * stateFont.resize),
                               ),
                               onPressed: () {
-                                _createPackageInfo(context);
+                                _createReturn(context);
                               }),
                         ],
                       ),
@@ -198,19 +188,12 @@ class _SendPackagePageState extends State<SendPackagePage> {
         }));
   }
 
-  void _createPackageInfo(BuildContext context) {
+  void _createReturn(BuildContext context) {
     if (formKey.currentState!.validate()) {
-      context.read<PackageBloc>().add(CreatePackagesRequested(
-          emailController.text,
-          phoneNumberController.text,
-          fullNameController.text,
-          addressController.text));
+      context.read<ReturnBloc>().add(CreateReturnsRequested(
+          uidPackageController.text,
+          typeController.text,
+          descriptionController.text));
     }
-  }
-
-  Future<void> _getAddress() async {
-    addressController.text = await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const GooglePage(),
-    ));
   }
 }

@@ -5,34 +5,35 @@ abstract class PackageEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchRequested extends PackageEvent {
+class FetchPackagesRequested extends PackageEvent {
   final String type;
 
-  FetchRequested(this.type);
+  FetchPackagesRequested(this.type);
 }
 
-class CreateRequested extends PackageEvent {
+class CreatePackagesRequested extends PackageEvent {
   final String email;
   final String phoneNumber;
   final String fullName;
   final String address;
 
-  CreateRequested(this.email, this.phoneNumber, this.fullName, this.address);
+  CreatePackagesRequested(
+      this.email, this.phoneNumber, this.fullName, this.address);
 }
 
-class InitRequested extends PackageEvent {}
+class InitPackagesRequested extends PackageEvent {}
 
-class DeleteRequested extends PackageEvent {
+class DeletePackagesRequested extends PackageEvent {
   final String id;
   final String type;
 
-  DeleteRequested(this.id, this.type);
+  DeletePackagesRequested(this.id, this.type);
 }
 
-class AcceptRequested extends PackageEvent {
+class AcceptPackagesRequested extends PackageEvent {
   final Package package;
   final String uidSender;
   final String type;
 
-  AcceptRequested(this.package, this.uidSender, this.type);
+  AcceptPackagesRequested(this.package, this.uidSender, this.type);
 }

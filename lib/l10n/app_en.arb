@@ -155,5 +155,63 @@
     "packageAccepted": "Package accepted as received!",
     "invalidReceiver": "Invalid info about receiver. Try again!",
     "sentToYourself": "Cannot send package to yourself!",
-    "dissmiss": "Dissmiss"
+    "dissmiss": "Dissmiss",
+
+    "returnId": "Return number: \n{id}",
+    "@returnId": {
+        "description": "Return's id number",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+
+    "description": "Description: \n{desc}",
+     "@description": {
+        "description": "Description of return",
+        "placeholders": {
+            "desc": {
+                "type": "String"
+            }
+        }
+    },
+
+    "returnType": "Return type: \n{type}",
+    "@returnType": {
+        "description": "Type of return",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+
+    "timeReturnCreated": "Return created: \n{time}",
+     "@timeReturnCreated": {
+        "description": "Time of return created",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+
+    "returns": "Returns",
+    "createReturn": "Create Return",
+    "formNumberPackage": "Package number",
+    "validPackageNumber": "Package number cannot be empty",
+    "formDesc": "Description",
+    "validDesc": "Description cannot be empty",
+    "createReturnButton": "Create return",
+    "noPackageWithNumber": "No package with that number",
+    "cannotBeReturn": "Package with that number cannot be return. Probably is not yet received or you are not a receiver",
+    "alreadyReturn": "Package with that number already returned!",
+    "createdReturn": "Return has been created! Wait for instructions via email!", 
+    "additionalTextReturns": "You have not created any returns. Create one with hitting button below",
+    "type": "Type",
+    "typeOne": "Package damaged",
+    "typeTwo": "Problem with customer service",
+    "typeDiff": "Different",
+    "validType": "Type must be chosen"
 }

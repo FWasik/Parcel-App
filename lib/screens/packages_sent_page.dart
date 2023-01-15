@@ -88,7 +88,7 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
                           return Card(
                             elevation: 10,
                             child: ListTile(
-                              title: Text(
+                              title: SelectableText(
                                 appLoc.packageNumber(filteredData[index].id),
                                 style:
                                     TextStyle(fontSize: 18 * stateFont.resize),
@@ -114,7 +114,7 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
                                     const SizedBox(height: 10),
                                     Text(
                                       appLoc.receiverEmail(
-                                          filteredData[index].emailSender),
+                                          filteredData[index].emailReceiver),
                                       style: TextStyle(
                                           fontSize: 14 * stateFont.resize),
                                     ),
