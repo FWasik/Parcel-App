@@ -29,17 +29,17 @@ class CustomMenu extends StatelessWidget {
                         style: TextStyle(fontSize: 16 * stateFont.resize),
                       )
                     ])),
-            // if (state is Authenticated)
-            PopupMenuItem<int>(
-                value: 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(Icons.logout, color: Theme.of(context).primaryColor),
-                    Text(appLoc.signOut,
-                        style: TextStyle(fontSize: 16 * stateFont.resize))
-                  ],
-                )),
+            if (state is Authenticated)
+              PopupMenuItem<int>(
+                  value: 2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(Icons.logout, color: Theme.of(context).primaryColor),
+                      Text(appLoc.signOut,
+                          style: TextStyle(fontSize: 16 * stateFont.resize))
+                    ],
+                  )),
           ];
         }, onSelected: (value) {
           if (value == 1) {
