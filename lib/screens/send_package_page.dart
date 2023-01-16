@@ -95,6 +95,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                                       color: Theme.of(context).primaryColor,
                                       width: 2),
                                 )),
+                            style: TextStyle(fontSize: 16 * stateFont.resize),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
@@ -119,6 +120,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                                       color: Theme.of(context).primaryColor,
                                       width: 2),
                                 )),
+                            style: TextStyle(fontSize: 16 * stateFont.resize),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
@@ -142,6 +144,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                                       color: Theme.of(context).primaryColor,
                                       width: 2),
                                 )),
+                            style: TextStyle(fontSize: 16 * stateFont.resize),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
@@ -154,6 +157,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                             height: 12,
                           ),
                           TextFormField(
+                            maxLines: 2,
                             readOnly: true,
                             controller: addressToSendController,
                             onTap: () async {
@@ -173,6 +177,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                                       color: Theme.of(context).primaryColor,
                                       width: 2),
                                 )),
+                            style: TextStyle(fontSize: 16 * stateFont.resize),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
@@ -185,6 +190,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                             height: 12,
                           ),
                           TextFormField(
+                            maxLines: 2,
                             readOnly: true,
                             controller: addressToReceiveController,
                             onTap: () async {
@@ -204,6 +210,7 @@ class _SendPackagePageState extends State<SendPackagePage> {
                                       color: Theme.of(context).primaryColor,
                                       width: 2),
                                 )),
+                            style: TextStyle(fontSize: 16 * stateFont.resize),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {

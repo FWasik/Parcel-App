@@ -14,6 +14,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with Localization {
   final AuthRepository authRepository;
 
   AuthBloc({required this.authRepository}) : super(UnAuthenticated()) {
+    on<InitRequested>(((event, emit) async {
+      if (FirebaseAuth.instance.currentUser != null) {
+        CustomUser? user = await authRepository
+            .getUserInfo(FirebaseAuth.instance.currentUser!.uid);
+        emit(Authenticated(user));
+      } else {
+        emit(UnAuthenticated());
+      }
+    }));
+
     on<SignInRequested>((event, emit) async {
       emit(Loading());
 

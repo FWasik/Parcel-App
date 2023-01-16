@@ -93,6 +93,7 @@ class _CreateReturnState extends State<CreateReturnPage> {
                                       color: Theme.of(context).primaryColor,
                                       width: 2),
                                 )),
+                            style: TextStyle(fontSize: 16 * stateFont.resize),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
@@ -117,6 +118,7 @@ class _CreateReturnState extends State<CreateReturnPage> {
                                       color: Theme.of(context).primaryColor,
                                       width: 2),
                                 )),
+                            style: TextStyle(fontSize: 16 * stateFont.resize),
                             icon: const Icon(Icons.arrow_downward),
                             onChanged: (String? value) {
                               setState(() {
@@ -154,6 +156,7 @@ class _CreateReturnState extends State<CreateReturnPage> {
                                       color: Theme.of(context).primaryColor,
                                       width: 2),
                                 )),
+                            style: TextStyle(fontSize: 16 * stateFont.resize),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {

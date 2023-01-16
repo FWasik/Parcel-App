@@ -161,27 +161,26 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                                         })),
                                 ),
                                 const SizedBox(height: 20),
-                                if (!_isReceived)
-                                  CustomButton(
-                                      width: 0.7,
-                                      color: Theme.of(context).primaryColor,
-                                      icon: const Icon(Icons.local_shipping,
-                                          size: 32),
-                                      text: Text(
-                                        appLoc.addressButton,
-                                        style: TextStyle(
-                                            fontSize: 18 * stateFont.resize),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              GoogleSearchParcelPage(
-                                            parcelAddress: filteredData[index]
-                                                .addressToReceive,
-                                          ),
-                                        ));
-                                      }),
+                                CustomButton(
+                                    width: 0.7,
+                                    color: Theme.of(context).primaryColor,
+                                    icon: const Icon(Icons.local_shipping,
+                                        size: 32),
+                                    text: Text(
+                                      appLoc.addressButton,
+                                      style: TextStyle(
+                                          fontSize: 18 * stateFont.resize),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            GoogleSearchParcelPage(
+                                          parcelAddress: filteredData[index]
+                                              .addressToReceive,
+                                        ),
+                                      ));
+                                    }),
                               ]),
                         ),
                       );

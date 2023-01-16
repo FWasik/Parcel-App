@@ -34,6 +34,8 @@ class EditUserRequested extends AuthEvent {
   EditUserRequested(this.uid, this.email, this.phoneNumber, this.fullName);
 }
 
+class InitRequested extends AuthEvent {}
+
 class UnUpdatedRequested extends AuthEvent {}
 
 class DeleteUserRequested extends AuthEvent {

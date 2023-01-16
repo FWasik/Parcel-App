@@ -104,6 +104,8 @@ class _SignInState extends State<SignIn> {
                                                 Theme.of(context).primaryColor,
                                             width: 2),
                                       )),
+                                  style: TextStyle(
+                                      fontSize: 16 * stateFont.resize),
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   validator: (value) {
@@ -131,6 +133,8 @@ class _SignInState extends State<SignIn> {
                                                 Theme.of(context).primaryColor,
                                             width: 2),
                                       )),
+                                  style: TextStyle(
+                                      fontSize: 16 * stateFont.resize),
                                   obscureText: true,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,

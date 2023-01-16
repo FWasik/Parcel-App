@@ -19,7 +19,7 @@
     "parcelApp": "Paczkomat",
     "home": "Główna",
     "sent": "Wyślij",
-    "received": "Odbierz",
+    "receive": "Odbierz",
     "profile": "Profil",
     "welcome": "Witaj w Paczkomacie!",
     "logAs": "Jesteś zalogowany jako",
@@ -75,7 +75,7 @@
         }
     },
 
-    "parcelMachineAddressReceive": "Adress odbioru: \n{address}",
+    "parcelMachineAddressReceive": "Adres odbioru: \n{address}",
     "@parcelMachineAddressReceive": {
         "description": "Adres paczkomatu gdzie nalezy odebrac paczke",
         "placeholders": {

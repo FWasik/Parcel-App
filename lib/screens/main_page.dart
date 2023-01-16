@@ -31,6 +31,13 @@ class _MainPageState extends State<MainPage> {
   String uid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
+  void initState() {
+    super.initState();
+
+    BlocProvider.of<AuthBloc>(context).add(InitRequested());
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Widget> body = const [
       HomePage(),
@@ -84,7 +91,7 @@ class _MainPageState extends State<MainPage> {
                   label: appLoc.sent),
               BottomNavigationBarItem(
                   icon: const Icon(Icons.vertical_align_bottom),
-                  label: appLoc.received),
+                  label: appLoc.receive),
               BottomNavigationBarItem(
                   icon: const Icon(Icons.radio), label: appLoc.returns),
               BottomNavigationBarItem(

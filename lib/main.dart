@@ -18,6 +18,7 @@ import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:parcel_app/widgets/progress_widget.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -66,8 +67,13 @@ class MyApp extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return const MainPage();
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return CustomCircularProgressIndicator(
+                          color: Theme.of(context).primaryColor);
+                    } else {
+                      return const SignIn();
                     }
-                    return const SignIn();
                   }),
             );
           },

@@ -113,6 +113,8 @@ class _SignUpState extends State<SignUp> {
                                           color: Theme.of(context).primaryColor,
                                           width: 2),
                                     )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
@@ -137,6 +139,8 @@ class _SignUpState extends State<SignUp> {
                                           color: Theme.of(context).primaryColor,
                                           width: 2),
                                     )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
                                 obscureText: true,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
@@ -163,6 +167,8 @@ class _SignUpState extends State<SignUp> {
                                           color: Theme.of(context).primaryColor,
                                           width: 2),
                                     )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
                                 obscureText: true,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
@@ -186,6 +192,8 @@ class _SignUpState extends State<SignUp> {
                                           color: Theme.of(context).primaryColor,
                                           width: 2),
                                     )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
@@ -210,6 +218,8 @@ class _SignUpState extends State<SignUp> {
                                           color: Theme.of(context).primaryColor,
                                           width: 2),
                                     )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
