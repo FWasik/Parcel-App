@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:parcel_app/l10n/localization.dart';
 
 class Utils {
   static final messengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -8,6 +7,7 @@ class Utils {
     if (text == null) return;
 
     final snackBar = SnackBar(
+      duration: const Duration(seconds: 10),
       content: Text(
         text,
         style: const TextStyle(color: Colors.white),

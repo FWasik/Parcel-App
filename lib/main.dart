@@ -9,13 +9,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/bloc/language/language_bloc.dart';
 import 'package:parcel_app/bloc/package/package_bloc.dart';
+import 'package:parcel_app/bloc/return/return_bloc.dart';
 import 'package:parcel_app/bloc/theme/theme_bloc.dart';
 import 'package:parcel_app/repositories/auth_repository.dart';
 import 'package:parcel_app/repositories/package_repository.dart';
+import 'package:parcel_app/repositories/return_repository.dart';
 import 'package:parcel_app/screens/main_page.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:parcel_app/widgets/progress_widget.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -41,7 +44,9 @@ class MyApp extends StatelessWidget {
                     PackageRepository(authRepository: AuthRepository()))),
         BlocProvider<ThemeBloc>(create: (context) => ThemeBloc()),
         BlocProvider<FontBloc>(create: (context) => FontBloc()),
-        BlocProvider<LanguageBloc>(create: (context) => LanguageBloc())
+        BlocProvider<LanguageBloc>(create: (context) => LanguageBloc()),
+        BlocProvider<ReturnBloc>(
+            create: (context) => ReturnBloc(returnRepo: ReturnRepository()))
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
           builder: (context, stateLan) {
@@ -62,8 +67,13 @@ class MyApp extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return const MainPage();
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return CustomCircularProgressIndicator(
+                          color: Theme.of(context).primaryColor);
+                    } else {
+                      return const SignIn();
                     }
-                    return const SignIn();
                   }),
             );
           },

@@ -13,6 +13,7 @@ import 'package:parcel_app/widgets/menu_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 import 'package:parcel_app/bloc/theme/theme_bloc.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:parcel_app/l10n/localization.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -42,6 +43,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    Localization.init(context);
     var appLoc = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -111,6 +113,8 @@ class _SignUpState extends State<SignUp> {
                                           color: Theme.of(context).primaryColor,
                                           width: 2),
                                     )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
@@ -135,6 +139,8 @@ class _SignUpState extends State<SignUp> {
                                           color: Theme.of(context).primaryColor,
                                           width: 2),
                                     )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
                                 obscureText: true,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
@@ -161,6 +167,8 @@ class _SignUpState extends State<SignUp> {
                                           color: Theme.of(context).primaryColor,
                                           width: 2),
                                     )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
                                 obscureText: true,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
@@ -184,6 +192,8 @@ class _SignUpState extends State<SignUp> {
                                           color: Theme.of(context).primaryColor,
                                           width: 2),
                                     )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
@@ -208,6 +218,8 @@ class _SignUpState extends State<SignUp> {
                                           color: Theme.of(context).primaryColor,
                                           width: 2),
                                     )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {

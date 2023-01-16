@@ -6,7 +6,8 @@ class Package {
   final String emailReceiver;
   final String fullName;
   final String phoneNumber;
-  final String address;
+  final String addressToSend;
+  final String addressToReceive;
   final bool isReceived;
   final String timeCreated;
 
@@ -18,7 +19,8 @@ class Package {
     required this.emailReceiver,
     required this.fullName,
     required this.phoneNumber,
-    required this.address,
+    required this.addressToSend,
+    required this.addressToReceive,
     required this.isReceived,
     required this.timeCreated,
   });
@@ -32,7 +34,8 @@ class Package {
       emailReceiver: json['emailReceiver'],
       fullName: json['fullName'],
       phoneNumber: json["phoneNumber"],
-      address: json["address"],
+      addressToSend: json["addressToSend"],
+      addressToReceive: json["addressToReceive"],
       isReceived: json["isReceived"],
       timeCreated: json["timeCreated"],
     );

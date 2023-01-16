@@ -19,13 +19,14 @@
     "parcelApp": "Parcel App",
     "home": "Home",
     "sent": "Sent",
-    "received": "Received",
+    "receive": "Receive",
     "profile": "Profile",
     "welcome": "Welcome to Parcel App!",
     "logAs": "You are logged in as",
     "optionsBelow": "Choose one of options below",
     "sendPackage": "Send Package",
     "addressReceive": "Address of parcel machine to receive",
+    "addressSend": "Address of parcel machine to send",
     "validAdress": "Address cannot be empty",
     "createAndSend": "Create and send",
     "chooseParcelMachine": "Choose parcel machine",
@@ -74,9 +75,19 @@
         }
     },
 
-    "parcelMachineAddressReceive": "Parcel machine's address to receive package: \n{address}",
+    "parcelMachineAddressReceive": "Address to receive package: \n{address}",
     "@parcelMachineAddressReceive": {
         "description": "Parcel machine's address to receive",
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
+
+    "parcelMachineAddressSend": "Address where package was sent: \n{address}",
+    "@parcelMachineAddressSend": {
+        "description": "Parcel machine's address where set",
         "placeholders": {
             "address": {
                 "type": "String"
@@ -150,10 +161,70 @@
     "updated": "You successful updated profile!",
     "deletedUser": "You successful deleted an account!",
     "emailSent": "Email sent!", 
-    "packageCreatedAndSent": "Package created and sent!",
+    "packageCreatedAndSent": "Package created! Locker should open. Place your package into locker and close it!",
     "packageDeleted": "Package deleted!",
-    "packageAccepted": "Package accepted as received!",
+    "packageAccepted": "Locker should be opened in parcel machine receiver. Package set as received! Do not forget to close locker!",
     "invalidReceiver": "Invalid info about receiver. Try again!",
     "sentToYourself": "Cannot send package to yourself!",
-    "dissmiss": "Dissmiss"
+    "dissmiss": "Dissmiss",
+
+    "returnId": "Return number: \n{id}",
+    "@returnId": {
+        "description": "Return's id number",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+
+    "description": "Description: \n{desc}",
+     "@description": {
+        "description": "Description of return",
+        "placeholders": {
+            "desc": {
+                "type": "String"
+            }
+        }
+    },
+
+    "returnType": "Return type: \n{type}",
+    "@returnType": {
+        "description": "Type of return",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+
+    "timeReturnCreated": "Return created: \n{time}",
+     "@timeReturnCreated": {
+        "description": "Time of return created",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+
+    "returns": "Returns",
+    "createReturn": "Create Return",
+    "formNumberPackage": "Package number",
+    "validPackageNumber": "Package number cannot be empty",
+    "formDesc": "Description",
+    "validDesc": "Description cannot be empty",
+    "createReturnButton": "Create return",
+    "noPackageWithNumber": "No package with that number",
+    "cannotBeReturn": "Package with that number cannot be return. Probably is not yet received or you are not a receiver",
+    "alreadyReturn": "Package with that number already returned!",
+    "createdReturn": "Return has been created! Wait for instructions via email!", 
+    "additionalTextReturns": "You have not created any returns. Create one with hitting button below",
+    "type": "Type",
+    "typeOne": "Package damaged",
+    "typeTwo": "Problem with customer service",
+    "typeDiff": "Other",
+    "validType": "Type must be chosen",
+    "addressButton": "Address track",
+    "findingParcelMachine": "Parcel machine finding"
 }

@@ -76,6 +76,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   color: Theme.of(context).primaryColor,
                                   width: 2),
                             )),
+                        style: TextStyle(fontSize: 16 * stateFont.resize),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (email) =>
                             email != null && !EmailValidator.validate(email)

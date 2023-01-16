@@ -14,7 +14,7 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
   final PackageRepository packageRepository;
 
   PackageBloc({required this.packageRepository}) : super(Init()) {
-    on<FetchRequested>(((event, emit) async {
+    on<FetchPackagesRequested>(((event, emit) async {
       emit(LoadingPackages());
 
       try {
@@ -28,17 +28,7 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
       }
     }));
 
-    on<InitRequested>(((event, emit) async {
-      emit(LoadingPackages());
-
-      try {
-        emit(Init());
-      } catch (e) {
-        emit(Error(e.toString()));
-      }
-    }));
-
-    on<CreateRequested>(((event, emit) async {
+    on<CreatePackagesRequested>(((event, emit) async {
       emit(LoadingPackages());
 
       try {
@@ -46,7 +36,8 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
             email: event.email,
             phoneNumber: event.phoneNumber,
             fullName: event.fullName,
-            address: event.address);
+            addressToSend: event.addressToSend,
+            addressToReceive: event.addressToReceive);
 
         emit(Created());
 
@@ -69,7 +60,7 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
       }
     }));
 
-    on<DeleteRequested>(((event, emit) async {
+    on<DeletePackagesRequested>(((event, emit) async {
       emit(LoadingPackages());
 
       try {
@@ -86,7 +77,7 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
       }
     }));
 
-    on<AcceptRequested>(((event, emit) async {
+    on<AcceptPackagesRequested>(((event, emit) async {
       emit(LoadingPackages());
 
       try {

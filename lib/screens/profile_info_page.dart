@@ -80,6 +80,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                                   color: Theme.of(context).primaryColor,
                                   width: 2),
                             )),
+                        style: TextStyle(fontSize: 16 * stateFont.resize),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           return value != null &&
@@ -103,6 +104,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                                   color: Theme.of(context).primaryColor,
                                   width: 2),
                             )),
+                        style: TextStyle(fontSize: 16 * stateFont.resize),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           return value == null || !regExp.hasMatch(value)
@@ -125,6 +127,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                                   color: Theme.of(context).primaryColor,
                                   width: 2),
                             )),
+                        style: TextStyle(fontSize: 16 * stateFont.resize),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           return value == null || value.isEmpty
