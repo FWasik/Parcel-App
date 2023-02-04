@@ -57,7 +57,9 @@ dependencies:
   google_api_headers: ^1.1.1
   geocoding: ^2.0.1
   flutter_dotenv: ^5.0.2
-  
+  hydrated_bloc: ^8.1.0
+  path_provider: ^2.0.9
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
