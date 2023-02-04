@@ -25,17 +25,12 @@ class ThemeBloc extends HydratedBloc<ThemeEvent, ThemeState> {
 
   @override
   ThemeState fromJson(Map<String, dynamic> json) {
-    ThemeData? theme;
     bool isDark = json["isDark"];
 
-    if (isDark) {
-      theme = appThemeData[AppThemes.dark];
-    } else {
-      theme = appThemeData[AppThemes.light];
-    }
-
     return ThemeState(
-        themeData: theme,
+        themeData: isDark
+            ? appThemeData[AppThemes.dark]
+            : appThemeData[AppThemes.light],
         isDark: isDark,
         color: Color(json["color"]),
         backgroudBottomBar: Color(json["backgroundBottomBar"]));
