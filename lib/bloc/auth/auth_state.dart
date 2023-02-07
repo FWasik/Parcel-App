@@ -1,27 +1,36 @@
 part of 'auth_bloc.dart';
 
-@immutable
-abstract class AuthState extends Equatable {}
+class AuthState extends Equatable {
+  final CustomUser? user;
+  const AuthState(this.user);
+
+  @override
+  List<Object?> get props => [];
+}
 
 class Loading extends AuthState {
+  const Loading({user}) : super(user);
+
   @override
   List<Object?> get props => [];
 }
 
 class Authenticated extends AuthState {
-  final CustomUser? user;
-  Authenticated(this.user);
+  const Authenticated(user) : super(user);
 
   @override
   List<Object?> get props => [];
 }
 
 class UnAuthenticated extends AuthState {
+  const UnAuthenticated({user}) : super(user);
   @override
   List<Object?> get props => [];
 }
 
 class SignedUp extends AuthState {
+  const SignedUp({user}) : super(user);
+
   @override
   List<Object?> get props => [];
 }
@@ -29,13 +38,15 @@ class SignedUp extends AuthState {
 class EditFailed extends AuthState {
   final String? error;
 
-  EditFailed(this.error);
+  const EditFailed(this.error, {user}) : super(user);
 
   @override
   List<Object?> get props => [error];
 }
 
 class Deleted extends AuthState {
+  const Deleted({user}) : super(user);
+
   @override
   List<Object?> get props => [];
 }
@@ -43,7 +54,7 @@ class Deleted extends AuthState {
 class AuthError extends AuthState {
   final String error;
 
-  AuthError(this.error);
+  const AuthError(this.error, {user}) : super(user);
 
   @override
   List<Object?> get props => [error];

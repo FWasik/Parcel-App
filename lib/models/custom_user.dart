@@ -17,4 +17,11 @@ class CustomUser {
         phoneNumber: json['phoneNumber'],
         fullName: json['fullName']);
   }
+
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'email': email,
+        'phoneNumber': phoneNumber,
+        'fullName': fullName
+      };
 }
