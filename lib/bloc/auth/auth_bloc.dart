@@ -6,26 +6,17 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:parcel_app/l10n/localization.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> with Localization {
+class AuthBloc extends HydratedBloc<AuthEvent, AuthState> with Localization {
   final AuthRepository authRepository;
 
-  AuthBloc({required this.authRepository}) : super(UnAuthenticated()) {
-    on<InitRequested>(((event, emit) async {
-      if (FirebaseAuth.instance.currentUser != null) {
-        CustomUser? user = await authRepository
-            .getUserInfo(FirebaseAuth.instance.currentUser!.uid);
-        emit(Authenticated(user));
-      } else {
-        emit(UnAuthenticated());
-      }
-    }));
-
+  AuthBloc({required this.authRepository}) : super(const UnAuthenticated()) {
     on<SignInRequested>((event, emit) async {
-      emit(Loading());
+      emit(const Loading());
 
       try {
         await authRepository.signIn(
@@ -42,12 +33,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with Localization {
           emit(AuthError(e.toString()));
         }
 
-        emit(UnAuthenticated());
+        emit(const UnAuthenticated());
       }
     });
 
     on<SignUpRequested>((event, emit) async {
-      emit(Loading());
+      emit(const Loading());
 
       try {
         await authRepository.signUp(
@@ -65,25 +56,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with Localization {
           emit(AuthError(e.toString()));
         }
 
-        emit(UnAuthenticated());
+        emit(const UnAuthenticated());
       }
     });
 
     on<SignOutRequested>((event, emit) async {
       emit(Loading());
       await authRepository.signOut();
-      emit(UnAuthenticated());
+      emit(const UnAuthenticated());
     });
 
     on<UnSignedUpRequested>((event, emit) async {
-      emit(Loading());
-      emit(UnAuthenticated());
+      emit(const Loading());
+      emit(const UnAuthenticated());
     });
 
     on<EditUserRequested>((event, emit) async {
       try {
         if (state is Authenticated) {
-          emit(Loading());
+          emit(const Loading());
 
           await authRepository.updateUserInfo(
             uid: event.uid,
@@ -109,7 +100,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with Localization {
           emit(Authenticated(user));
         } else {
           emit(AuthError(e.toString()));
-          emit(UnAuthenticated());
+          emit(const UnAuthenticated());
 
           await FirebaseAuth.instance.signOut();
         }
@@ -117,7 +108,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with Localization {
     });
 
     on<DeleteUserRequested>((event, emit) async {
-      emit(Loading());
+      emit(const Loading());
 
       try {
         await authRepository.deleteUser(uid: event.uid);
@@ -125,11 +116,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with Localization {
         emit(AuthError(e.toString()));
       }
 
-      emit(UnAuthenticated());
+      emit(const UnAuthenticated());
     });
 
     on<ResetUserPasswordRequested>(((event, emit) async {
-      emit(Loading());
+      emit(const Loading());
 
       try {
         await authRepository.resetPassword(event.email);
@@ -137,7 +128,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with Localization {
         emit(AuthError(e.toString()));
       }
 
-      emit(UnAuthenticated());
+      emit(const UnAuthenticated());
     }));
+  }
+
+  @override
+  AuthState fromJson(Map<String, dynamic> json) {
+    var user = CustomUser.fromJson(json['user']);
+
+    return user != null ? Authenticated(user) : const UnAuthenticated();
+  }
+
+  @override
+  Map<String, dynamic> toJson(AuthState state) {
+    return state.user != null
+        ? {"user": state.user!.toJson()}
+        : {"user": state.user};
   }
 }

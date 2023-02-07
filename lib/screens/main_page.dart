@@ -31,13 +31,6 @@ class _MainPageState extends State<MainPage> {
   String uid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
-  void initState() {
-    super.initState();
-
-    BlocProvider.of<AuthBloc>(context).add(InitRequested());
-  }
-
-  @override
   Widget build(BuildContext context) {
     List<Widget> body = const [
       HomePage(),
