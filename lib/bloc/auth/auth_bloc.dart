@@ -7,6 +7,8 @@ import 'package:meta/meta.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:parcel_app/l10n/localization.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:parcel_app/utils/utils.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -26,9 +28,9 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> with Localization {
             .getUserInfo(FirebaseAuth.instance.currentUser!.uid);
 
         emit(Authenticated(user));
-      } catch (e) {
-        if (e.toString().startsWith("Exception: ")) {
-          emit(AuthError(e.toString().substring(11)));
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+          emit(AuthError(loc.invalidCredentials));
         } else {
           emit(AuthError(e.toString()));
         }
@@ -48,26 +50,33 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> with Localization {
           fullName: event.fullName,
         );
 
-        emit(SignedUp());
-      } catch (e) {
-        if (e.toString().startsWith("Exception: ")) {
-          emit(AuthError(e.toString().substring(11)));
+        emit(const SignedUp());
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'email-already-in-use') {
+          emit(AuthError(loc.emailUse));
         } else {
           emit(AuthError(e.toString()));
         }
-
-        emit(const UnAuthenticated());
       }
+
+      emit(const UnAuthenticated());
     });
 
     on<SignOutRequested>((event, emit) async {
-      emit(Loading());
-      await authRepository.signOut();
+      emit(const Loading());
+
+      try {
+        await authRepository.signOut();
+      } on FirebaseAuthException catch (e) {
+        emit(AuthError(e.toString()));
+      }
+
       emit(const UnAuthenticated());
     });
 
     on<UnSignedUpRequested>((event, emit) async {
       emit(const Loading());
+
       emit(const UnAuthenticated());
     });
 
@@ -93,17 +102,19 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> with Localization {
 
         if (e.code == "email-already-in-use") {
           emit(EditFailed(loc.emailUse));
-
-          final user = await authRepository
-              .getUserInfo(FirebaseAuth.instance.currentUser!.uid);
-
-          emit(Authenticated(user));
         } else {
-          emit(AuthError(e.toString()));
-          emit(const UnAuthenticated());
-
-          await FirebaseAuth.instance.signOut();
+          emit(EditFailed(e.toString()));
         }
+
+        final user = await authRepository
+            .getUserInfo(FirebaseAuth.instance.currentUser!.uid);
+
+        emit(Authenticated(user));
+      } catch (e) {
+        emit(AuthError(e.toString()));
+        emit(const UnAuthenticated());
+
+        await FirebaseAuth.instance.signOut();
       }
     });
 
@@ -112,7 +123,9 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> with Localization {
 
       try {
         await authRepository.deleteUser(uid: event.uid);
-      } catch (e) {
+      } on FirebaseAuthException catch (e) {
+        print(e);
+
         emit(AuthError(e.toString()));
       }
 
@@ -124,7 +137,7 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> with Localization {
 
       try {
         await authRepository.resetPassword(event.email);
-      } on Exception catch (e) {
+      } on FirebaseAuthException catch (e) {
         emit(AuthError(e.toString()));
       }
 
@@ -134,7 +147,7 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> with Localization {
 
   @override
   AuthState fromJson(Map<String, dynamic> json) {
-    var user = CustomUser.fromJson(json['user']);
+    CustomUser? user = CustomUser.fromJson(json['user']);
 
     return user != null ? Authenticated(user) : const UnAuthenticated();
   }
