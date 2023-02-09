@@ -13,60 +13,38 @@ class AuthRepository with Localization {
     required String email,
     required String password,
     required String phoneNumber,
-    String? fullName,
+    required String fullName,
   }) async {
-    try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+    await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
 
-      final FirebaseAuth auth = FirebaseAuth.instance;
-      final User? user = auth.currentUser;
-      final String uid = user!.uid;
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final String uid = user!.uid;
 
-      await FirebaseFirestore.instance.collection("Users").doc(uid).set({
-        "uid": uid,
-        "email": email,
-        "phoneNumber": phoneNumber,
-        "fullName": fullName
-      });
+    await FirebaseFirestore.instance.collection("Users").doc(uid).set({
+      "uid": uid,
+      "email": email,
+      "phoneNumber": phoneNumber,
+      "fullName": fullName
+    });
 
-      await FirebaseAuth.instance.signOut();
+    await FirebaseAuth.instance.signOut();
 
-      Utils.showSnackBar(loc.signedUp, Colors.green, loc.dissmiss);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') {
-        throw Exception(loc.emailUse);
-      } else {
-        throw Exception(e.message);
-      }
-    } catch (e) {
-      throw Exception(e.toString());
-    }
+    Utils.showSnackBar(loc.signedUp, Colors.green, loc.dissmiss);
   }
 
   Future<void> signIn({required String email, required String password}) async {
-    try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+    await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
 
-      Utils.showSnackBar(loc.signedIn, Colors.green, loc.dissmiss);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-        throw Exception(loc.invalidCredentials);
-      } else {
-        throw Exception(e.message);
-      }
-    }
+    Utils.showSnackBar(loc.signedIn, Colors.green, loc.dissmiss);
   }
 
   Future<void> signOut() async {
-    try {
-      await _firebaseAuth.signOut();
+    await _firebaseAuth.signOut();
 
-      Utils.showSnackBar(loc.signedOut, Colors.green, loc.dissmiss);
-    } catch (e) {
-      throw Exception(e);
-    }
+    Utils.showSnackBar(loc.signedOut, Colors.green, loc.dissmiss);
   }
 
   Future<void> updateUserInfo({
@@ -85,50 +63,26 @@ class AuthRepository with Localization {
   }
 
   Future<void> deleteUser({required String uid}) async {
-    try {
-      User user = FirebaseAuth.instance.currentUser!;
-      await user.delete();
+    User user = FirebaseAuth.instance.currentUser!;
+    await user.delete();
 
-      await FirebaseFirestore.instance.collection("Users").doc(uid).delete();
+    await FirebaseFirestore.instance.collection("Users").doc(uid).delete();
 
-      Utils.showSnackBar(loc.deletedUser, Colors.green, loc.dissmiss);
-    } on FirebaseAuthException catch (e) {
-      print(e);
-
-      throw Exception(e.message);
-    } on Exception catch (e) {
-      print(e);
-
-      await FirebaseAuth.instance.signOut();
-      throw Exception(e);
-    }
+    Utils.showSnackBar(loc.deletedUser, Colors.green, loc.dissmiss);
   }
 
   Future<CustomUser?> getUserInfo(String uid) async {
-    CustomUser user;
+    final data =
+        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
 
-    try {
-      final data =
-          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+    CustomUser user = CustomUser.fromJson(data.data() as Map<String, dynamic>);
 
-      user = CustomUser.fromJson(data.data() as Map<String, dynamic>);
-
-      return user;
-    } catch (e) {
-      await FirebaseAuth.instance.signOut();
-      throw Exception(e);
-    }
+    return user;
   }
 
-  Future resetPassword(String email) async {
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  Future<void> resetPassword(String email) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 
-      Utils.showSnackBar(loc.emailSent, Colors.green, loc.dissmiss);
-    } on FirebaseAuthException catch (e) {
-      print(e);
-
-      throw Exception(e.message);
-    }
+    Utils.showSnackBar(loc.emailSent, Colors.green, loc.dissmiss);
   }
 }
