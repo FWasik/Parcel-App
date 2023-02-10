@@ -1,54 +1,48 @@
 part of 'auth_bloc.dart';
 
-class AuthState extends Equatable {
+abstract class AuthState extends Equatable {
   final CustomUser? user;
   const AuthState(this.user);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [user];
 }
 
 class Loading extends AuthState {
   const Loading({user}) : super(user);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [user];
 }
 
 class Authenticated extends AuthState {
   const Authenticated(user) : super(user);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [user];
 }
 
 class UnAuthenticated extends AuthState {
   const UnAuthenticated({user}) : super(user);
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [user];
 }
 
 class SignedUp extends AuthState {
   const SignedUp({user}) : super(user);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [user];
 }
 
 class EditFailed extends AuthState {
-  final String? error;
+  final String error;
 
   const EditFailed(this.error, {user}) : super(user);
 
   @override
-  List<Object?> get props => [error];
-}
-
-class Deleted extends AuthState {
-  const Deleted({user}) : super(user);
-
-  @override
-  List<Object?> get props => [];
+  List<Object?> get props => [error, user];
 }
 
 class AuthError extends AuthState {
@@ -57,5 +51,5 @@ class AuthError extends AuthState {
   const AuthError(this.error, {user}) : super(user);
 
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [error, user];
 }
