@@ -50,6 +50,7 @@ class _GooglePageState extends State<GooglePage> {
   }
 
   void _getNearbyPlaces(double lat, double lng) async {
+    var x = dotenv.env["googleAPIKey"];
     final location = webservice.Location(lat: lat, lng: lng);
     webservice.GoogleMapsPlaces _places =
         webservice.GoogleMapsPlaces(apiKey: dotenv.env['googleAPIKey']);
@@ -61,7 +62,7 @@ class _GooglePageState extends State<GooglePage> {
       if (result.status == "OK") {
         places = result.results;
         places.forEach((element) {
-          MarkerId markerId = MarkerId(element.name);
+          MarkerId markerId = MarkerId(element.vicinity!);
 
           final Marker marker = Marker(
               markerId: markerId,

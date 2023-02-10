@@ -23,6 +23,11 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     var appLoc = AppLocalizations.of(context)!;
+    var orientation =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+    var themeSpacer = orientation ? 2 : 3;
+    var lanSpacer = orientation ? 3 : 5;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(appLoc.settings),
@@ -36,151 +41,127 @@ class _SettingsPageState extends State<SettingsPage> {
             });
           });
 
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          appLoc.darkMode,
-                          style: TextStyle(fontSize: 20 * stateFont.resize),
-                        ),
+          return SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 30.0, bottom: 30.0, left: 40.0, right: 30.0),
+                child: Column(children: [
+                  Row(
+                    children: [
+                      Text(
+                        appLoc.darkMode,
+                        style: TextStyle(fontSize: 20 * stateFont.resize),
                       ),
-                    ),
-                    const Spacer(
-                      flex: 1,
-                    ),
-                    BlocBuilder<ThemeBloc, ThemeState>(
-                      builder: (context, stateTheme) {
-                        return Expanded(
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Switch.adaptive(
-                                value: stateTheme.isDark,
-                                onChanged: ((value) {
-                                  if (stateTheme.isDark) {
-                                    context.read<ThemeBloc>().add(
-                                        ThemeChangeRequested(
-                                            appTheme: AppThemes.light,
-                                            isDark: false,
-                                            color: Colors.black,
-                                            backgroundBottomBar:
-                                                const Color.fromARGB(
-                                                    251, 232, 224, 224)));
-                                  } else {
-                                    context.read<ThemeBloc>().add(
-                                        ThemeChangeRequested(
-                                            appTheme: AppThemes.dark,
-                                            isDark: true,
-                                            color: Colors.white,
-                                            backgroundBottomBar:
-                                                const Color.fromARGB(
-                                                    255, 49, 51, 62)));
-                                  }
-                                })),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Align(
-                          alignment: Alignment.center,
-                          child: Text(appLoc.fontSize,
-                              style:
-                                  TextStyle(fontSize: 20 * stateFont.resize))),
-                    ),
-                    Slider(
-                      value: _currentSliderValue,
-                      max: 1.15,
-                      min: 0.85,
-                      label: _currentSliderValue.toString(),
-                      onChanged: (double value) {
-                        context.read<FontBloc>().add(FontChangeRequested(
-                              resize: value,
-                            ));
+                      Spacer(flex: themeSpacer),
+                      BlocBuilder<ThemeBloc, ThemeState>(
+                        builder: (context, stateTheme) {
+                          return Switch.adaptive(
+                              value: stateTheme.isDark,
+                              onChanged: ((value) {
+                                if (stateTheme.isDark) {
+                                  context.read<ThemeBloc>().add(
+                                      ThemeChangeRequested(
+                                          appTheme: AppThemes.light,
+                                          isDark: false,
+                                          color: Colors.black,
+                                          backgroundBottomBar:
+                                              const Color.fromARGB(
+                                                  251, 232, 224, 224)));
+                                } else {
+                                  context.read<ThemeBloc>().add(
+                                      ThemeChangeRequested(
+                                          appTheme: AppThemes.dark,
+                                          isDark: true,
+                                          color: Colors.white,
+                                          backgroundBottomBar:
+                                              const Color.fromARGB(
+                                                  255, 49, 51, 62)));
+                                }
+                              }));
+                        },
+                      ),
+                      const Spacer()
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Text(appLoc.fontSize,
+                          style: TextStyle(fontSize: 20 * stateFont.resize)),
+                      const Spacer(flex: 4),
+                      Slider(
+                        value: _currentSliderValue,
+                        max: 1.15,
+                        min: 0.85,
+                        label: _currentSliderValue.toString(),
+                        onChanged: (double value) {
+                          context.read<FontBloc>().add(FontChangeRequested(
+                                resize: value,
+                              ));
 
-                        setState(() {
-                          _currentSliderValue = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerRight,
+                          setState(() {
+                            _currentSliderValue = value;
+                          });
+                        },
+                      ),
+                      const Spacer()
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Text(
+                        appLoc.language,
+                        style: TextStyle(fontSize: 20 * stateFont.resize),
+                      ),
+                      Spacer(flex: lanSpacer),
+                      TextButton(
                         child: Text(
-                          appLoc.language,
-                          style: TextStyle(fontSize: 20 * stateFont.resize),
+                          appLoc.setEnglish,
+                          style: TextStyle(fontSize: 18 * stateFont.resize),
                         ),
+                        onPressed: () {
+                          context
+                              .read<LanguageBloc>()
+                              .add(LanguageChangeRequested(
+                                language: "en",
+                              ));
+                        },
                       ),
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          child: Text(
-                            appLoc.setEnglish,
-                            style: TextStyle(fontSize: 18 * stateFont.resize),
-                          ),
-                          onPressed: () {
-                            context
-                                .read<LanguageBloc>()
-                                .add(LanguageChangeRequested(
-                                  language: "en",
-                                ));
-                          },
+                      const Spacer(),
+                      TextButton(
+                        child: Text(appLoc.setPolish,
+                            style: TextStyle(fontSize: 18 * stateFont.resize)),
+                        onPressed: () {
+                          context
+                              .read<LanguageBloc>()
+                              .add(LanguageChangeRequested(
+                                language: "pl",
+                              ));
+                        },
+                      ),
+                      const Spacer()
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  if (state is Authenticated)
+                    CustomButton(
+                        text: Text(
+                          appLoc.deleteUserButton,
+                          style: TextStyle(fontSize: 26 * stateFont.resize),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          child: Text(appLoc.setPolish,
-                              style:
-                                  TextStyle(fontSize: 18 * stateFont.resize)),
-                          onPressed: () {
-                            context
-                                .read<LanguageBloc>()
-                                .add(LanguageChangeRequested(
-                                  language: "pl",
-                                ));
-                          },
+                        color: Colors.red,
+                        onPressed: () {
+                          DeleteDialogs.showDeleteUserDialog(context);
+                        },
+                        icon: const Icon(
+                          Icons.delete,
+                          size: 32,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 32),
-                if (state is Authenticated)
-                  CustomButton(
-                      text: Text(
-                        appLoc.deleteUserButton,
-                        style: TextStyle(fontSize: 26 * stateFont.resize),
-                      ),
-                      color: Colors.red,
-                      onPressed: () {
-                        DeleteDialogs.showDeleteUserDialog(context);
-                      },
-                      icon: const Icon(
-                        Icons.delete,
-                        size: 32,
-                      ),
-                      width: 0.7),
-              ]),
+                        width: 0.7),
+                ]),
+              ),
             ),
           );
         });

@@ -19,39 +19,41 @@ class HomePage extends StatelessWidget {
 
           return BlocBuilder<FontBloc, FontState>(
               builder: (context, stateFont) {
-            return Center(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const FlutterLogo(
-                      size: 150,
-                    ),
-                    const SizedBox(height: 20),
-                    Text(appLoc.welcome,
-                        style: TextStyle(fontSize: 38 * stateFont.resize),
-                        maxLines: 2,
-                        textAlign: TextAlign.center),
-                    const SizedBox(height: 30),
-                    Text(
-                      appLoc.logAs,
-                      style: TextStyle(fontSize: 24 * stateFont.resize),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      user.fullName,
-                      style: TextStyle(
-                          fontSize: 26 * stateFont.resize,
-                          color: Theme.of(context).primaryColor,
-                          decoration: TextDecoration.underline),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      appLoc.optionsBelow,
-                      style: TextStyle(fontSize: 24 * stateFont.resize),
-                    ),
-                    const SizedBox(height: 60),
-                    const Icon(Icons.keyboard_double_arrow_down, size: 80)
-                  ]),
+            return SingleChildScrollView(
+              child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const FlutterLogo(
+                        size: 150,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(appLoc.welcome,
+                          style: TextStyle(fontSize: 38 * stateFont.resize),
+                          maxLines: 2,
+                          textAlign: TextAlign.center),
+                      const SizedBox(height: 30),
+                      Text(
+                        appLoc.logAs,
+                        style: TextStyle(fontSize: 24 * stateFont.resize),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        user.fullName,
+                        style: TextStyle(
+                            fontSize: 26 * stateFont.resize,
+                            color: Theme.of(context).primaryColor,
+                            decoration: TextDecoration.underline),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        appLoc.optionsBelow,
+                        style: TextStyle(fontSize: 24 * stateFont.resize),
+                      ),
+                      const SizedBox(height: 60),
+                      const Icon(Icons.keyboard_double_arrow_down, size: 80)
+                    ]),
+              ),
             );
           });
         } else {
