@@ -25,8 +25,8 @@ class _SettingsPageState extends State<SettingsPage> {
     var appLoc = AppLocalizations.of(context)!;
     var orientation =
         MediaQuery.of(context).orientation == Orientation.portrait;
-    var themeSpacer = orientation ? 2 : 3;
-    var lanSpacer = orientation ? 3 : 5;
+    var themeSpacer = orientation ? 1 : 3;
+    var lanSpacer = orientation ? 1 : 4;
 
     return Scaffold(
       appBar: AppBar(
@@ -44,8 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
           return SingleChildScrollView(
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 30.0, bottom: 30.0, left: 40.0, right: 30.0),
+                padding: const EdgeInsets.all(30.0),
                 child: Column(children: [
                   Row(
                     children: [
