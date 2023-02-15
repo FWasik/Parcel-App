@@ -49,19 +49,20 @@ class _CreateReturnState extends State<CreateReturnPage> {
           backgroundColor: Theme.of(context).primaryColor,
           title: Text(appLoc.createReturnButton),
         ),
-        body: BlocConsumer<ReturnBloc, ReturnState>(listener: (context, state) {
-          if (state is Error) {
-            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
-          } else if (state is Created) {
+        body: BlocConsumer<ReturnBloc, ReturnState>(
+            listener: (contextReturn, stateReturn) {
+          if (stateReturn is Error) {
+            Utils.showSnackBar(stateReturn.error, Colors.red, appLoc.dissmiss);
+          } else if (stateReturn is Created) {
             Navigator.of(context).pop();
           }
-        }, builder: (context, state) {
-          if (state is LoadingReturns || state is Created) {
+        }, builder: (contextReturn, stateReturn) {
+          if (stateReturn is LoadingReturns || stateReturn is Created) {
             return CustomCircularProgressIndicator(
                 color: Theme.of(context).primaryColor);
           } else {
             return BlocBuilder<FontBloc, FontState>(
-                builder: (context, stateFont) {
+                builder: (contextFont, stateFont) {
               return Container(
                 padding: const EdgeInsets.all(18),
                 child: Center(

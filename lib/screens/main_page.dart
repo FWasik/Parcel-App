@@ -92,24 +92,24 @@ class _MainPageState extends State<MainPage> {
             ],
           );
         }),
-        body:
-            BlocConsumer<AuthBloc, AuthState>(listener: (context, state) async {
-          if (state is UnAuthenticated) {
+        body: BlocConsumer<AuthBloc, AuthState>(
+            listener: (contextAuth, stateAuth) async {
+          if (stateAuth is UnAuthenticated) {
             //Navigator.of(context).popUntil((route) => route.isFirst);
 
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const SignIn()),
               (route) => false,
             );
-          } else if (state is EditFailed) {
-            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
+          } else if (stateAuth is EditFailed) {
+            Utils.showSnackBar(stateAuth.error, Colors.red, appLoc.dissmiss);
           }
-        }, builder: (context, state) {
-          if (state is Loading) {
+        }, builder: (contextAuth, stateAuth) {
+          if (stateAuth is Loading) {
             return CustomCircularProgressIndicator(
               color: Theme.of(context).primaryColor,
             );
-          } else if (state is Authenticated) {
+          } else if (stateAuth is Authenticated) {
             return body[_currentIndex];
           } else {
             return Container();

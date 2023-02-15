@@ -33,8 +33,9 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text(appLoc.settings),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      body: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-        return BlocBuilder<FontBloc, FontState>(builder: (context, stateFont) {
+      body: BlocBuilder<AuthBloc, AuthState>(builder: (contextAuth, stateAuth) {
+        return BlocBuilder<FontBloc, FontState>(
+            builder: (contextFont, stateFont) {
           Future.delayed(Duration.zero, () async {
             setState(() {
               _currentSliderValue = stateFont.resize;
@@ -144,7 +145,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   const SizedBox(height: 32),
-                  if (state is Authenticated)
+                  if (stateAuth is Authenticated)
                     CustomButton(
                         text: Text(
                           appLoc.deleteUserButton,

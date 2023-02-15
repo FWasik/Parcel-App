@@ -32,12 +32,13 @@ class _ReturnPackagesState extends State<ReturnPackagesPage> {
               Icons.add,
               color: Colors.white,
             )),
-        body: BlocBuilder<ReturnBloc, ReturnState>(builder: (context, state) {
-          if (state is LoadingReturns || state is Created) {
+        body: BlocBuilder<ReturnBloc, ReturnState>(
+            builder: (contextReturn, stateReturn) {
+          if (stateReturn is LoadingReturns || stateReturn is Created) {
             return CustomCircularProgressIndicator(
                 color: Theme.of(context).primaryColor);
-          } else if (state is Fetched) {
-            List<Return> returns = state.returns;
+          } else if (stateReturn is Fetched) {
+            List<Return> returns = stateReturn.returns;
 
             var appLoc = AppLocalizations.of(context)!;
 
@@ -45,7 +46,7 @@ class _ReturnPackagesState extends State<ReturnPackagesPage> {
               return NoDataFound(additionalText: appLoc.additionalTextReturns);
             } else {
               return BlocBuilder<FontBloc, FontState>(
-                  builder: (context, stateFont) {
+                  builder: (contextFont, stateFont) {
                 return Column(children: [
                   Expanded(
                     child: ListView.builder(

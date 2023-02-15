@@ -36,17 +36,18 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           backgroundColor: Theme.of(context).primaryColor,
           title: Text(AppLocalizations.of(context)!.resetPassword),
         ),
-        body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
-          if (state is AuthError) {
-            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
+        body: BlocConsumer<AuthBloc, AuthState>(
+            listener: (contextAuth, stateAuth) {
+          if (stateAuth is AuthError) {
+            Utils.showSnackBar(stateAuth.error, Colors.red, appLoc.dissmiss);
           }
-        }, builder: (context, state) {
-          if (state is Loading) {
+        }, builder: (contextAuth, stateAuth) {
+          if (stateAuth is Loading) {
             return CustomCircularProgressIndicator(
                 color: Theme.of(context).primaryColor);
           } else {
             return BlocBuilder<FontBloc, FontState>(
-                builder: (context, stateFont) {
+                builder: (contextFont, stateFont) {
               return Container(
                 padding: const EdgeInsets.all(18),
                 child: Form(

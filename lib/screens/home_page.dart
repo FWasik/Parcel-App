@@ -12,13 +12,13 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-        if (state is Authenticated) {
-          CustomUser? user = state.user!;
+      body: BlocBuilder<AuthBloc, AuthState>(builder: (contextAuth, stateAuth) {
+        if (stateAuth is Authenticated) {
+          CustomUser? user = stateAuth.user!;
           var appLoc = AppLocalizations.of(context)!;
 
           return BlocBuilder<FontBloc, FontState>(
-              builder: (context, stateFont) {
+              builder: (contextFont, stateFont) {
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(top: 50.0, bottom: 20.0),

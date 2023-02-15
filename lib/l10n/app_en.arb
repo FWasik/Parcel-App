@@ -226,5 +226,7 @@
     "typeDiff": "Other",
     "validType": "Type must be chosen",
     "addressButton": "Address track",
-    "findingParcelMachine": "Parcel machine finding"
+    "findingParcelMachine": "Parcel machine finding",
+    "filterNonReceivedEmpty": "No packages to receive",
+    "filterReceivedEmpty": "No received packages"
 }

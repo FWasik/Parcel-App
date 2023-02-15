@@ -37,10 +37,10 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-      if (state is Authenticated) {
-        CustomUser? user = state.user!;
+    return Scaffold(body:
+        BlocBuilder<AuthBloc, AuthState>(builder: (contextAuth, stateAuth) {
+      if (stateAuth is Authenticated) {
+        CustomUser? user = stateAuth.user!;
         emailController.text = user.email;
         phoneNumberController.text = user.phoneNumber;
         fullNameController.text = user.fullName;
@@ -49,8 +49,8 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
 
         return Container(
           padding: const EdgeInsets.all(18),
-          child:
-              BlocBuilder<FontBloc, FontState>(builder: (context, stateFont) {
+          child: BlocBuilder<FontBloc, FontState>(
+              builder: (contextFont, stateFont) {
             return Center(
               child: SingleChildScrollView(
                 child: Form(
@@ -156,7 +156,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
             );
           }),
         );
-      } else if (state is Loading) {
+      } else if (stateAuth is Loading) {
         return const Center(child: CircularProgressIndicator());
       } else {
         return Container();

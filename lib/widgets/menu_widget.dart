@@ -13,8 +13,9 @@ class CustomMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     var appLoc = AppLocalizations.of(context)!;
 
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-      return BlocBuilder<FontBloc, FontState>(builder: (context, stateFont) {
+    return BlocBuilder<AuthBloc, AuthState>(builder: (contextAuth, stateAuth) {
+      return BlocBuilder<FontBloc, FontState>(
+          builder: (contextAuth, stateFont) {
         return PopupMenuButton(itemBuilder: (context) {
           return [
             PopupMenuItem<int>(
@@ -29,7 +30,7 @@ class CustomMenu extends StatelessWidget {
                         style: TextStyle(fontSize: 16 * stateFont.resize),
                       )
                     ])),
-            if (state is Authenticated)
+            if (stateAuth is Authenticated)
               PopupMenuItem<int>(
                   value: 2,
                   child: Row(

@@ -48,22 +48,22 @@ class _SignInState extends State<SignIn> {
         actions: [CustomMenu()],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is Authenticated) {
+        listener: (contextAuth, stateAuth) {
+          if (stateAuth is Authenticated) {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const MainPage()));
           }
-          if (state is AuthError) {
-            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
+          if (stateAuth is AuthError) {
+            Utils.showSnackBar(stateAuth.error, Colors.red, appLoc.dissmiss);
           }
         },
-        builder: (context, state) {
-          if (state is Loading) {
+        builder: (contextAuth, stateAuth) {
+          if (stateAuth is Loading) {
             return CustomCircularProgressIndicator(
               color: Theme.of(context).primaryColor,
             );
           }
-          if (state is UnAuthenticated || state is SignedUp) {
+          if (stateAuth is UnAuthenticated || stateAuth is SignedUp) {
             return BlocBuilder<FontBloc, FontState>(
                 builder: (context, stateFont) {
               return Center(

@@ -10,7 +10,7 @@ class NoDataFound extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FontBloc, FontState>(builder: (context, stateFont) {
+    return BlocBuilder<FontBloc, FontState>(builder: (contextFont, stateFont) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

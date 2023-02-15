@@ -50,20 +50,20 @@ class _SendPackagePageState extends State<SendPackagePage> {
           backgroundColor: Theme.of(context).primaryColor,
           title: Text(AppLocalizations.of(context)!.sendPackage),
         ),
-        body:
-            BlocConsumer<PackageBloc, PackageState>(listener: (context, state) {
-          if (state is Error) {
-            Utils.showSnackBar(state.error, Colors.red, appLoc.dissmiss);
-          } else if (state is Created) {
+        body: BlocConsumer<PackageBloc, PackageState>(
+            listener: (contextPackage, statePackage) {
+          if (statePackage is Error) {
+            Utils.showSnackBar(statePackage.error, Colors.red, appLoc.dissmiss);
+          } else if (statePackage is Created) {
             Navigator.of(context).pop();
           }
-        }, builder: (context, state) {
-          if (state is LoadingPackages || state is Created) {
+        }, builder: (contextPackage, statePackage) {
+          if (statePackage is LoadingPackages || statePackage is Created) {
             return CustomCircularProgressIndicator(
                 color: Theme.of(context).primaryColor);
           } else {
             return BlocBuilder<FontBloc, FontState>(
-                builder: (context, stateFont) {
+                builder: (contextFont, stateFont) {
               return Container(
                 padding: const EdgeInsets.all(18),
                 child: Center(

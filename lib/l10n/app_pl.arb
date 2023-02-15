@@ -227,5 +227,7 @@
     "typeDiff": "Inny",
     "validType": "Type zwrotu musi zostać wybrany",
     "addressButton": "Pokaż adres",
-    "findingParcelMachine": "Wyszukiwanie paczkomatu"
+    "findingParcelMachine": "Wyszukiwanie paczkomatu",
+    "filterNonReceivedEmpty": "Brak paczek do odbioru",
+    "filterReceivedEmpty": "Brak odebranych paczek"
 }
