@@ -66,8 +66,6 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
       try {
         await packageRepository.deletePackage(id: event.id);
 
-        emit(Deleted());
-
         List<Package> packages =
             await packageRepository.fetchPackages(event.type);
 
@@ -83,8 +81,6 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
       try {
         await packageRepository.acceptPackage(
             package: event.package, uidSender: event.uidSender);
-
-        emit(Accepted());
 
         List<Package> packages =
             await packageRepository.fetchPackages(event.type);

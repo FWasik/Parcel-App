@@ -22,8 +22,6 @@ class CreatePackagesRequested extends PackageEvent {
       this.addressToSend, this.addressToReceive);
 }
 
-class InitPackagesRequested extends PackageEvent {}
-
 class DeletePackagesRequested extends PackageEvent {
   final String id;
   final String type;
