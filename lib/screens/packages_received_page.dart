@@ -24,23 +24,23 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BlocBuilder<PackageBloc, PackageState>(builder: (context, state) {
-      if (state is LoadingPackages || state is Deleted || state is Accepted) {
+    return Scaffold(body: BlocBuilder<PackageBloc, PackageState>(
+        builder: (contextPackage, statePackage) {
+      if (statePackage is LoadingPackages) {
         return CustomCircularProgressIndicator(
             color: Theme.of(context).primaryColor);
-      } else if (state is Fetched) {
-        List<Package> filteredData = state.packages
+      } else if (statePackage is Fetched) {
+        List<Package> filteredData = statePackage.packages
             .where((element) => element.isReceived == _isReceived)
             .toList();
 
         var appLoc = AppLocalizations.of(context)!;
 
-        if (state.packages.isEmpty) {
+        if (statePackage.packages.isEmpty) {
           return NoDataFound(additionalText: appLoc.additionalTextReceived);
         } else {
           return BlocBuilder<FontBloc, FontState>(
-              builder: (context, stateFont) {
+              builder: (contextFont, stateFont) {
             return Column(children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 10, top: 20),
@@ -71,121 +71,133 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                    itemCount: filteredData.length,
-                    itemBuilder: (_, index) {
-                      return Card(
-                        elevation: 10,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ListTile(
-                                  title: SelectableText(
-                                      appLoc.packageNumber(
-                                          filteredData[index].id),
-                                      style: TextStyle(
-                                          fontSize: 18 * stateFont.resize)),
-                                  subtitle: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(height: 20),
-                                        Text(
-                                            appLoc.sender(
-                                                filteredData[index].fullName),
+                  child: (filteredData.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: filteredData.length,
+                          itemBuilder: (_, index) {
+                            return Card(
+                              elevation: 10,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ListTile(
+                                        title: SelectableText(
+                                            appLoc.packageNumber(
+                                                filteredData[index].id),
                                             style: TextStyle(
                                                 fontSize:
-                                                    14 * stateFont.resize)),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                            appLoc.senderPhoneNumber(
-                                                filteredData[index]
-                                                    .phoneNumber),
+                                                    18 * stateFont.resize)),
+                                        subtitle: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(height: 20),
+                                              Text(
+                                                  appLoc.sender(
+                                                      filteredData[index]
+                                                          .fullName),
+                                                  style: TextStyle(
+                                                      fontSize: 14 *
+                                                          stateFont.resize)),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                  appLoc.senderPhoneNumber(
+                                                      filteredData[index]
+                                                          .phoneNumber),
+                                                  style: TextStyle(
+                                                      fontSize: 14 *
+                                                          stateFont.resize)),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                  appLoc.senderEmail(
+                                                      filteredData[index]
+                                                          .emailSender),
+                                                  style: TextStyle(
+                                                      fontSize: 14 *
+                                                          stateFont.resize)),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                  appLoc
+                                                      .parcelMachineAddressSend(
+                                                          filteredData[index]
+                                                              .addressToSend),
+                                                  style: TextStyle(
+                                                      fontSize: 14 *
+                                                          stateFont.resize)),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                  appLoc
+                                                      .parcelMachineAddressReceive(
+                                                          filteredData[index]
+                                                              .addressToReceive),
+                                                  style: TextStyle(
+                                                      fontSize: 14 *
+                                                          stateFont.resize)),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                  appLoc.createdAndSent(
+                                                      filteredData[index]
+                                                          .timeCreated),
+                                                  style: TextStyle(
+                                                      fontSize: 14 *
+                                                          stateFont.resize)),
+                                            ]),
+                                        trailing: (!_isReceived
+                                            ? CustomAcceptPackageButton(
+                                                onPressed: () {
+                                                  context.read<PackageBloc>().add(
+                                                      AcceptPackagesRequested(
+                                                          filteredData[index],
+                                                          filteredData[index]
+                                                              .uidSender,
+                                                          "received"));
+                                                },
+                                              )
+                                            : CustomDeletePackageButton(
+                                                onPressed: () {
+                                                DeleteDialogs
+                                                    .showDeletePackageDialog(
+                                                        context,
+                                                        filteredData[index].id,
+                                                        statePackage.type);
+                                              })),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      CustomButton(
+                                          width: 0.7,
+                                          color: Theme.of(context).primaryColor,
+                                          icon: const Icon(Icons.local_shipping,
+                                              size: 32),
+                                          text: Text(
+                                            appLoc.addressButton,
                                             style: TextStyle(
                                                 fontSize:
-                                                    14 * stateFont.resize)),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                            appLoc.senderEmail(
-                                                filteredData[index]
-                                                    .emailSender),
-                                            style: TextStyle(
-                                                fontSize:
-                                                    14 * stateFont.resize)),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                            appLoc.parcelMachineAddressSend(
-                                                filteredData[index]
-                                                    .addressToSend),
-                                            style: TextStyle(
-                                                fontSize:
-                                                    14 * stateFont.resize)),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                            appLoc.parcelMachineAddressReceive(
-                                                filteredData[index]
-                                                    .addressToReceive),
-                                            style: TextStyle(
-                                                fontSize:
-                                                    14 * stateFont.resize)),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                            appLoc.createdAndSent(
-                                                filteredData[index]
-                                                    .timeCreated),
-                                            style: TextStyle(
-                                                fontSize:
-                                                    14 * stateFont.resize)),
-                                      ]),
-                                  trailing: (!_isReceived
-                                      ? CustomAcceptPackageButton(
+                                                    18 * stateFont.resize),
+                                          ),
                                           onPressed: () {
-                                            context.read<PackageBloc>().add(
-                                                AcceptPackagesRequested(
-                                                    filteredData[index],
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  GoogleSearchParcelPage(
+                                                parcelAddress:
                                                     filteredData[index]
-                                                        .uidSender,
-                                                    "received"));
-                                          },
-                                        )
-                                      : CustomDeletePackageButton(
-                                          onPressed: () {
-                                          DeleteDialogs.showDeletePackageDialog(
-                                              context,
-                                              filteredData[index].id,
-                                              state.type);
-                                        })),
-                                ),
-                                const SizedBox(height: 20),
-                                CustomButton(
-                                    width: 0.7,
-                                    color: Theme.of(context).primaryColor,
-                                    icon: const Icon(Icons.local_shipping,
-                                        size: 32),
-                                    text: Text(
-                                      appLoc.addressButton,
-                                      style: TextStyle(
-                                          fontSize: 18 * stateFont.resize),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            GoogleSearchParcelPage(
-                                          parcelAddress: filteredData[index]
-                                              .addressToReceive,
-                                        ),
-                                      ));
-                                    }),
-                              ]),
-                        ),
-                      );
-                    }),
-              ),
+                                                        .addressToReceive,
+                                              ),
+                                            ));
+                                          }),
+                                    ]),
+                              ),
+                            );
+                          })
+                      : Center(
+                          child: NoDataFound(
+                              additionalText: (_isReceived
+                                  ? appLoc.filterReceivedEmpty
+                                  : appLoc.filterNonReceivedEmpty)))))
             ]);
           });
         }
