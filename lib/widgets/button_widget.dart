@@ -40,12 +40,13 @@ class CustomDeletePackageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: onPressed,
-        child: const Icon(
-          Icons.delete,
-        ),
-        style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red, fixedSize: const Size(10, 20)));
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red, fixedSize: const Size(10, 20)),
+      child: const Icon(
+        Icons.delete,
+      ),
+    );
   }
 }
 
@@ -58,11 +59,12 @@ class CustomAcceptPackageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: onPressed,
-        child: const Icon(
-          Icons.check,
-        ),
-        style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green, fixedSize: const Size(10, 20)));
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.green, fixedSize: const Size(10, 20)),
+      child: const Icon(
+        Icons.check,
+      ),
+    );
   }
 }

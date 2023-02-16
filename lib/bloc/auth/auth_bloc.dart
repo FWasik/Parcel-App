@@ -1,14 +1,9 @@
-import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:parcel_app/models/custom_user.dart';
 import 'package:parcel_app/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:parcel_app/l10n/localization.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:parcel_app/utils/utils.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

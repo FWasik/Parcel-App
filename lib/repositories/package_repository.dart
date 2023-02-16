@@ -158,7 +158,6 @@ class PackageRepository with Localization {
       var idPackageSender;
 
       data.docs.forEach(((element) async {
-        print("fdsf");
         print(timestamp.seconds);
         print(element.data()["timeCreated"].seconds);
 

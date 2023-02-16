@@ -193,11 +193,10 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                               ),
                             );
                           })
-                      : Center(
-                          child: NoDataFound(
-                              additionalText: (_isReceived
-                                  ? appLoc.filterReceivedEmpty
-                                  : appLoc.filterNonReceivedEmpty)))))
+                      : NoDataFound(
+                          additionalText: (_isReceived
+                              ? appLoc.filterReceivedEmpty
+                              : appLoc.filterNonReceivedEmpty))))
             ]);
           });
         }

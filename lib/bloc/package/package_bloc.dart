@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import 'package:parcel_app/repositories/package_repository.dart';
 import 'package:parcel_app/models/package.dart';

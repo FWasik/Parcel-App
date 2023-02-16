@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
           title: Text(AppLocalizations.of(context)!.parcelApp),
-          actions: [CustomMenu()],
+          actions: const [CustomMenu()],
         ),
         bottomNavigationBar:
             BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {

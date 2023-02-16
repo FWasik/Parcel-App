@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:parcel_app/l10n/localization.dart';
 import 'package:parcel_app/models/return.dart';
 import 'package:parcel_app/repositories/return_repository.dart';

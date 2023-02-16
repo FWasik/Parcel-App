@@ -50,7 +50,7 @@ class _SignUpState extends State<SignUp> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(appLoc.signUp),
-        actions: [CustomMenu()],
+        actions: const [CustomMenu()],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (contextAuth, stateAuth) {

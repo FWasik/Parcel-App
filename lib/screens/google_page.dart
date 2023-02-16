@@ -50,7 +50,6 @@ class _GooglePageState extends State<GooglePage> {
   }
 
   void _getNearbyPlaces(double lat, double lng) async {
-    var x = dotenv.env["googleAPIKey"];
     final location = webservice.Location(lat: lat, lng: lng);
     webservice.GoogleMapsPlaces _places =
         webservice.GoogleMapsPlaces(apiKey: dotenv.env['googleAPIKey']);

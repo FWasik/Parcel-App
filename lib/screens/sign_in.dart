@@ -45,7 +45,7 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(appLoc.signIn),
-        actions: [CustomMenu()],
+        actions: const [CustomMenu()],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (contextAuth, stateAuth) {

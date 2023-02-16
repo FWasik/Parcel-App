@@ -15,7 +15,7 @@ class CustomMenu extends StatelessWidget {
 
     return BlocBuilder<AuthBloc, AuthState>(builder: (contextAuth, stateAuth) {
       return BlocBuilder<FontBloc, FontState>(
-          builder: (contextAuth, stateFont) {
+          builder: (contextFont, stateFont) {
         return PopupMenuButton(itemBuilder: (context) {
           return [
             PopupMenuItem<int>(
