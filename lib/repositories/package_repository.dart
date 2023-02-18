@@ -17,46 +17,42 @@ class PackageRepository with Localization {
   Future<List<Package>> fetchPackages(String type) async {
     List<Package> packages = [];
 
-    try {
-      final User user = FirebaseAuth.instance.currentUser!;
-      String senderOrReceiver = '';
+    final User user = FirebaseAuth.instance.currentUser!;
+    String senderOrReceiver = '';
 
-      if (type == 'sent') {
-        senderOrReceiver = 'uidSender';
-      } else if (type == 'received') {
-        senderOrReceiver = 'uidReceiver';
-      }
-
-      final data = await FirebaseFirestore.instance
-          .collection("Users")
-          .doc(user.uid)
-          .collection("Packages")
-          .where(senderOrReceiver, isEqualTo: user.uid)
-          .get();
-
-      data.docs.forEach(((element) async {
-        var data = element.data();
-        data['id'] = element.reference.id.toString();
-
-        DateTime timeCreated =
-            DateTime.parse(data["timeCreated"].toDate().toString());
-
-        data['timeCreated'] =
-            DateFormat('yyyy-MM-dd HH:mm:ss').format(timeCreated);
-
-        return packages.add(Package.fromJson(data));
-      }));
-
-      packages.sort(
-        (a, b) {
-          return b.timeCreated.compareTo(a.timeCreated);
-        },
-      );
-
-      return packages;
-    } catch (e) {
-      throw Exception(e.toString());
+    if (type == 'sent') {
+      senderOrReceiver = 'uidSender';
+    } else if (type == 'received') {
+      senderOrReceiver = 'uidReceiver';
     }
+
+    final data = await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(user.uid)
+        .collection("Packages")
+        .where(senderOrReceiver, isEqualTo: user.uid)
+        .get();
+
+    data.docs.forEach(((element) async {
+      var data = element.data();
+      data['id'] = element.reference.id.toString();
+
+      DateTime timeCreated =
+          DateTime.parse(data["timeCreated"].toDate().toString());
+
+      data['timeCreated'] =
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(timeCreated);
+
+      return packages.add(Package.fromJson(data));
+    }));
+
+    packages.sort(
+      (a, b) {
+        return b.timeCreated.compareTo(a.timeCreated);
+      },
+    );
+
+    return packages;
   }
 
   Future<void> createPackage({
@@ -68,117 +64,105 @@ class PackageRepository with Localization {
   }) async {
     final User user = FirebaseAuth.instance.currentUser!;
 
-    try {
-      final data = await FirebaseFirestore.instance
-          .collection("Users")
-          .where("email", isEqualTo: email)
-          .where("phoneNumber", isEqualTo: phoneNumber)
-          .where("fullName", isEqualTo: fullName)
-          .get();
+    final data = await FirebaseFirestore.instance
+        .collection("Users")
+        .where("email", isEqualTo: email)
+        .where("phoneNumber", isEqualTo: phoneNumber)
+        .where("fullName", isEqualTo: fullName)
+        .get();
 
-      CustomUser receiver = data.docs.map((element) {
-        return CustomUser.fromJson(element.data());
-      }).toList()[0];
+    CustomUser receiver = data.docs.map((element) {
+      return CustomUser.fromJson(element.data());
+    }).toList()[0];
 
-      //sender == user
-      final sender = await authRepository.getUserInfo(user.uid);
+    //sender == user
+    final sender = await authRepository.getUserInfo(user.uid);
 
-      if (sender!.email == receiver.email) {
-        throw Exception("Cannot send package to yourself!");
-      }
-
-      // sender
-      createPackageInFirestore(
-          user.uid,
-          user.uid,
-          receiver.uid,
-          sender.email,
-          receiver.email,
-          receiver.fullName,
-          receiver.phoneNumber,
-          addressToSend,
-          addressToReceive);
-
-      //receiver
-      createPackageInFirestore(
-          receiver.uid,
-          user.uid,
-          receiver.uid,
-          sender.email,
-          receiver.email,
-          sender.fullName,
-          sender.phoneNumber,
-          addressToSend,
-          addressToReceive);
-
-      Utils.showSnackBar(loc.packageCreatedAndSent, Colors.green, loc.dissmiss);
-    } catch (e) {
-      throw Exception(e);
+    if (sender!.email == receiver.email) {
+      throw Exception("Cannot send package to yourself!");
     }
+
+    // sender
+    createPackageInFirestore(
+        user.uid,
+        user.uid,
+        receiver.uid,
+        sender.email,
+        receiver.email,
+        receiver.fullName,
+        receiver.phoneNumber,
+        addressToSend,
+        addressToReceive);
+
+    //receiver
+    createPackageInFirestore(
+        receiver.uid,
+        user.uid,
+        receiver.uid,
+        sender.email,
+        receiver.email,
+        sender.fullName,
+        sender.phoneNumber,
+        addressToSend,
+        addressToReceive);
+
+    Utils.showSnackBar(loc.packageCreatedAndSent, Colors.green, loc.dissmiss);
   }
 
   Future<void> deletePackage({required String id}) async {
     final User user = FirebaseAuth.instance.currentUser!;
 
-    try {
-      await FirebaseFirestore.instance
-          .collection("Users")
-          .doc(user.uid)
-          .collection("Packages")
-          .doc(id)
-          .delete();
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(user.uid)
+        .collection("Packages")
+        .doc(id)
+        .delete();
 
-      Utils.showSnackBar(loc.packageDeleted, Colors.green, loc.dissmiss);
-    } catch (e) {
-      throw Exception(e);
-    }
+    Utils.showSnackBar(loc.packageDeleted, Colors.green, loc.dissmiss);
   }
 
   Future<void> acceptPackage(
       {required Package package, required String uidSender}) async {
     final User user = FirebaseAuth.instance.currentUser!;
 
-    try {
-      await FirebaseFirestore.instance
-          .collection("Users")
-          .doc(user.uid)
-          .collection("Packages")
-          .doc(package.id)
-          .update({"isReceived": true});
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(user.uid)
+        .collection("Packages")
+        .doc(package.id)
+        .update({"isReceived": true});
 
-      final data = await FirebaseFirestore.instance
+    final data = await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(uidSender)
+        .collection("Packages")
+        .get();
+
+    Timestamp timestamp =
+        Timestamp.fromDate(DateTime.parse(package.timeCreated));
+
+    var idPackageSender;
+
+    data.docs.forEach(((element) async {
+      print(timestamp.seconds);
+      print(element.data()["timeCreated"].seconds);
+
+      if (timestamp.seconds == element.data()["timeCreated"].seconds) {
+        idPackageSender = element.reference.id.toString();
+      }
+    }));
+
+    if (idPackageSender != null) {
+      await FirebaseFirestore.instance
           .collection("Users")
           .doc(uidSender)
           .collection("Packages")
-          .get();
-
-      Timestamp timestamp =
-          Timestamp.fromDate(DateTime.parse(package.timeCreated));
-
-      var idPackageSender;
-
-      data.docs.forEach(((element) async {
-        print(timestamp.seconds);
-        print(element.data()["timeCreated"].seconds);
-
-        if (timestamp.seconds == element.data()["timeCreated"].seconds) {
-          idPackageSender = element.reference.id.toString();
-        }
-      }));
-
-      if (idPackageSender != null) {
-        await FirebaseFirestore.instance
-            .collection("Users")
-            .doc(uidSender)
-            .collection("Packages")
-            .doc(idPackageSender)
-            .update({"isReceived": true});
-      }
-
-      Utils.showSnackBar(loc.packageAccepted, Colors.green, loc.dissmiss);
-    } catch (e) {
-      throw Exception(e);
+          .doc(idPackageSender)
+          .update({"isReceived": true});
     }
+
+    Utils.showSnackBar(loc.packageAccepted, Colors.green, loc.dissmiss);
   }
 
   void createPackageInFirestore(

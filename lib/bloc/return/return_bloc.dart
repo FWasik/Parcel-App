@@ -38,12 +38,8 @@ class ReturnBloc extends Bloc<ReturnEvent, ReturnState> with Localization {
         List<Return> returns = await returnRepo.fetchReturns();
 
         emit(Fetched(returns: returns));
-      } catch (e) {
-        if (e.toString().startsWith("Exception: ")) {
-          emit(Error(e.toString().substring(11)));
-        } else {
-          emit(Error(e.toString()));
-        }
+      } on Exception catch (e) {
+        emit(Error(e.toString()));
 
         List<Return> returns = await returnRepo.fetchReturns();
 

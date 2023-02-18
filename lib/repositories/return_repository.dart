@@ -10,36 +10,32 @@ class ReturnRepository with Localization {
   Future<List<Return>> fetchReturns() async {
     List<Return> returns = [];
 
-    try {
-      final User user = FirebaseAuth.instance.currentUser!;
+    final User user = FirebaseAuth.instance.currentUser!;
 
-      final data = await FirebaseFirestore.instance
-          .collection("Users")
-          .doc(user.uid)
-          .collection("Returns")
-          .get();
+    final data = await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(user.uid)
+        .collection("Returns")
+        .get();
 
-      data.docs.forEach((element) async {
-        var data = element.data();
-        data['id'] = element.reference.id.toString();
+    data.docs.forEach((element) async {
+      var data = element.data();
+      data['id'] = element.reference.id.toString();
 
-        DateTime timeCreated =
-            DateTime.parse(data['timeCreated'].toDate().toString());
+      DateTime timeCreated =
+          DateTime.parse(data['timeCreated'].toDate().toString());
 
-        data['timeCreated'] =
-            DateFormat('yyyy-MM-dd HH:mm:ss').format(timeCreated);
+      data['timeCreated'] =
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(timeCreated);
 
-        return returns.add(Return.fromJson(data));
-      });
+      return returns.add(Return.fromJson(data));
+    });
 
-      returns.sort((a, b) {
-        return b.timeCreated.compareTo(a.timeCreated);
-      });
+    returns.sort((a, b) {
+      return b.timeCreated.compareTo(a.timeCreated);
+    });
 
-      return returns;
-    } on Exception catch (e) {
-      throw Exception(e.toString());
-    }
+    return returns;
   }
 
   Future<void> createReturn(
