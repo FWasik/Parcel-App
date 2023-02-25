@@ -31,22 +31,25 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-class CustomDeletePackageButton extends StatelessWidget {
+class CustomPackageButton extends StatelessWidget {
   final GestureTapCallback onPressed;
+  final Icon icon;
+  final Color color;
 
-  const CustomDeletePackageButton({Key? key, required this.onPressed})
+  const CustomPackageButton(
+      {Key? key,
+      required this.onPressed,
+      required this.icon,
+      required this.color})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red, fixedSize: const Size(10, 20)),
-      child: const Icon(
-        Icons.delete,
-      ),
-    );
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+            backgroundColor: color, fixedSize: const Size(10, 20)),
+        child: icon);
   }
 }
 

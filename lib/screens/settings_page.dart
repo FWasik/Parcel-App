@@ -67,7 +67,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                           color: Colors.black,
                                           backgroundBottomBar:
                                               const Color.fromARGB(
-                                                  251, 232, 224, 224)));
+                                                  251, 232, 224, 224),
+                                          checkboxColor: Colors.black));
                                 } else {
                                   context.read<ThemeBloc>().add(
                                       ThemeChangeRequested(
@@ -76,7 +77,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                           color: Colors.white,
                                           backgroundBottomBar:
                                               const Color.fromARGB(
-                                                  255, 49, 51, 62)));
+                                                  255, 49, 51, 62),
+                                          checkboxColor: Colors.indigo));
                                 }
                               }));
                         },

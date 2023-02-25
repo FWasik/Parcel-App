@@ -65,7 +65,7 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
       emit(LoadingPackages());
 
       try {
-        await packageRepository.deletePackage(id: event.id);
+        await packageRepository.deletePackages(packages: event.packages);
 
         List<Package> packages =
             await packageRepository.fetchPackages(event.type);

@@ -6,13 +6,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:parcel_app/bloc/package/package_bloc.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
+import 'package:parcel_app/models/package.dart';
 import 'package:parcel_app/screens/sign_in.dart';
 
 class DeleteDialogs {
-  static Future<void> showDeletePackageDialog(
-      BuildContext context, String id, String type) async {
+  static Future<bool?> showDeletePackageDialog(
+      BuildContext context, List<Package> packages, String type) async {
     var appLoc = AppLocalizations.of(context)!;
-    return showDialog<void>(
+    return showDialog<bool?>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -31,7 +32,7 @@ class DeleteDialogs {
                 child: Text(appLoc.cancel,
                     style: TextStyle(fontSize: 16 * stateFont.resize)),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(false);
                 },
               ),
               TextButton(
@@ -43,9 +44,9 @@ class DeleteDialogs {
                 onPressed: () {
                   context
                       .read<PackageBloc>()
-                      .add(DeletePackagesRequested(id, type));
+                      .add(DeletePackagesRequested(packages, type));
 
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(true);
                 },
               ),
             ],

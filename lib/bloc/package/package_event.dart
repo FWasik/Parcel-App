@@ -23,10 +23,10 @@ class CreatePackagesRequested extends PackageEvent {
 }
 
 class DeletePackagesRequested extends PackageEvent {
-  final String id;
+  final List<Package> packages;
   final String type;
 
-  DeletePackagesRequested(this.id, this.type);
+  DeletePackagesRequested(this.packages, this.type);
 }
 
 class AcceptPackagesRequested extends PackageEvent {

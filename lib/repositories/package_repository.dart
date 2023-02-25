@@ -109,15 +109,17 @@ class PackageRepository with Localization {
     Utils.showSnackBar(loc.packageCreatedAndSent, Colors.green, loc.dissmiss);
   }
 
-  Future<void> deletePackage({required String id}) async {
+  Future<void> deletePackages({required List<Package> packages}) async {
     final User user = FirebaseAuth.instance.currentUser!;
 
-    await FirebaseFirestore.instance
-        .collection("Users")
-        .doc(user.uid)
-        .collection("Packages")
-        .doc(id)
-        .delete();
+    for (Package package in packages) {
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(user.uid)
+          .collection("Packages")
+          .doc(package.id)
+          .delete();
+    }
 
     Utils.showSnackBar(loc.packageDeleted, Colors.green, loc.dissmiss);
   }

@@ -13,13 +13,15 @@ class ThemeBloc extends HydratedBloc<ThemeEvent, ThemeState> {
             themeData: appThemeData[AppThemes.dark],
             isDark: true,
             color: Colors.white,
-            backgroudBottomBar: const Color.fromARGB(255, 49, 51, 62))) {
+            backgroudBottomBar: const Color.fromARGB(255, 49, 51, 62),
+            checkboxColor: Colors.indigo)) {
     on<ThemeChangeRequested>(((event, emit) async {
       emit(ThemeState(
           themeData: appThemeData[event.appTheme],
           isDark: event.isDark,
           color: event.color,
-          backgroudBottomBar: event.backgroundBottomBar));
+          backgroudBottomBar: event.backgroundBottomBar,
+          checkboxColor: event.checkboxColor));
     }));
   }
 
@@ -33,13 +35,15 @@ class ThemeBloc extends HydratedBloc<ThemeEvent, ThemeState> {
             : appThemeData[AppThemes.light],
         isDark: isDark,
         color: Color(json["color"]),
-        backgroudBottomBar: Color(json["backgroundBottomBar"]));
+        backgroudBottomBar: Color(json["backgroundBottomBar"]),
+        checkboxColor: Color(json["checkboxColor"]));
   }
 
   @override
   Map<String, dynamic> toJson(ThemeState state) => {
         "isDark": state.isDark,
         "color": state.color.value,
-        "backgroundBottomBar": state.backgroudBottomBar.value
+        "backgroundBottomBar": state.backgroudBottomBar.value,
+        "checkboxColor": state.checkboxColor.value
       };
 }

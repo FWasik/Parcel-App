@@ -10,10 +10,12 @@ class ThemeChangeRequested extends ThemeEvent {
   final bool isDark;
   final Color color;
   final Color backgroundBottomBar;
+  final Color checkboxColor;
 
   ThemeChangeRequested(
       {required this.appTheme,
       required this.isDark,
       required this.color,
-      required this.backgroundBottomBar});
+      required this.backgroundBottomBar,
+      required this.checkboxColor});
 }
