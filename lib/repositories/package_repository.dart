@@ -124,44 +124,45 @@ class PackageRepository with Localization {
     Utils.showSnackBar(loc.packageDeleted, Colors.green, loc.dissmiss);
   }
 
-  Future<void> acceptPackage(
-      {required Package package, required String uidSender}) async {
+  Future<void> acceptPackage({required List<Package> packages}) async {
     final User user = FirebaseAuth.instance.currentUser!;
 
-    await FirebaseFirestore.instance
-        .collection("Users")
-        .doc(user.uid)
-        .collection("Packages")
-        .doc(package.id)
-        .update({"isReceived": true});
-
-    final data = await FirebaseFirestore.instance
-        .collection("Users")
-        .doc(uidSender)
-        .collection("Packages")
-        .get();
-
-    Timestamp timestamp =
-        Timestamp.fromDate(DateTime.parse(package.timeCreated));
-
-    var idPackageSender;
-
-    data.docs.forEach(((element) async {
-      print(timestamp.seconds);
-      print(element.data()["timeCreated"].seconds);
-
-      if (timestamp.seconds == element.data()["timeCreated"].seconds) {
-        idPackageSender = element.reference.id.toString();
-      }
-    }));
-
-    if (idPackageSender != null) {
+    for (Package package in packages) {
       await FirebaseFirestore.instance
           .collection("Users")
-          .doc(uidSender)
+          .doc(user.uid)
           .collection("Packages")
-          .doc(idPackageSender)
+          .doc(package.id)
           .update({"isReceived": true});
+
+      final data = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(package.uidSender)
+          .collection("Packages")
+          .get();
+
+      Timestamp timestamp =
+          Timestamp.fromDate(DateTime.parse(package.timeCreated));
+
+      var idPackageSender;
+
+      data.docs.forEach(((element) async {
+        print(timestamp.seconds);
+        print(element.data()["timeCreated"].seconds);
+
+        if (timestamp.seconds == element.data()["timeCreated"].seconds) {
+          idPackageSender = element.reference.id.toString();
+        }
+      }));
+
+      if (idPackageSender != null) {
+        await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(package.uidSender)
+            .collection("Packages")
+            .doc(idPackageSender)
+            .update({"isReceived": true});
+      }
     }
 
     Utils.showSnackBar(loc.packageAccepted, Colors.green, loc.dissmiss);

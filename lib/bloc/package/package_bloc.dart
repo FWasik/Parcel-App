@@ -80,8 +80,7 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
       emit(LoadingPackages());
 
       try {
-        await packageRepository.acceptPackage(
-            package: event.package, uidSender: event.uidSender);
+        await packageRepository.acceptPackage(packages: event.packages);
 
         List<Package> packages =
             await packageRepository.fetchPackages(event.type);

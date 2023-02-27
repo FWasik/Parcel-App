@@ -55,18 +55,8 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                       children: [
                         CustomPackageButton(
                           onPressed: () async {
-                            bool? isDeleted =
-                                await DeleteDialogs.showDeletePackageDialog(
-                                    context,
-                                    checkedPackages.toList(),
-                                    statePackage.type);
-
-                            if (isDeleted == true) {
-                              setState(() {
-                                checkedPackages.clear();
-                                showCheckboxes = false;
-                              });
-                            }
+                            deletePackages(
+                                checkedPackages.toList(), statePackage);
                           },
                           icon: const Icon(
                             Icons.delete,
@@ -74,6 +64,17 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                           ),
                           color: Colors.red,
                         ),
+                        if (!isReceived)
+                          CustomPackageButton(
+                            onPressed: () async {
+                              acceptPackages(checkedPackages.toList());
+                            },
+                            icon: const Icon(
+                              Icons.check,
+                              size: 28,
+                            ),
+                            color: Colors.green,
+                          ),
                         CustomPackageButton(
                             onPressed: () {
                               setState(() {
@@ -87,10 +88,7 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                             color: stateTheme.checkboxColor),
                         CustomPackageButton(
                           onPressed: () {
-                            setState(() {
-                              checkedPackages.clear();
-                              showCheckboxes = false;
-                            });
+                            clearCheckboxes();
                           },
                           icon: const Icon(
                             Icons.close,
@@ -111,8 +109,7 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                         onTap: () {
                           setState(() {
                             isReceived = false;
-                            checkedPackages.clear();
-                            showCheckboxes = false;
+                            clearCheckboxes();
                           });
                         },
                         selected: isReceived == false,
@@ -123,8 +120,7 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                         onTap: () {
                           setState(() {
                             isReceived = true;
-                            checkedPackages.clear();
-                            showCheckboxes = false;
+                            clearCheckboxes();
                           });
                         },
                         selected: isReceived,
@@ -138,201 +134,158 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                         ? ListView.builder(
                             itemCount: filteredData.length,
                             itemBuilder: (_, index) {
-                              return GestureDetector(
-                                onLongPress: () {
-                                  setState(() {
-                                    showCheckboxes = true;
-                                    checkedPackages.add(filteredData[index]);
-                                  });
-                                },
-                                child: Card(
-                                  elevation: 10,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          ListTile(
-                                              leading: showCheckboxes
-                                                  ? Checkbox(
-                                                      activeColor: stateTheme
-                                                          .checkboxColor,
-                                                      value: checkedPackages
-                                                          .contains(
-                                                              filteredData[
-                                                                  index]),
-                                                      onChanged: (value) {
-                                                        if (value == true) {
-                                                          setState(() {
-                                                            checkedPackages.add(
-                                                                filteredData[
-                                                                    index]);
-                                                          });
-                                                        } else {
-                                                          setState(() {
-                                                            checkedPackages
-                                                                .remove(
-                                                                    filteredData[
-                                                                        index]);
-                                                          });
-                                                        }
-
-                                                        if (checkedPackages
-                                                            .isEmpty) {
-                                                          showCheckboxes =
-                                                              false;
-                                                        }
-                                                      },
-                                                    )
-                                                  : null,
-                                              title: SelectableText(
-                                                  appLoc.packageNumber(
-                                                      filteredData[index].id),
-                                                  style: TextStyle(
-                                                      fontSize: 18 *
-                                                          stateFont.resize)),
-                                              subtitle: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const SizedBox(height: 20),
-                                                    Text(
-                                                        appLoc.sender(
-                                                            filteredData[index]
-                                                                .fullName),
-                                                        style: TextStyle(
-                                                            fontSize: 14 *
-                                                                stateFont
-                                                                    .resize)),
-                                                    const SizedBox(height: 10),
-                                                    Text(
-                                                        appLoc.senderPhoneNumber(
-                                                            filteredData[index]
-                                                                .phoneNumber),
-                                                        style: TextStyle(
-                                                            fontSize: 14 *
-                                                                stateFont
-                                                                    .resize)),
-                                                    const SizedBox(height: 10),
-                                                    Text(
-                                                        appLoc.senderEmail(
-                                                            filteredData[index]
-                                                                .emailSender),
-                                                        style: TextStyle(
-                                                            fontSize: 14 *
-                                                                stateFont
-                                                                    .resize)),
-                                                    const SizedBox(height: 10),
-                                                    Text(
-                                                        appLoc.parcelMachineAddressSend(
-                                                            filteredData[index]
-                                                                .addressToSend),
-                                                        style: TextStyle(
-                                                            fontSize: 14 *
-                                                                stateFont
-                                                                    .resize)),
-                                                    const SizedBox(height: 10),
-                                                    Text(
-                                                        appLoc.parcelMachineAddressReceive(
-                                                            filteredData[index]
-                                                                .addressToReceive),
-                                                        style: TextStyle(
-                                                            fontSize: 14 *
-                                                                stateFont
-                                                                    .resize)),
-                                                    const SizedBox(height: 10),
-                                                    Text(
-                                                        appLoc.createdAndSent(
-                                                            filteredData[index]
-                                                                .timeCreated),
-                                                        style: TextStyle(
-                                                            fontSize: 14 *
-                                                                stateFont
-                                                                    .resize)),
-                                                  ]),
-                                              trailing: (!isReceived
-                                                  ? CustomAcceptPackageButton(
-                                                      onPressed: () {
-                                                        context
-                                                            .read<PackageBloc>()
-                                                            .add(AcceptPackagesRequested(
-                                                                filteredData[
-                                                                    index],
-                                                                filteredData[
-                                                                        index]
-                                                                    .uidSender,
-                                                                "received"));
-
-                                                        setState(() {
-                                                          checkedPackages
-                                                              .clear();
-                                                          showCheckboxes =
-                                                              false;
-                                                        });
-                                                      },
-                                                    )
-                                                  : CustomPackageButton(
-                                                      onPressed: () async {
-                                                        await DeleteDialogs
-                                                            .showDeletePackageDialog(
-                                                                context,
-                                                                [
-                                                                  filteredData[
-                                                                      index]
-                                                                ],
-                                                                statePackage
-                                                                    .type);
-
-                                                        if (filteredData
-                                                                .isEmpty &&
-                                                            showCheckboxes ==
-                                                                true) {
-                                                          setState(() {
-                                                            showCheckboxes =
-                                                                false;
-                                                            checkedPackages
-                                                                .clear();
-                                                          });
-
-                                                          var x = ';';
-                                                        }
-                                                      },
-                                                      icon: const Icon(
-                                                        Icons.delete,
-                                                        size: 28,
-                                                      ),
-                                                      color: Colors.red,
-                                                    ))),
-                                          const SizedBox(height: 20),
-                                          CustomButton(
-                                              width: 0.7,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              icon: const Icon(
-                                                  Icons.local_shipping,
-                                                  size: 32),
-                                              text: Text(
-                                                appLoc.addressButton,
+                              return Card(
+                                elevation: 10,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ListTile(
+                                            onTap: () {
+                                              if (showCheckboxes == true) {
+                                                var value =
+                                                    checkedPackages.contains(
+                                                        filteredData[index]);
+                                                selectCheckbox(filteredData,
+                                                    index, !value);
+                                              } else {
+                                                setState(() {
+                                                  showCheckboxes = true;
+                                                  checkedPackages
+                                                      .add(filteredData[index]);
+                                                });
+                                              }
+                                            },
+                                            leading: showCheckboxes
+                                                ? Checkbox(
+                                                    activeColor: stateTheme
+                                                        .checkboxColor,
+                                                    value: checkedPackages
+                                                        .contains(filteredData[
+                                                            index]),
+                                                    onChanged: (value) {
+                                                      selectCheckbox(
+                                                          filteredData,
+                                                          index,
+                                                          value);
+                                                    },
+                                                  )
+                                                : null,
+                                            title: SelectableText(
+                                                appLoc.packageNumber(
+                                                    filteredData[index].id),
                                                 style: TextStyle(
                                                     fontSize:
-                                                        18 * stateFont.resize),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context)
-                                                    .push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      GoogleSearchParcelPage(
-                                                    parcelAddress:
+                                                        18 * stateFont.resize)),
+                                            subtitle: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const SizedBox(height: 20),
+                                                  Text(
+                                                      appLoc.sender(
+                                                          filteredData[index]
+                                                              .fullName),
+                                                      style: TextStyle(
+                                                          fontSize: 14 *
+                                                              stateFont
+                                                                  .resize)),
+                                                  const SizedBox(height: 10),
+                                                  Text(
+                                                      appLoc.senderPhoneNumber(
+                                                          filteredData[index]
+                                                              .phoneNumber),
+                                                      style: TextStyle(
+                                                          fontSize: 14 *
+                                                              stateFont
+                                                                  .resize)),
+                                                  const SizedBox(height: 10),
+                                                  Text(
+                                                      appLoc.senderEmail(
+                                                          filteredData[index]
+                                                              .emailSender),
+                                                      style: TextStyle(
+                                                          fontSize: 14 *
+                                                              stateFont
+                                                                  .resize)),
+                                                  const SizedBox(height: 10),
+                                                  Text(
+                                                      appLoc.parcelMachineAddressSend(
+                                                          filteredData[index]
+                                                              .addressToSend),
+                                                      style: TextStyle(
+                                                          fontSize: 14 *
+                                                              stateFont
+                                                                  .resize)),
+                                                  const SizedBox(height: 10),
+                                                  Text(
+                                                      appLoc.parcelMachineAddressReceive(
+                                                          filteredData[index]
+                                                              .addressToReceive),
+                                                      style: TextStyle(
+                                                          fontSize: 14 *
+                                                              stateFont
+                                                                  .resize)),
+                                                  const SizedBox(height: 10),
+                                                  Text(
+                                                      appLoc.createdAndSent(
+                                                          filteredData[index]
+                                                              .timeCreated),
+                                                      style: TextStyle(
+                                                          fontSize: 14 *
+                                                              stateFont
+                                                                  .resize)),
+                                                ]),
+                                            trailing: (!isReceived
+                                                ? CustomAcceptPackageButton(
+                                                    onPressed: () {
+                                                      acceptPackages([
                                                         filteredData[index]
-                                                            .addressToReceive,
-                                                  ),
-                                                ));
-                                              }),
-                                        ]),
-                                  ),
+                                                      ]);
+                                                    },
+                                                  )
+                                                : CustomPackageButton(
+                                                    onPressed: () async {
+                                                      await deletePackages(
+                                                          [filteredData[index]],
+                                                          statePackage);
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.delete,
+                                                      size: 28,
+                                                    ),
+                                                    color: Colors.red,
+                                                  ))),
+                                        const SizedBox(height: 20),
+                                        CustomButton(
+                                            width: 0.7,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            icon: const Icon(
+                                                Icons.local_shipping,
+                                                size: 32),
+                                            text: Text(
+                                              appLoc.addressButton,
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      18 * stateFont.resize),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .push(MaterialPageRoute(
+                                                builder: (context) =>
+                                                    GoogleSearchParcelPage(
+                                                  parcelAddress:
+                                                      filteredData[index]
+                                                          .addressToReceive,
+                                                ),
+                                              ));
+                                            }),
+                                      ]),
                                 ),
                               );
                             })
@@ -348,5 +301,45 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
         return Container();
       }
     }));
+  }
+
+  void selectCheckbox(List<Package> filteredData, int index, bool? value) {
+    if (value == true) {
+      setState(() {
+        checkedPackages.add(filteredData[index]);
+      });
+    } else {
+      setState(() {
+        checkedPackages.remove(filteredData[index]);
+      });
+    }
+
+    if (checkedPackages.isEmpty) {
+      showCheckboxes = false;
+    }
+  }
+
+  void acceptPackages(List<Package> packagesToAccept) {
+    context
+        .read<PackageBloc>()
+        .add(AcceptPackagesRequested(packagesToAccept, "received"));
+
+    clearCheckboxes();
+  }
+
+  Future<void> deletePackages(
+      List<Package> packagesToDelete, Fetched statePackage) async {
+    bool? isDeleted = await DeleteDialogs.showDeletePackageDialog(
+        context, packagesToDelete, statePackage.type);
+    if (isDeleted == true) {
+      clearCheckboxes();
+    }
+  }
+
+  void clearCheckboxes() {
+    setState(() {
+      checkedPackages.clear();
+      showCheckboxes = false;
+    });
   }
 }

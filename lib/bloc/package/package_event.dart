@@ -30,9 +30,8 @@ class DeletePackagesRequested extends PackageEvent {
 }
 
 class AcceptPackagesRequested extends PackageEvent {
-  final Package package;
-  final String uidSender;
+  final List<Package> packages;
   final String type;
 
-  AcceptPackagesRequested(this.package, this.uidSender, this.type);
+  AcceptPackagesRequested(this.packages, this.type);
 }
