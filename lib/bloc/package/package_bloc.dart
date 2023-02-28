@@ -47,8 +47,6 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> with Localization {
         String exception =
             'RangeError (index): Invalid value: Valid value range is empty: 0';
 
-        var x = e.toString();
-
         if (e.toString() == exception) {
           emit(Error(loc.invalidReceiver));
         } else {
