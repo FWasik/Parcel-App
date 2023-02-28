@@ -159,18 +159,22 @@ class _PackagesReceivedPageState extends State<PackagesReceivedPage> {
                                               }
                                             },
                                             leading: showCheckboxes
-                                                ? Checkbox(
-                                                    activeColor: stateTheme
-                                                        .checkboxColor,
-                                                    value: checkedPackages
-                                                        .contains(filteredData[
-                                                            index]),
-                                                    onChanged: (value) {
-                                                      selectCheckbox(
-                                                          filteredData,
-                                                          index,
-                                                          value);
-                                                    },
+                                                ? Transform.scale(
+                                                    scale: 1.5,
+                                                    child: Checkbox(
+                                                      activeColor: stateTheme
+                                                          .checkboxColor,
+                                                      value: checkedPackages
+                                                          .contains(
+                                                              filteredData[
+                                                                  index]),
+                                                      onChanged: (value) {
+                                                        selectCheckbox(
+                                                            filteredData,
+                                                            index,
+                                                            value);
+                                                      },
+                                                    ),
                                                   )
                                                 : null,
                                             title: SelectableText(
