@@ -21,10 +21,18 @@ class PackagesSentPage extends StatefulWidget {
   State<PackagesSentPage> createState() => _PackagesSentPageState();
 }
 
-class _PackagesSentPageState extends State<PackagesSentPage> {
+class _PackagesSentPageState extends State<PackagesSentPage>
+    with TickerProviderStateMixin {
   bool isReceived = false;
   bool showCheckboxes = false;
   List<Package> checkedPackages = [];
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 2, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +69,34 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
                 return BlocBuilder<ThemeBloc, ThemeState>(
                     builder: (contextTheme, stateTheme) {
                   return Column(children: [
-                    if (checkedPackages.isNotEmpty)
+                    TabBar(
+                      indicatorColor: Theme.of(context).primaryColor,
+                      indicatorWeight: 5.0,
+                      onTap: (tabController) {
+                        setState(() {
+                          if (tabController == 1) {
+                            isReceived = true;
+                          } else {
+                            isReceived = false;
+                          }
+                          clearCheckboxes();
+                        });
+                      },
+                      controller: tabController,
+                      tabs: <Widget>[
+                        CustomTab(
+                            text: appLoc.nonReceived,
+                            selected: isReceived == false,
+                            size: 20 * stateFont.resize),
+                        CustomTab(
+                            text: appLoc.received,
+                            selected: isReceived,
+                            size: 20 * stateFont.resize)
+                      ],
+                    ),
+                    if (checkedPackages.isNotEmpty) ...[
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 10, top: 20),
+                        padding: const EdgeInsets.only(bottom: 20, top: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -102,34 +135,11 @@ class _PackagesSentPageState extends State<PackagesSentPage> {
                           ],
                         ),
                       ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20, top: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SwitchGesture(
-                              text: appLoc.nonReceived,
-                              onTap: () {
-                                setState(() {
-                                  isReceived = false;
-                                  clearCheckboxes();
-                                });
-                              },
-                              selected: isReceived == false,
-                              size: 20 * stateFont.resize),
-                          SwitchGesture(
-                              text: appLoc.received,
-                              onTap: () {
-                                setState(() {
-                                  isReceived = true;
-                                  clearCheckboxes();
-                                });
-                              },
-                              selected: isReceived,
-                              size: 20 * stateFont.resize),
-                        ],
+                      Divider(
+                        thickness: 5,
+                        color: stateTheme.checkboxColor,
                       ),
-                    ),
+                    ],
                     Expanded(
                         child: (filteredData.isNotEmpty
                             ? ListView.builder(
