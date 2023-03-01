@@ -11,7 +11,7 @@ import 'package:parcel_app/widgets/button_widget.dart';
 import 'package:parcel_app/widgets/no_data_found_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 import 'package:parcel_app/models/package.dart';
-import 'package:parcel_app/widgets/switch_gesture.dart';
+import 'package:parcel_app/widgets/tab_widget.dart';
 import 'package:parcel_app/utils/delete_dialogs.dart';
 
 class PackagesSentPage extends StatefulWidget {
