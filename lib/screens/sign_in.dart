@@ -11,6 +11,7 @@ import 'package:parcel_app/screens/reset_password_page.dart';
 import 'package:parcel_app/utils/utils.dart';
 import 'package:parcel_app/screens/sign_up.dart';
 import 'package:parcel_app/widgets/button_widget.dart';
+import 'package:parcel_app/widgets/logo_widget.dart';
 import 'package:parcel_app/widgets/menu_widget.dart';
 import 'package:parcel_app/widgets/progress_widget.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
@@ -66,148 +67,143 @@ class _SignInState extends State<SignIn> {
           if (stateAuth is UnAuthenticated || stateAuth is SignedUp) {
             return BlocBuilder<FontBloc, FontState>(
                 builder: (context, stateFont) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: SingleChildScrollView(
-                    reverse: true,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          appLoc.signIn,
-                          style: TextStyle(
-                            fontSize: 38 * stateFont.resize,
-                            fontWeight: FontWeight.bold,
-                          ),
+              return Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: SingleChildScrollView(
+                  reverse: true,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      const AppLogo(),
+                      const SizedBox(height: 20),
+                      Text(
+                        appLoc.signIn,
+                        style: TextStyle(
+                          fontSize: 38 * stateFont.resize,
+                          fontWeight: FontWeight.bold,
                         ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        Center(
-                          child: Form(
-                            key: formKey,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  controller: emailController,
-                                  decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.mail,
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                      hintText: "Email",
-                                      border: const OutlineInputBorder(),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            width: 2),
-                                      )),
-                                  style: TextStyle(
-                                      fontSize: 16 * stateFont.resize),
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  validator: (value) {
-                                    return value != null &&
-                                            !EmailValidator.validate(value)
-                                        ? appLoc.validEmail
-                                        : null;
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Center(
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: emailController,
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.mail,
+                                        color: Theme.of(context).primaryColor),
+                                    hintText: "Email",
+                                    border: const OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).primaryColor,
+                                          width: 2),
+                                    )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  return value != null &&
+                                          !EmailValidator.validate(value)
+                                      ? appLoc.validEmail
+                                      : null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.text,
+                                controller: passwordController,
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.lock,
+                                        color: Theme.of(context).primaryColor),
+                                    hintText: appLoc.password,
+                                    border: const OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).primaryColor,
+                                          width: 2),
+                                    )),
+                                style:
+                                    TextStyle(fontSize: 16 * stateFont.resize),
+                                obscureText: true,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  return value != null && value.length < 6
+                                      ? appLoc.validPass
+                                      : null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              CustomButton(
+                                  width: 0.7,
+                                  onPressed: () {
+                                    _authenticateWithEmailAndPassword(context);
                                   },
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                TextFormField(
-                                  keyboardType: TextInputType.text,
-                                  controller: passwordController,
-                                  decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.lock,
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                      hintText: appLoc.password,
-                                      border: const OutlineInputBorder(),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            width: 2),
-                                      )),
-                                  style: TextStyle(
-                                      fontSize: 16 * stateFont.resize),
-                                  obscureText: true,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  validator: (value) {
-                                    return value != null && value.length < 6
-                                        ? appLoc.validPass
-                                        : null;
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                CustomButton(
-                                    width: 0.7,
-                                    onPressed: () {
-                                      _authenticateWithEmailAndPassword(
-                                          context);
-                                    },
-                                    text: Text(appLoc.signInButton,
-                                        style: TextStyle(
-                                            fontSize: 28 * stateFont.resize)),
-                                    icon: const Icon(Icons.lock_open, size: 32),
-                                    color: Theme.of(context).primaryColor),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-                        GestureDetector(
-                          child: Text(
-                            AppLocalizations.of(context)!.askForgotPass,
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.blueAccent,
-                                fontSize: 20 * stateFont.resize),
-                          ),
-                          onTap: () =>
-                              Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ResetPasswordPage(),
-                          )),
-                        ),
-                        const SizedBox(height: 18),
-                        BlocBuilder<ThemeBloc, ThemeState>(
-                          builder: (context, state) {
-                            return RichText(
-                              text: TextSpan(
-                                  style: TextStyle(
-                                      color: state.color,
-                                      fontSize: 20 * stateFont.resize),
-                                  text: appLoc.askHaveNotAccount,
-                                  children: [
-                                    TextSpan(
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignUp()),
-                                          );
-                                        },
-                                      text: appLoc.signUp,
+                                  text: Text(appLoc.signInButton,
                                       style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          color: Colors.blueAccent,
-                                          fontSize: 20 * stateFont.resize),
-                                    ),
-                                  ]),
-                            );
-                          },
+                                          fontSize: 28 * stateFont.resize)),
+                                  icon: const Icon(Icons.lock_open, size: 32),
+                                  color: Theme.of(context).primaryColor),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 24),
+                      GestureDetector(
+                        child: Text(
+                          AppLocalizations.of(context)!.askForgotPass,
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.blueAccent,
+                              fontSize: 20 * stateFont.resize),
+                        ),
+                        onTap: () =>
+                            Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ResetPasswordPage(),
+                        )),
+                      ),
+                      const SizedBox(height: 18),
+                      BlocBuilder<ThemeBloc, ThemeState>(
+                        builder: (context, state) {
+                          return RichText(
+                            text: TextSpan(
+                                style: TextStyle(
+                                    color: state.color,
+                                    fontSize: 20 * stateFont.resize),
+                                text: appLoc.askHaveNotAccount,
+                                children: [
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignUp()),
+                                        );
+                                      },
+                                    text: appLoc.signUp,
+                                    style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        color: Colors.blueAccent,
+                                        fontSize: 20 * stateFont.resize),
+                                  ),
+                                ]),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               );

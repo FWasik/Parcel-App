@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:parcel_app/bloc/auth/auth_bloc.dart';
 import 'package:parcel_app/models/custom_user.dart';
 import 'package:parcel_app/bloc/font/font_bloc.dart';
+import 'package:parcel_app/widgets/logo_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,9 +27,7 @@ class HomePage extends StatelessWidget {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const FlutterLogo(
-                          size: 150,
-                        ),
+                        const AppLogo(),
                         const SizedBox(height: 20),
                         Text(appLoc.welcome,
                             style: TextStyle(fontSize: 38 * stateFont.resize),
