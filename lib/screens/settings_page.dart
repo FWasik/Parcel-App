@@ -25,8 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
     var appLoc = AppLocalizations.of(context)!;
     var orientation =
         MediaQuery.of(context).orientation == Orientation.portrait;
-    var themeSpacer = orientation ? 2 : 3;
-    var lanSpacer = orientation ? 3 : 4;
+    var divider = orientation ? 300 : 100;
 
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +65,8 @@ class _SettingsPageState extends State<SettingsPage> {
               Expanded(
                 child: GridView.count(
                   padding: const EdgeInsets.only(top: 30.0),
-                  childAspectRatio: MediaQuery.of(context).size.height / 300,
+                  childAspectRatio:
+                      MediaQuery.of(context).size.height / divider,
                   crossAxisCount: 2,
                   children: <Widget>[
                     Center(
