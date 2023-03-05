@@ -44,80 +44,95 @@ class _SettingsPageState extends State<SettingsPage> {
               });
             });
 
-            return SingleChildScrollView(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Column(children: [
-                    Row(
-                      children: [
-                        Text(
-                          appLoc.darkMode,
-                          style: TextStyle(fontSize: 20 * stateFont.resize),
-                        ),
-                        Spacer(flex: themeSpacer),
-                        Switch.adaptive(
-                            activeColor: stateTheme.checkboxColor,
-                            value: stateTheme.isDark,
-                            onChanged: ((value) {
-                              if (stateTheme.isDark) {
-                                context.read<ThemeBloc>().add(
-                                    ThemeChangeRequested(
-                                        appTheme: AppThemes.light,
-                                        isDark: false,
-                                        color: Colors.black,
-                                        backgroundBottomBar:
-                                            const Color.fromARGB(
-                                                251, 232, 224, 224),
-                                        checkboxColor: Colors.black));
-                              } else {
-                                context.read<ThemeBloc>().add(
-                                    ThemeChangeRequested(
-                                        appTheme: AppThemes.dark,
-                                        isDark: true,
-                                        color: Colors.white,
-                                        backgroundBottomBar:
-                                            const Color.fromARGB(
-                                                255, 49, 51, 62),
-                                        checkboxColor: Colors.indigo));
-                              }
-                            })),
-                        const Spacer()
-                      ],
+            return Column(children: [
+              if (stateAuth is Authenticated)
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: CustomButton(
+                      text: Text(
+                        appLoc.deleteUserButton,
+                        style: TextStyle(fontSize: 26 * stateFont.resize),
+                      ),
+                      color: Colors.red,
+                      onPressed: () {
+                        DeleteDialogs.showDeleteUserDialog(context);
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        size: 32,
+                      ),
+                      width: 0.7),
+                ),
+              Expanded(
+                child: GridView.count(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  childAspectRatio: MediaQuery.of(context).size.height / 300,
+                  crossAxisCount: 2,
+                  children: <Widget>[
+                    Center(
+                      child: Text(appLoc.fontSize,
+                          style: TextStyle(fontSize: 20 * stateFont.resize)),
                     ),
-                    const SizedBox(height: 24),
-                    Row(
-                      children: [
-                        Text(appLoc.fontSize,
-                            style: TextStyle(fontSize: 20 * stateFont.resize)),
-                        const Spacer(flex: 4),
-                        Slider(
+                    Center(
+                      child: Switch.adaptive(
                           activeColor: stateTheme.checkboxColor,
-                          value: _currentSliderValue,
-                          max: 1.15,
-                          min: 0.85,
-                          label: _currentSliderValue.toString(),
-                          onChanged: (double value) {
-                            context.read<FontBloc>().add(FontChangeRequested(
-                                  resize: value,
-                                ));
-
-                            setState(() {
-                              _currentSliderValue = value;
-                            });
-                          },
-                        ),
-                        const Spacer()
-                      ],
+                          value: stateTheme.isDark,
+                          onChanged: ((value) {
+                            if (stateTheme.isDark) {
+                              context.read<ThemeBloc>().add(
+                                  ThemeChangeRequested(
+                                      appTheme: AppThemes.light,
+                                      isDark: false,
+                                      color: Colors.black,
+                                      backgroundBottomBar: const Color.fromARGB(
+                                          251, 232, 224, 224),
+                                      checkboxColor: Colors.black));
+                            } else {
+                              context.read<ThemeBloc>().add(
+                                  ThemeChangeRequested(
+                                      appTheme: AppThemes.dark,
+                                      isDark: true,
+                                      color: Colors.white,
+                                      backgroundBottomBar:
+                                          const Color.fromARGB(255, 49, 51, 62),
+                                      checkboxColor: Colors.indigo));
+                            }
+                          })),
                     ),
-                    const SizedBox(height: 24),
-                    Row(
+                    Center(
+                      child: Text(
+                        appLoc.darkMode,
+                        style: TextStyle(fontSize: 20 * stateFont.resize),
+                      ),
+                    ),
+                    Center(
+                      child: Slider(
+                        activeColor: stateTheme.checkboxColor,
+                        value: _currentSliderValue,
+                        max: 1.15,
+                        min: 0.85,
+                        label: _currentSliderValue.toString(),
+                        onChanged: (double value) {
+                          context.read<FontBloc>().add(FontChangeRequested(
+                                resize: value,
+                              ));
+
+                          setState(() {
+                            _currentSliderValue = value;
+                          });
+                        },
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        appLoc.language,
+                        style: TextStyle(fontSize: 20 * stateFont.resize),
+                      ),
+                    ),
+                    Center(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                          appLoc.language,
-                          style: TextStyle(fontSize: 20 * stateFont.resize),
-                        ),
-                        Spacer(flex: lanSpacer),
                         TextButton(
                           child: Text(
                             appLoc.setEnglish,
@@ -133,7 +148,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ));
                           },
                         ),
-                        const Spacer(),
                         TextButton(
                           child: Text(appLoc.setPolish,
                               style: TextStyle(
@@ -147,29 +161,12 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ));
                           },
                         ),
-                        const Spacer()
                       ],
-                    ),
-                    const SizedBox(height: 32),
-                    if (stateAuth is Authenticated)
-                      CustomButton(
-                          text: Text(
-                            appLoc.deleteUserButton,
-                            style: TextStyle(fontSize: 26 * stateFont.resize),
-                          ),
-                          color: Colors.red,
-                          onPressed: () {
-                            DeleteDialogs.showDeleteUserDialog(context);
-                          },
-                          icon: const Icon(
-                            Icons.delete,
-                            size: 32,
-                          ),
-                          width: 0.7),
-                  ]),
+                    )),
+                  ],
                 ),
               ),
-            );
+            ]);
           });
         });
       }),
