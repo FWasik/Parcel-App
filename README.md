@@ -58,7 +58,39 @@ Parcal App is application which simulates working with parcel machine and sendin
     Another text button called "Forgot password?" navigates to widget which enables user to reset his/her password. This functionality is delivered by Firebase, same as Sign Up and Sign In.
     
     ![ForgetPassword](assets/images/readme/ForgotPassword.png)
+
+* ### Send packages
+    In Parcel App, user is able to list sent package and send new one to another registered user. "Sent" item on a bottom bar navigates to widget. By clicking Floating Action Button in the Sent Package widget, send package form shows up. 
+
+    ![SentPackagesEmpty](assets/images/readme/SentPackagesEmpty.png) 
+    ![SendPackageForm](assets/images/readme/SendPackageForm.png) 
     
+    If user wants to send package, he/she must type correct information about receiver, who must be signed up. If, at least, one of the first three wafield is wrong, package wont be created. Also, user cannot send package to himself/herself. Example:
+
+     ![SendPackageInvalid](assets/images/readme/SendPackageInvalid.png) 
+
+     About last two fields, which are: address of sender's parcel machine and address of receiver parcel machine. These addresses are deliverd by Google Maps API. When user clicks one of the field, app navigates to Google Maps widget. There user can type searched address and Google Maps shows nearby parcel machines. These machines are not mocked up. There was a problem with searching them, because there is not any type regarded to parcels machines. That is why apps looks for objects with "Paczkomat" ("Parcel machine" in English) phrase in theirs names. Another problem was that apps can search parcel machines only within Poland. After choosing marker with search parcel machine and clicking Floating Action Button, app navigates back to form with parcel machine's address as value in clicked form. 
+    
+    ![GoogleMapsChosenParcel](assets/images/readme/GoogleMapsChosenParcel.png) 
+    ![SendPackageFormWithAddr](assets/images/readme/SendPackageFormWithAddr.png) 
+
+    If payload is valid, package is created with navigation back to Sent Packages widget with info:
+
+    ![SendPackageSuccess](assets/images/readme/SendPackageSuccess.png) 
+
+
+    Few things to clarify. Firstly, "Address track" button shows chosen sender's parcel machine on Maps. Secondly, "Non received" and "Received" tabs. "Non received" tab shows packages sent by user (sender) by not yet received by receiver. "Received" shows already received packages by receiver and those sent by user(sender).
+
+    Obviously, user can deleted his sent packages from history. He/she can delete single or multiple packages. Single delete can be done by hitting red button with delete icon. To delete multiple packages, user has to click on the one of packages. Checkboxes with buttons show up. 
+
+    ![SentPackagesDeleteCheckboxes](assets/images/readme/SentPackagesDeleteCheckboxes.png) 
+
+    First button from left deletes selected packages, middle one - selects all packages, right one - clears checkboxes and hids checkboxes with buttons. 
+
+    When user presses button with selected packages, alert confirmation dialog pops up. If user chooses Cancel, no deleting is being proccess and dialog disappears, but pressing button Delete, removes selected packages and navigates back to Sent Packages widget with correct information.
+
+    ![DeletePackagesDialog](assets/images/readme/DeletePackagesDialog.png) 
+    ![PackagesDeleted](assets/images/readme/PackagesDeleted.png) 
 ## Getting Started
 
 This project is a starting point for a Flutter application.

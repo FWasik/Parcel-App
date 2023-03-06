@@ -125,7 +125,6 @@
         }
     },
 
-
     "createdAndSent": "Paczke utworzono i wysłano: \n{time}",
     "@createdAndSent": {
         "description": "Paczke utworzono i wysłano",
@@ -137,8 +136,8 @@
     },
     
     "additionalTextReceived": "Nikt do tej pory nie wysłał paczki. Musisz czekać :)",
-    "deletePackage": "Usuwanie paczki",
-    "askDeletePackage": "Jesteś pewien, że chcesz usunąć paczkę z historii?",
+    "deletePackage": "Usuwanie paczek/ki",
+    "askDeletePackage": "Jesteś pewien, że chcesz usunąć paczkę/i z historii?",
     "cancel": "Anuluj",
     "confirm": "Usuń",
     "editProfile": "Edycja profilu",
@@ -162,9 +161,9 @@
     "updated": "Zaktualizowano profil!",
     "deletedUser": "Usunięto konto!",
     "emailSent": "Wysłano maila!",
-    "packageCreatedAndSent": "Paczkę utworzono! Skrytka powinna zostać otwarta. Umieść w skrytce paczkę i ją zamknij!",
-    "packageDeleted": "Usunięto paczkę z historii",
-    "packageAccepted": "Otwarto skrytke w paczkomacie odbioru. Paczka ustawiona jako przyjęta. Nie zapomnij zamknąć skrytki!",
+    "packageCreatedAndSent": "Paczkę/i utworzono! Skrytka powinna zostać otwarta. Umieść w skrytce paczkę/i i ją zamknij!",
+    "packageDeleted": "Usunięto paczkę/i z historii",
+    "packageAccepted": "Otwarto skrytke w paczkomacie odbioru. Paczka/i ustawiona/e jako przyjęta. Nie zapomnij zamknąć skrytki!",
     "invalidReceiver": "Podano błędne dane odbiorcy. Spróbuj ponownie!",
     "sentToYourself": "Nie można wysłać paczki do samego siebie!",
     "dissmiss": "Schowaj",
