@@ -91,6 +91,50 @@ Parcal App is application which simulates working with parcel machine and sendin
 
     ![DeletePackagesDialog](assets/images/readme/DeletePackagesDialog.png) 
     ![PackagesDeleted](assets/images/readme/PackagesDeleted.png) 
+
+    * ### Receive packages
+
+    Another item in Bottom Menu Bar is Receive Packages widget, example below:
+
+    ![ReceivPackagesList](assets/images/readme/ReceivPackagesList.png) 
+
+    "Address track" button now shows address of receiver's parcel machine. 
+
+    Here user can receive his/her packages. He/she can do that by pressing green button next to given package. Then package is set as received and now will be seen in "Received" Tab Bar. Another way to accept packages, in this case multiple, is to use checkboxes, similiar to deleting multiple packages. Now, in "Non received" Tab Bar, there is new button, green one which accepts selected packages. Example:
+
+    ![ReceivePackagesCheckboxes](assets/images/readme/ReceivePackagesCheckboxes.png) 
+
+    After successful accept:
+
+    ![AfterAccept](assets/images/readme/AfterAccept.png)
+
+    * ### Return packages
+    
+    First thing to say, return packages is a little bit different that previous functionalities. There is no action like accepting or deleting (I see that like actions which should be done by some kind of admin, some worker of parcel company). 
+
+    Here is Return package
+
+    Rest functionalities of received packages are the same as sending packages. 
+
+    ![ReturnPackagesEmpty](assets/images/readme/ReturnPackagesEmpty.png)
+    ![ReturnForm](assets/images/readme/ReturnForm.png)
+
+    Not all packages by any user can be returned. First of all, user which creates return must be receiver. Secondly, package must be received. Last but not least, there must be package with given number. Below a few examples with mentioned exceptions:
+
+    ![CannotCreateReturn](assets/images/readme/CannotCreateReturn.png)
+    ![NoPackageWithThatNumber](assets/images/readme/NoPackageWithThatNumber.png)
+
+    Types of returns:
+
+    ![TypesReturn](assets/images/readme/TypesReturn.png)
+
+
+    After successful return:
+
+     ![CreatedReturn](assets/images/readme/CreatedReturn.png)
+
+    
+    
 ## Getting Started
 
 This project is a starting point for a Flutter application.
