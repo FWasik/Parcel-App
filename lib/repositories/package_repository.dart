@@ -79,7 +79,7 @@ class PackageRepository with Localization {
     final sender = await authRepository.getUserInfo(user.uid);
 
     if (sender!.email == receiver.email) {
-      throw Exception("Cannot send package to yourself!");
+      throw Exception();
     }
 
     // sender
@@ -147,9 +147,6 @@ class PackageRepository with Localization {
       var idPackageSender;
 
       data.docs.forEach(((element) async {
-        print(timestamp.seconds);
-        print(element.data()["timeCreated"].seconds);
-
         if (timestamp.seconds == element.data()["timeCreated"].seconds) {
           idPackageSender = element.reference.id.toString();
         }
