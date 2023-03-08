@@ -1,6 +1,6 @@
 # Parcel App
 
-Parcal App is application which simulates working with parcel machine and sending or received packages. Also app allows to return packages. Parcel App delievers basic authentication and autorization. All these functionalities are delievered by Firebase and Firestore. App uses Bloc and Hydrated Bloc to manage and persist states. These libraries are used for packages, user state, returns, fonts, themes and language (Parcel App supports internationalization with Polish and English languages). Google Maps API is also included in app for searching parcel machines. 
+Parcal App is an application which simulates working with parcel machine and sending or received packages. Also app allows to return packages. Parcel App delievers basic authentication and autorization. All these functionalities are delievered by Firebase and Firestore. App uses Bloc and Hydrated Bloc to manage and persist states. These libraries are used for packages, user state, returns, fonts, themes and language (Parcel App supports internationalization with Polish and English languages). Google Maps API is also included in an app for searching parcel machines. 
 
 ## Technologies, libraries and APIs
 
@@ -110,16 +110,14 @@ Parcal App is application which simulates working with parcel machine and sendin
 
     * ### Return packages
     
-    First thing to say, return packages is a little bit different that previous functionalities. There is no action like accepting or deleting (I see that like actions which should be done by some kind of admin, some worker of parcel company). 
+    First thing to say, return packages is a little bit different that previous functionalities. There is no action like accepting or deleting (I see that like actions which should be done by some kind of admin, some worker of parcel company). Rest functionalities of received packages are the same as sending packages. 
 
-    Here is Return package
-
-    Rest functionalities of received packages are the same as sending packages. 
+    Here is Return package widget with return form:
 
     ![ReturnPackagesEmpty](assets/images/readme/ReturnPackagesEmpty.png)
     ![ReturnForm](assets/images/readme/ReturnForm.png)
 
-    Not all packages by any user can be returned. First of all, user which creates return must be receiver. Secondly, package must be received. Last but not least, there must be package with given number. Below a few examples with mentioned exceptions:
+    Not all packages by any user can be returned. First of all, user who creates return must be receiver. Secondly, package must be received. Last but not least, there must be package with given number. Below a few examples with mentioned exceptions:
 
     ![CannotCreateReturn](assets/images/readme/CannotCreateReturn.png)
     ![NoPackageWithThatNumber](assets/images/readme/NoPackageWithThatNumber.png)
@@ -133,7 +131,37 @@ Parcal App is application which simulates working with parcel machine and sendin
 
      ![CreatedReturn](assets/images/readme/CreatedReturn.png)
 
+    * ### Edit profile
+  
+    Editing profile information about a user is very similar to signing up a new user. Below, there is a widget for editing a profile. Same rules are introduced as for signing up such as a user cannot change the email to existing one in app or phone number cannot be 9 digits long. There is messaging in an edit widget:
+
+     ![EditProfileSameEmail](assets/images/readme/EditProfileSameEmail.png)
+     ![EditProfileSuccess](assets/images/readme/EditProfileSuccess.png)
+       
+    * ### Settings page
     
+    Parcel App has settings page which is available via menu in app bar in, for instance, home widget or sign in/up widgets. Settings page looks like (user not authorized):
+
+    ![SettingsNoAuth](assets/images/readme/SettingsNoAuth.png)
+    
+    Or (authorized):
+
+    ![SettingsAuth](assets/images/readme/SettingsAuth.png)
+
+
+    Delete button, of course, deletes currert sign in user, which dialog and messaging similar to a deleting packages. Example:
+
+    ![DeleteUserDialog](assets/images/readme/DeleteUserDialog.png)
+    ![DeleteUserSuccess](assets/images/readme/DeleteUserSuccess.png)
+    
+    Rest options in settings page cover functionalites like changing font size or switching themes and languages. Few examples shown below:
+
+    ![SettingsChanged_1](assets/images/readme/SettingsChanged_1.png)
+    ![SettingsChanged_2](assets/images/readme/SettingsChanged_2.png)
+    ![SettingsChanged_3](assets/images/readme/SettingsChanged_3.png)
+    ![SettingsChanged_4](assets/images/readme/SettingsChanged_4.png)
+    ![SettingsChanged_5](assets/images/readme/SettingsChanged_5.png)
+    ![SettingsChanged_6](assets/images/readme/SettingsChanged_6.png)
     
 ## Getting Started
 
