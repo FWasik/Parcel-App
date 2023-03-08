@@ -163,15 +163,5 @@ Parcal App is an application which simulates working with parcel machine and sen
     ![SettingsChanged_5](assets/images/readme/SettingsChanged_5.png)
     ![SettingsChanged_6](assets/images/readme/SettingsChanged_6.png)
     
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Summary
+That would be all of functionalities included in Parcel App. It is my first Flutter (or even mobile) app. There is still a lot of possible improvements like notification, calendar or unittesting. It might appear in future. Any comments or feedback is appreciated! Cheers!
