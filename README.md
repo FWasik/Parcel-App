@@ -140,6 +140,11 @@ Parcal App is an application which simulates working with parcel machine and sen
        
     * ### Settings page
     
+    ### ATTENTION! [03.07.2023]
+     I just noticed that texts "Font size" and "Dark mode" should be swapped places. Tried to fix that and take new screenshots but due to dependency problems after updating Flutter I was unable to run app. Will try to solve that problem.  
+
+    ---
+
     Parcel App has settings page which is available via menu in app bar in, for instance, home widget or sign in/up widgets. Settings page looks like (user not authorized):
 
     ![SettingsNoAuth](assets/images/readme/SettingsNoAuth.png)

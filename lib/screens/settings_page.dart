@@ -70,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   crossAxisCount: 2,
                   children: <Widget>[
                     Center(
-                      child: Text(appLoc.fontSize,
+                      child: Text(appLoc.darkMode,
                           style: TextStyle(fontSize: 20 * stateFont.resize)),
                     ),
                     Center(
@@ -101,7 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     Center(
                       child: Text(
-                        appLoc.darkMode,
+                        appLoc.fontSize,
                         style: TextStyle(fontSize: 20 * stateFont.resize),
                       ),
                     ),
